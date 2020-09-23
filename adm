@@ -1,0 +1,62 @@
+#!/usr/bin/env php
+<?php
+
+/*
+	GitHub: https://github.com/matheusjohannaraujo/makemvcss
+	Country: Brasil
+	State: Pernambuco
+	Developer: Matheus Johann Araujo
+	Date: 2020-08-30
+*/
+
+require_once __DIR__ . "/lib/DataManager.php";
+
+use Lib\DataManager;
+
+$nameFunction = $argv[1] ?? "";
+$nameFile = $argv[2] ?? "";
+$require = $argv[3] ?? false;
+$cmd = strtolower($nameFunction);
+
+if (!empty($nameFunction) && !empty($nameFile)) {
+    require_once __DIR__ . "/lib/cli.php";
+    fun_switch_app_options($cmd, $nameFile, $require);
+    die;
+} else if (!empty($nameFunction)) {
+    if ($nameFunction == "zip" || $nameFunction == "z" || $nameFunction == "unzip" || $nameFunction == "uz") {
+        $path = DataManager::path(__DIR__ . "/vendor/");
+        if (DataManager::exist($path) == "FOLDER") {
+            $mode = $cmd;
+            DataManager::zipUnzipFolder($path, $mode);
+        }
+    } else {
+        require_once __DIR__ . "/lib/cli.php";
+        fun_switch_other_options($cmd);
+    }
+    die;
+}
+
+require_once __DIR__ . "/lib/cli.php";
+fun_list_commands();
+
+
+/*
+
+composer dump-autoload
+composer.json(PSR-4)
+{
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/"
+        }
+    }
+}
+
+composer.json(Classmap)
+{
+    "autoload": {
+        "classmap": ["Vendas", "Estoque"]
+    }
+}
+
+*/

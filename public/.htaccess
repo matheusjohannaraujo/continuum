@@ -1,0 +1,16 @@
+
+# Enable directory browsing 
+Options +Indexes
+            
+# Show the contents of directories
+IndexIgnoreReset ON
+
+<Files *.*>
+    Order Deny,Allow
+    Allow from all
+</Files>
+
+<Files *>
+    Order Deny,Allow
+    Allow from all
+</Files>
