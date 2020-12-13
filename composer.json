@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": "^7.2"
+        "php": "^7.2.5"
     },
     "autoload": {
         "psr-4": {
@@ -15,7 +15,7 @@
         ]
     },
     "scripts": {
-        "db-install": "composer require illuminate/events:7.29.3 && composer require illuminate/database:7.29.3 && composer require illuminate/support:7.29.3",
+        "db-install": "composer require illuminate/events:7.30.0 && composer require illuminate/database:7.30.0 && composer require illuminate/support:7.30.0",
         "db-remove": "composer remove illuminate/events && composer remove illuminate/database && composer remove illuminate/support",
         "git-hub": "git init && git remote add origin https://github.com/matheusjohannaraujo/makemvcss.git && git add . && git status && git commit -m \"Publicando o framework MakeMVCSS | Publishing the MakeMVCSS framework\" && git push -u origin master -f"
     }

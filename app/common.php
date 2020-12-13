@@ -22,16 +22,3 @@ const __I18N__ = [
         "pt-br" => "Um framework PHP simples e completo, pensado e projetado para desenvolvedores."
     ]
 ];
-
-function I18N(string $lang, string $key, $default_value = null) {
-    $key = str_replace("-", "_", $key);
-    if (!isset(__I18N__[$key]) || !isset(__I18N__[$key][$lang])) {
-        // return "################################### $key ####################################";
-        return $default_value;
-    } 
-    return __I18N__[$key][$lang];
-}
-
-function I18N_session(string $key, $default_value = null) {
-    return I18N(session("lang") ?? "pt-br", $key, $default_value);
-}

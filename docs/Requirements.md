@@ -2,7 +2,7 @@
 
 * EN-US: **Information about the settings that must exist for the project to work correctly**
 * 
-* * Requires the minimum version of PHP 7.2
+* * Requires the minimum version of PHP 7.2.5
 * * You need to have the "composer" installed
 * * With "composer", run the following command
 * * * **```composer install```**
@@ -32,7 +32,7 @@
 
 * PT-BR: **Informações sobre as configurações que devem existir para que o projeto funcione corretamente**
 * 
-* * Requer a versão mínima do PHP 7.2
+* * Requer a versão mínima do PHP 7.2.5
 * * Você precisa ter o "composer" instalado
 * * Com "composer", execute o seguinte comando
 * * * **```composer install```**

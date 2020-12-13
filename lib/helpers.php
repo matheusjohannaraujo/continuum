@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-18
+	Date: 2020-12-13
 */
 
 use Lib\ENV;
@@ -299,7 +299,7 @@ function input_jwt()
  * PT-BR: Retorna uma instância da classe `Session` ou o valor de uma chave armazenada em `$_SESSION`.
  * 
  * @param mixed $key [optional]
- * @return object Session
+ * @return object|mixed Session
  */
 function session($key = null)
 {
@@ -1074,4 +1074,64 @@ function get_mime_type(string $ext)
         }
     }
     return 'application/octet-stream';
+}
+
+/**
+ * 
+ * **Function -> I18N**
+ *
+ * EN-US: Returns a value based on the language, and key entered. If the key does not exist, a default value is returned by the function.
+ * 
+ * PT-BR: Retorna um valor com base no idioma, e chave informada. Se não existir a chave, um valor padrão é devolvido pela função.
+ * 
+ * @param string $lang
+ * @param string $key
+ * @param mixed $default_value [optional]
+ * @return mixed
+ */
+function I18N(string $lang, string $key, $default_value = null) {
+    $key = str_replace("-", "_", $key);
+    if (!isset(__I18N__[$key]) || !isset(__I18N__[$key][$lang])) {
+        // return "################################### $key ####################################";
+        return $default_value;
+    } 
+    return __I18N__[$key][$lang];
+}
+
+/**
+ * 
+ * **Function -> I18N_lang_init**
+ *
+ * EN-US: Defines a default language in the `$_SESSION["lang"]` session to be used by the I18N_session function.
+ * 
+ * PT-BR: Define um idioma padrão na sessão `$_SESSION["lang"]` a ser usado pela função I18N_session.
+ * 
+ * @return bool
+ */
+function I18N_lang_init()
+{
+    if (session("lang") === null) {
+        session()->set("lang", "pt-br");
+        return true;
+    }
+    return false;
+}
+
+I18N_lang_init();
+
+/**
+ * 
+ * **Function -> I18N_session**
+ *
+ * EN-US: Fetch the key and return a value based on the language that is defined in the `$_SESSION["lang"]` session.
+ * 
+ * PT-BR: Busca a chave e retorna um valor com base na linguagem que esta definida na sessão `$_SESSION["lang"]`.
+ *
+ * @param string $key
+ * @param mixed $default_value [optional]
+ * @return mixed
+ */
+function I18N_session(string $key, $default_value = null) {
+    I18N_lang_init();
+    return I18N(session("lang"), $key, $default_value);
 }
