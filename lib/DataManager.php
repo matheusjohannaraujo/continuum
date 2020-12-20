@@ -5,23 +5,61 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-11
+	Date: 2020-12-20
 */
 
 namespace Lib;
 
+error_reporting(E_ALL ^ E_WARNING);
+
 use ZipArchive;
 
+/**
+ * **DataManager**
+ *
+ * @author Matheus Johann Araujo 
+ * @package Lib 
+ */
 class DataManager
 {
 
-    // INSTANCE
+    // Attributes and methods below to be used in the class instance
+
+    /**
+     * 
+     * @var int $stream
+     */
     public $stream = -1;
+
+    /**
+     * 
+     * @var int $size
+     */
     public $size = 0;
+
+    /**
+     * 
+     * @var int $start
+     */
     public $start = 0;
+
+    /**
+     * 
+     * @var int $bitrate
+     */
     public $bitrate = 1;
+
+    /**
+     * 
+     * @var array $fp
+     */
     public $fp = [];
 
+    /**
+     * 
+     * @param string|array $value [optional, default = null]
+     * @return $this
+     */
     public function __construct($value = null)
     {
         if (is_string($value)) {
@@ -33,7 +71,13 @@ class DataManager
         }
     }
 
-    public function fopen($value, $mode = "rb")
+    /**
+     * 
+     * @param string|resource $value
+     * @param string $mode [optional, default = "rb"]
+     * @return void
+     */
+    public function fopen($value, string $mode = "rb") :void
     {
         if (is_string($value)) {
             $value = self::path($value);
@@ -74,9 +118,13 @@ class DataManager
         }
     }
 
-    public function fmemory()
+    /**
+     * 
+     * @return bool
+     */
+    public function fmemory() :bool
     {
-        if (($fpMem = @fopen("php://memory", "w+") ?? false) && count($this->fp) > 0) {
+        if (($fpMem = fopen("php://memory", "w+") ?? false) && count($this->fp) > 0) {
             rewind($fpMem);
             $this->size = 0;
             foreach ($this->fp as $key => $value) {
@@ -100,7 +148,11 @@ class DataManager
         return false;
     }
 
-    public function feof()
+    /**
+     * 
+     * @return bool
+     */
+    public function feof() :bool
     {
         if ($this->stream == -1) {
             $this->fseek(0);
@@ -112,7 +164,12 @@ class DataManager
         return $bool;
     }
 
-    public function fseek($index)
+    /**
+     * 
+     * @param int $index
+     * @return void
+     */
+    public function fseek(int $index) :void
     {
         $this->start = $index;
         $this->setStream($index);
@@ -121,7 +178,11 @@ class DataManager
         }
     }
 
-    public function fgets()
+    /**
+     * 
+     * @return string
+     */
+    public function fgets() :string
     {
         $str = "";
         $start = $this->start;
@@ -140,7 +201,12 @@ class DataManager
         return $str;
     }
 
-    public function fread($buffer)
+    /**
+     * 
+     * @param int $buffer
+     * @return string
+     */
+    public function fread(int $buffer) :string
     {
         $str = "";
         $start = $this->start;
@@ -157,7 +223,12 @@ class DataManager
         return $str;
     }
 
-    private function setStream(&$start)
+    /**
+     * 
+     * @param int &$start [reference]
+     * @return void
+     */
+    private function setStream(&$start) :void
     {
         $size = 0;
         $i = 0;
@@ -182,6 +253,10 @@ class DataManager
         }
     }
 
+    /**
+     * 
+     * @return void
+     */
     public function fclose()
     {
         foreach ($this->fp as $key => $value) {
@@ -191,27 +266,40 @@ class DataManager
         $this->fp = [];
     }
 
-    // STATIC
+    // Statistical methods below
 
-    public static function exist($path)
-    {
-        if (gettype($path) == "resource") {
-            return "FP";
-        }
-        if (file_exists($path) && is_file($path)) {
-            return "FILE";
-        }
-        if (file_exists($path) && is_dir($path)) {
-            return "FOLDER";
-        }
-        if (($fp = @fopen($path, "rb") ?? false)) {
-            fclose($fp);
-            return "FP";
-        }
-        return false;
+    /**
+     * 
+     * @param string|resource $path
+     * @return string|null
+     */
+    public static function exist($path) :?string
+    {        
+        try {
+            if (gettype($path) == "resource") {
+                return "FP";
+            }
+            if (file_exists($path) && is_file($path)) {
+                return "FILE";
+            }
+            if (file_exists($path) && is_dir($path)) {
+                return "FOLDER";
+            }
+            if (($fp = fopen($path, "rb") ?? false)) {
+                fclose($fp);
+                return "FP";
+            }
+        } catch (\Throwable $th) {}
+        return null;
     }
 
-    public static function rename($path, $newPath)
+    /**
+     * 
+     * @param string $path
+     * @param string $newPath
+     * @return bool
+     */
+    public static function rename(string $path, string $newPath) :bool
     {
         if (self::exist($path) && !self::exist($newPath)) {
             return rename($path, $newPath);
@@ -219,7 +307,12 @@ class DataManager
         return false;
     }
 
-    public static function delete($path)
+    /**
+     * 
+     * @param string $path
+     * @return bool
+     */
+    public static function delete(string $path) :bool
     {
         if (self::exist($path) == "FILE") {
             return unlink($path);
@@ -245,17 +338,30 @@ class DataManager
         return false;
     }
 
-    public static function perm($path, $permit = false)
+    /**
+     * 
+     * @param string $path
+     * @param int $permit [optional, default = -8910]
+     * @return string|null
+     */
+    public static function perm(string $path, int $permit = -8910) :?string
     {
-        if (self::exist($path) && !$permit) {
+        if (self::exist($path)) {
+            if ($permit != -8910) {
+                chmod($path, $permit);
+            }
             return substr(sprintf('%o', fileperms($path)), -4);
-        } else if (self::exist($path) && is_numeric($permit)) {
-            return chmod($path, $permit);
         }
-        return false;
+        return null;
     }
 
-    public static function copy($path, $newPath)
+    /**
+     * 
+     * @param string $path
+     * @param string $newPath
+     * @return bool
+     */
+    public static function copy(string $path, string $newPath) :bool
     {
         if (self::exist($path) == "FILE") {
             if (self::exist($newPath) == "FOLDER") {
@@ -263,25 +369,32 @@ class DataManager
             }
             return copy($path, $newPath);
         } else if (self::exist($path) == "FOLDER") {
+            $result = true;
             $path = self::path($path);
             $newPath = self::path($newPath);
             if (!self::exist($newPath)) {
-                self::folderCreate($newPath);
+                $result = $result && self::folderCreate($newPath);
             }
             $array = self::folderScan($path, true, true);
             foreach ($array as $key => $value) {
                 if (self::exist($value) == "FOLDER") {
-                    self::folderCreate(str_replace($path, $newPath, $value));
+                    $result = $result && self::folderCreate(str_replace($path, $newPath, $value));
                 } else if (self::exist($value) == "FILE") {
-                    copy($value, str_replace($path, $newPath, $value));
+                    $result = $result && copy($value, str_replace($path, $newPath, $value));
                 }
             }
-            return true;
+            return $result;
         }
         return false;
     }
 
-    public static function move($path, $newPath)
+    /**
+     * 
+     * @param string $path
+     * @param string $newPath
+     * @return bool
+     */
+    public static function move(string $path, string $newPath) :bool
     {
         if (self::copy($path, $newPath)) {
             return self::delete($path);
@@ -289,15 +402,26 @@ class DataManager
         return false;
     }
 
-    public static function time($path, $created_at = true)
+    /**
+     * 
+     * @param string $path
+     * @param bool $created_at [optional, default = true]
+     * @return string|null
+     */
+    public static function time(string $path, bool $created_at = true) :?string
     {
         if (self::exist($path)) {
             return date("Y-m-d H:i:s", $created_at ? filectime($path) : filemtime($path));            
         }
-        return false;
+        return null;
     }
 
-    private static function fpsize($fp)
+    /**
+     * 
+     * @param resource $fp
+     * @return int
+     */
+    private static function fpsize($fp) :int
     {
         $data = stream_get_meta_data($fp);
         // var_export($data);
@@ -312,20 +436,26 @@ class DataManager
         return $bytes;
     }
 
-    public static function size($path, $convert = true, $precision = true)
+    /**
+     * 
+     * @param string|int|resource $path
+     * @param bool $convert [optional, default = true]
+     * @param bool $precision [optional, default = false]
+     * @return string|int
+     */
+    public static function size($path, bool $convert = true, bool $precision = false)
     {
         $bytes = 0;
         if (self::exist($path) == "FOLDER") {
-            $array = self::folderScan($path, true, true);
-            for ($i = count($array) - 1, $j = 0; $i >= $j; $i--) {
-                if (self::exist($array[$i]) == "FILE") {
-                    $x = self::fileSize($array[$i], $precision);
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS));
+            foreach ($iterator as $file) {
+                if (self::exist($file) == "FILE") {
+                    $x = self::fileSize($file, $precision);
                     if ($x < 0) {
                         $x *= -1;
                     }
                     $bytes += $x;
                 }
-                unset($array[$i]);
             }
         } else if (self::exist($path) == "FILE") {
             $bytes = self::fileSize($path, $precision);
@@ -340,7 +470,7 @@ class DataManager
         } else if (gettype($path) == "resource") {
             $bytes = self::fpsize($path);
         } else if (self::exist($path) == "FP") {
-            if (($fp = @fopen($path, "rb") ?? false)) {
+            if (($fp = fopen($path, "rb") ?? false)) {
                 $bytes = self::fpsize($fp);
                 fclose($fp);
             }
@@ -363,61 +493,70 @@ class DataManager
         return $bytes;
     }
 
-    public static function path($path)
+    /**
+     * 
+     * @param string $path
+     * @return string
+     */
+    public static function path(string $path) :string
     {
-        if (is_string($path)) {
-            $path = str_replace(["\\", "/"], "/", $path);
-        }
-
+        $path = str_replace(["\\", "/"], "/", $path);
         if (self::exist($path) == "FOLDER") {
             if (substr($path, -1) != "/" && substr($path, -1) != "\\") {
                 $path .= "/";
             }
         }
-
         return $path;
     }
 
-    public static function fileCreate($path, $value = "", $append = false)
+    /**
+     * 
+     * @param string $path
+     * @param string $value [optional, default = ""]
+     * @param bool $append [optional, default = false]
+     * @return bool
+     */
+    public static function fileCreate(string $path, string $value = "", bool $append = false) :bool
     {
-        if (!self::exist($path) && (is_string($value) || is_numeric($value)) && is_bool($append)) {
-            return (file_put_contents($path, $value, ($append ? FILE_APPEND : false)) >= 0) ? true : false;
+        if (self::exist($path) === null) {
+            return (file_put_contents($path, $value, ($append ? FILE_APPEND : false)) >= 0);
         }
         return false;
     }
 
-    public static function fileWrite($path, $write = "", $mode = "w")
+    /**
+     * 
+     * @param string $path
+     * @param string $value
+     * @param string $mode [optional, default = "w"]
+     * @return bool
+     */
+    public static function fileWrite(string $path, string $value, string $mode = "w") :bool
     {
         if (self::exist($path) != "FOLDER" && $mode == "w" || $mode == "w+") {
-            $handle = fopen($path, $mode);
-            if (is_array($write)) {
-                foreach ($write as $key => $value) {
-                    fwrite($handle, $value);
-                }
-            } else if (is_string($write) || is_numeric($write)) {
-                fwrite($handle, $write);
-            }
-            return fclose($handle);
+            return ($handle = fopen($path, $mode)) && (fwrite($handle, $value) >= 0) && fclose($handle);
         }
         return false;
     }
 
     private static $vetFileAppend = [];
 
-    public static function fileAppend($path, $append = "", $close = true, $mode = "a")
+    /**
+     * 
+     * @param string $path
+     * @param string $value
+     * @param bool $close [optional, default = true]
+     * @param string $mode [optional, default = "a"]
+     * @return bool
+     */
+    public static function fileAppend(string $path, string $value, bool $close = true, string $mode = "a") :bool
     {
         if (self::exist($path) != "FOLDER" && ($mode == "a" || $mode == "a+")) {
             $faName = md5($path);
             if (!(self::$vetFileAppend[$faName] ?? false)) {
                 self::$vetFileAppend[$faName] = fopen($path, $mode);
             }
-            if (is_array($append)) {
-                foreach ($append as $key => $value) {
-                    fwrite(self::$vetFileAppend[$faName], $value);
-                }
-            } else if (is_string($append) || is_numeric($append)) {
-                fwrite(self::$vetFileAppend[$faName], $append);
-            }
+            fwrite(self::$vetFileAppend[$faName], $value);
             if ($close) {
                 return self::fileAppendClose($path);
             }
@@ -426,7 +565,12 @@ class DataManager
         return false;
     }
 
-    public static function fileAppendClose($path)
+    /**
+     * 
+     * @param string $path
+     * @return bool
+     */
+    public static function fileAppendClose(string $path) :bool
     {
         $faName = md5($path);
         $handle = self::$vetFileAppend[$faName] ?? false;
@@ -439,48 +583,80 @@ class DataManager
         return false;
     }
 
-    public static function fileRead($path, $return = 1, $callback = false, $mode = "rb")
+    /**
+     * 
+     * @param string $path
+     * @param int $type [optional, default = 1, possible values = 1...4]
+     * @param int $length [optional, default = 1024]
+     * @param string $mode [optional, default = "rb"]
+     * @return string|array|Generator|null
+     */
+    public static function fileRead(string $path, int $type = 1, int $length = 1024, string $mode = "rb")
     {
-        if ((self::exist($path) == "FILE" || self::exist($path) == "FP") && is_integer($return) && ($mode == "rb" || $mode == "r" || $mode == "r+")) {
-            switch ($return) {
-                case 1:
-                    $handle = fopen($path, $mode);
-                    $string = "";
-                    while ($value = fgets($handle)) {
-                        $string .= $value;
-                    }
-                    fclose($handle);
-                    return $string;
-                case 2:
-                    return file_get_contents($path);
-                case 3:
-                    return file($path);
-                case 4:
-                    if ($callback) {                                                
-                        foreach (file($path) as $key => $value) {
-                            if (!empty($callback($key, $value))) {
-                                break;
-                            }
-                        }
-                        return true;
-                    }
-            }
+        $gen = self::fileReadGenerator($path, $type, $length, $mode);
+        if ($type === 1 || $type === 2) {
+            return $gen->current();
         }
-        return false;
+        return $gen;
     }
 
-    private static function fileSize($path, $precision)
+    /**
+     * 
+     * @param string $path
+     * @param int $type [optional, default = 1, possible values = 1...4]
+     * @param int $length [optional, default = 1024]
+     * @param string $mode [optional, default = "rb"]
+     * @return Generator
+     * 
+     * Using: 
+     * ------ https://www.php.net/manual/pt_BR/class.generator.php
+     * ------ https://pt.stackoverflow.com/questions/108082/qual-a-diferen%C3%A7a-entre-yield-e-return-no-php
+     */
+    private static function fileReadGenerator(string $path, int $type = 1, int $length = 1024, string $mode = "rb") :\Generator
+    {
+        if (self::exist($path) == "FILE") {
+            switch ($type) {                   
+                case 1:
+                    yield file_get_contents($path);
+                case 2:
+                    yield file($path);                    
+                case 3:
+                case 4:
+                    if ($mode == "rb" || $mode == "r" || $mode == "r+") {
+                        $handle = fopen($path, $mode);
+                        if ($type === 3) {
+                            while ($value = fgets($handle)) {
+                                yield $value;
+                                unset($value);
+                            }
+                        } else if ($type === 4) {
+                            while (!feof($handle)) {
+                                yield fread($handle, $length);
+                            }
+                        }
+                        fclose($handle);
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 
+     * @param string $path
+     * @param bool $precision
+     * @return int
+     */
+    private static function fileSize(string $path, bool $precision) :int
     {
         if (self::exist($path) == "FILE") {
             $size = filesize($path);
             if (!$precision) {
                 return $size;
             }
-
             if (!($file = fopen($path, 'rb'))) {
                 return false;
             }
-
             if ($size >= 0) { // Check if it really is a small file (< 2 GB)
                 if (fseek($file, 0, SEEK_END) === 0) { // It really is a small file
                     fclose($file);
@@ -491,7 +667,7 @@ class DataManager
             $size = PHP_INT_MAX - 1;
             if (fseek($file, PHP_INT_MAX - 1) !== 0) {
                 fclose($file);
-                return false;
+                return 0;
             }
         }
         $read = "";
@@ -506,47 +682,67 @@ class DataManager
         return $size;
     }
 
-    public static function fileEncodeBase64($path, $del = false)
+    /**
+     * 
+     * @param string $path
+     * @param bool $del [optional, default = false]
+     * @return string|null
+     */
+    public static function fileEncodeBase64(string $path, bool $del = false) :?string
     {
         if (self::exist($path) == "FILE") {
             $newName = "enc_" . uniqid() . "." . pathinfo($path)["extension"];
-            self::fileRead($path, 4, function ($key, $value) use ($newName) {
+            $gen = self::fileRead($path, 3);
+            foreach ($gen as $value) {
                 self::fileAppend($newName, base64_encode($value) . "\r\n", false);
-            });
+            }
             self::fileAppendClose($newName);
-            if ($del) {
+            if (self::exist($newName) == "FILE" && $del) {
                 if (self::delete($path)) {
                     if (rename($newName, $path)) {
                         $newName = $path;
                     }
                 }
             }
-
             return $newName;
         }
+        return null;
     }
 
-    public static function fileDecodeBase64($path, $del = false)
+    /**
+     * 
+     * @param string $path
+     * @param bool $del [optional, default = false]
+     * @return string|null
+     */
+    public static function fileDecodeBase64(string $path, bool $del = false) :?string
     {
         if (self::exist($path) == "FILE") {
             $newName = "dec_" . uniqid() . "." . pathinfo($path)["extension"];
-            self::fileRead($path, 4, function ($key, $value) use ($newName) {
+            $gen = self::fileRead($path, 3);
+            foreach ($gen as $value) {
                 self::fileAppend($newName, base64_decode($value), false);
-            });
+            }
             self::fileAppendClose($newName);
-            if ($del) {
+            if (self::exist($newName) == "FILE" && $del) {
                 if (self::delete($path)) {
                     if (rename($newName, $path)) {
                         $newName = $path;
                     }
                 }
             }
-
             return $newName;
         }
+        return null;
     }
 
-    public static function fileSplit($path, $buffer = 1)
+    /**
+     * 
+     * @param string $path
+     * @param float $buffer [optional, default = 1]
+     * @return string|null
+     */
+    public static function fileSplit(string $path, float $buffer = 1) :?string
     {
         if (self::exist($path) == "FILE") {
             $pathinfo = pathinfo($path);
@@ -557,7 +753,6 @@ class DataManager
             if (self::folderCreate($store)) {
                 $buffer = 1024 * 1024 * $buffer;
                 $parts = self::size($path, false) / $buffer;
-                $basename = basename($path);
                 $handle = fopen($path, 'rb');
                 for ($i = 0; $i < $parts; $i++) {
                     $partPath = $store . "part$i";
@@ -567,89 +762,133 @@ class DataManager
                 return $store;
             }
         }
-        return false;
+        return null;
     }
 
-    public static function fileJoin($path)
+    /**
+     * 
+     * @param string $path
+     * @return string|null
+     */
+    public static function fileJoin(string $path) :?string
     {
         if (self::exist($path) == "FOLDER") {
             $pathinfo = pathinfo($path);
             $dirname = self::path($pathinfo["dirname"] . "/" . $pathinfo["basename"] . "/../");
             $files = self::folderScan($path, true);
-            $file0 = pathinfo($files[0]);
             $newName = $dirname . str_replace("split_", "", $pathinfo["basename"]);
-            for ($i = 0, $j = count($files); $i < $j; $i++) {
-                self::fileRead($files[$i], 4, function ($key, $value) use ($newName) {
-                    self::fileAppend($newName, $value, false);
-                });
-            }
-            self::fileAppendClose($newName);
-            return $newName;
+            if (self::fileWrite($newName, "")) {
+                $newName = realpath($newName);
+                for ($i = 0, $j = count($files); $i < $j; $i++) {
+                    $gen = self::fileRead($files[$i], 3);
+                    foreach ($gen as $value) {
+                        self::fileAppend($newName, $value, false);
+                    }
+                }
+                self::fileAppendClose($newName);
+                return $newName;
+            }            
         }
-        return false;
+        return null;
     }
 
-    public static function fileMd5($path)
+
+    /**
+     * 
+     * @param string $path
+     * @return string|null
+     */
+    public static function fileMd5(string $path) :?string
     {
-        return (self::exist($path) == "FILE") ? md5_file($path) : false;
+        return (self::exist($path) == "FILE") ? md5_file($path) : null;
     }
 
-    public static function folderCreate($path, $permit = 0777, $recur = true)
+    /**
+     * 
+     * @param string $path
+     * @param int $permit [optional, default = 0777]
+     * @return bool
+     */
+    public static function folderCreate(string $path, int $permit = 0777, bool $recur = true) :bool
     {
-        if (!self::exist($path) && is_integer($permit) && is_bool($recur)) {
+        if (!self::exist($path)) {
             return mkdir($path, $permit, $recur);
         }
         return false;
     }
 
-    public static function folderScan($path = ".", $arrayClean = false, $recursive = false)
+    /**
+     * 
+     * @param string $path
+     * @param bool $arrayClean [optional, default = false]
+     * @param bool $recursive [optional, default = false]
+     * @return array|null
+     */
+    public static function folderScan(string $path, bool $arrayClean = false, bool $recursive = false) :?array
     {
-        $array = glob(self::path($path) . "*");
-        foreach (glob(self::path($path) . ".*") as $value) {
-            $basename = pathinfo($value)["basename"];
-            if ($basename != "." && $basename != ".." && (self::exist($value) == "FILE" || self::exist($value) == "FOLDER")) {
-                $array[] = $value;
+        $result = [];
+        $path = realpath($path);
+        if (self::exist($path) != "FOLDER") {
+            return null;
+        }
+        if (!$recursive) {
+            $files = scandir($path);
+            foreach($files as $value){            
+                $file = self::path(realpath($path . "/" . $value));
+                if (self::exist($file) == "FOLDER" && (basename($value) == ".." || $path == realpath($file))) {
+                    continue;
+                }
+                $result[] = $file;
+            }
+        } else {
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+            foreach ($iterator as $file) {
+                if ($file->isDir()) {
+                    if (basename($file) == ".."  || $path == realpath($file)) {
+                        continue;
+                    }
+                    if (basename($file) == ".") {
+                        $file = substr($file, 0, -1);
+                    }
+                }
+                $result[] = self::path($file);
             }
         }
-        sort($array, SORT_NATURAL);
-        if ($recursive || !$arrayClean) {
-            foreach ($array as $key => $value) {
-                if (self::exist($value) == "FILE" && !$arrayClean) {
-                    $array[$key] = [
-                        "md5" => self::fileMd5($value),
-                        "src" => pathinfo($value)["dirname"] . "/",
+        sort($result, SORT_NATURAL);        
+        if (!$arrayClean) {
+            foreach ($result as $key => $value) {
+                if (self::exist($value) == "FOLDER") {
+                    $result[$key] = [
+                        "src" => self::path(pathinfo($value)["dirname"] . "/"),
                         "name" => pathinfo($value)["basename"],
-                        "path" => $value,
+                        "path" => self::path($value),
+                        "type" => "FOLDER",
+                        "perm" => self::perm($value),
+                        "size" => self::size($value),
+                        "time" => self::time($value),
+                    ];
+                } else if (self::exist($value) == "FILE") {
+                    $result[$key] = [
+                        "src" => self::path(pathinfo($value)["dirname"] . "/"),
+                        "name" => pathinfo($value)["basename"],
+                        "path" => self::path($value),
                         "type" => "FILE",
                         "perm" => self::perm($value),
                         "size" => self::size($value),
-                        "created_at" => self::time($value),
-                        "modified_in" => self::time($value, false)
+                        "time" => self::time($value),
                     ];
-                } else if (self::exist($value) == "FOLDER") {
-                    if (!$arrayClean) {
-                        $array[$key] = [
-                            "md5" => self::folderMd5($value),
-                            "src" => pathinfo($value)["dirname"] . "/",
-                            "name" => pathinfo($value)["basename"],
-                            "path" => $value,
-                            "type" => "FOLDER",
-                            "perm" => self::perm($value),
-                            "size" => self::size($value),
-                            "created_at" => self::time($value),
-                            "modified_in" => self::time($value, false)
-                        ];
-                    }
-                    if ($recursive) {
-                        $array = array_merge($array, self::folderScan($value, $arrayClean, $recursive));
-                    }
                 }
             }
         }
-        return $array;
+        return $result;
     }
 
-    public static function folderMd5($path)
+    /**
+     * 
+     * @param string $path
+     * @return string|null
+     */
+    public static function folderMd5(string $path) :?string
     {
         $array = self::folderScan($path, true, true);
         foreach ($array as $key => $value) {
@@ -663,12 +902,19 @@ class DataManager
         if (is_array($array) && count($array) > 0) {
             return md5(implode('', $array));
         }
-        return false;
+        return null;
     }
 
-    public static function zipCreate($path, $array, $passZip = "")
+    /**
+     * 
+     * @param string $path
+     * @param string|array $array
+     * @param string $passZip [optional, default = ""]
+     * @return int
+     */
+    public static function zipCreate(string $path, $array, string $passZip = "") :int
     {
-        $return = false;
+        $return = 0;
         $zip = new ZipArchive();
         if (is_string($array)) {
             $array = [$array];
@@ -730,7 +976,14 @@ class DataManager
         return $return;
     }
 
-    public static function zipExtract($pathZip, $pathExtract, $passZip = "")
+    /**
+     * 
+     * @param string $pathZip
+     * @param string $pathExtract
+     * @param string $passZip [optional, default = ""]
+     * @return bool
+     */
+    public static function zipExtract(string $pathZip, string $pathExtract, string $passZip = "") :bool
     {
         $return = false;
         $zip = new ZipArchive();
@@ -744,9 +997,16 @@ class DataManager
         return $return;
     }
 
-    public static function zipList($pathZip, $mode = 1, $passZip = "")
+    /**
+     * 
+     * @param string $pathZip
+     * @param int $mode [optional, default = 1, possible values = 1...3]
+     * @param string $passZip [optional, default = ""]
+     * @return array|null
+     */
+    public static function zipList(string $pathZip, int $mode = 1, string $passZip = "") :?array
     {
-        $return = false;
+        $return = null;
         $zip = new ZipArchive();
         if ($zip->open($pathZip)) {
             if ($passZip != "") {
@@ -772,12 +1032,24 @@ class DataManager
         return $return;
     }
 
-    public static function zipUnzipFolder(string $path, string $mode, string $pass = "") {
+    /**
+     * 
+     * @param string $path
+     * @param string $mode [possible values = "zip" or "unzip"]
+     * @param string $pass [optional, default = ""]
+     * @return string|null
+     */
+    public static function zipUnzipFolder(string $path, string $mode, string $pass = "") :?string
+    {
+        $result = null;
         $mode = strtolower($mode);
-        if ($mode == "unzip" || $mode == "zip") {        
+        if ($mode == "unzip" || $mode == "zip") {
             $scan = self::folderScan($path);
+            if (count($scan) > 0) {
+                $result = "";
+            }
             // var_dump($scan);
-            foreach ($scan as $key => $value) {
+            foreach ($scan as $value) {
                 // var_dump($value);
                 $name = $value["name"];
                 $indexMd5 = strpos($name, "_md5");
@@ -795,24 +1067,25 @@ class DataManager
                         } else if (self::exist($pathExtract) == "FOLDER") {
                             $md5Extract = self::folderMd5($pathExtract);
                         }
-                        echo "[Unzip] ";
+                        $result .= "[Unzip] ";
                         if ($md5Extract == $md5) {
-                            echo "Success | Match MD5 | ", (self::delete($value["path"]) ? $pathExtract : "Error delete: " . $value["path"]), "\r\n";
+                            $result .= "Success | Match MD5 | " . (self::delete($value["path"]) ? $pathExtract : "Error delete: " . $value["path"]) . "\r\n";
                         } else {
-                            echo "Error | No Match MD5 | ", (self::delete($pathExtract) ? $value["path"] : "Error delete: " . $pathExtract), "\r\n";
+                            $result .= "Error | No Match MD5 | " . (self::delete($pathExtract) ? $value["path"] : "Error delete: " . $pathExtract) . "\r\n";
                         }
                     } else {
                         self::delete($pathExtract);
                     }        
                 } else if ($mode == "zip" && $indexZip === false && ($value["type"] == "FILE" || $value["type"] == "FOLDER")) {
                     $zipName = $value["path"] . "_md5" . $value["md5"] . ".zip";
-                    echo "[Zip] ";
+                    $result .= "[Zip] ";
                     if (self::zipCreate($zipName, $value["path"], $pass)) {
-                        echo (self::delete($value["path"]) ? "Success: " : "Error: "), "$zipName\r\n";
+                        $result .= (self::delete($value["path"]) ? "Success: " : "Error: ") . "$zipName\r\n";
                     }
                 }   
             }
         }
+        return $result;
     }
 
 }

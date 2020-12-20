@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\DB;
 DB::statement('DROP TABLE IF EXISTS uploads');
 DB::statement('DROP TABLE IF EXISTS users');
 
-include_once "users_capsule.php";
-include_once "uploads_capsule.php";
+require_once "users_capsule.php";
+require_once "uploads_capsule.php";
 
 $pdo = DB::connection()->getPdo();
 $pdo->exec("
@@ -26,3 +26,5 @@ CREATE TRIGGER `trigger_delete` AFTER DELETE ON `uploads` FOR EACH ROW UPDATE us
 ");
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+require_once "contacts_capsule.php";

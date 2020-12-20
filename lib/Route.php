@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-18
+	Date: 2020-12-31
 */
 
 namespace Lib;
@@ -533,6 +533,25 @@ class Route
 
     public static function on()
     {
+        self::post("/thread_http", function() {
+            // GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
+            $script = input_post("script", "");
+            if (!empty($script)) {
+                ob_start();
+                try {
+                    $aes = new AES_256;
+                    $script = base64_decode($script);
+                    $script = $aes->decrypt_cbc($script);
+                    eval($script);
+                } catch (\Throwable $th) {
+                    var_export($th);
+                }
+                $script = ob_get_clean();
+            } else {
+                $script = "";
+            }
+            die(base64_encode($script));
+        })::jwt(true);
         if (!self::runRoute()) {
             $uri = self::uri();
             $path = DataManager::path(realpath(__DIR__ . "/../public") . "/$uri");
@@ -551,7 +570,7 @@ class Route
                 self::get("/routes/{index:int}/{method:string?}", function (int $index, string $method = "ANY") {
                     dumpd(self::routesDump($method, $index));
                 });
-            }            
+            }
             self::createAllRoutesStartingFromControllerAndMethod();
             if (input_env("AUTO_VIEW_ROUTE")) {
                 $avrs = self::getAllAutoViewRoutes();

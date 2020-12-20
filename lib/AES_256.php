@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-20
+	Date: 2020-12-31
 */
 
 namespace Lib;
@@ -13,23 +13,27 @@ namespace Lib;
 class AES_256 {
 
     // The key defined here will be used in the AES 256 CBC and AES 256 GCM methods
+    private $key;
 
-    private $key = "AES_256";
-
-    public function setKey(string $key)
+    public function __construct()
     {
-        $this->key = $key;
-        return $this;
+        $this->key = input_env("AES_256_SECRET", "AES_256");
     }
 
-    public function getKey()
+    public function setKey(string $key) :void
+    {
+        $this->key = $key;
+    }
+
+    public function getKey() :string
     {
         return $this->key;
     }  
 
     // Below are the methods for working with AES 256 with CBC
 
-    private function enc_cbc(string &$text, string $key) {
+    private function enc_cbc(string &$text, string $key) :string
+    {
         $key = substr(hash('sha256', $key, true), 0, 32);
         $cipher = 'aes-256-cbc';
         $iv_len = openssl_cipher_iv_length($cipher);
@@ -38,7 +42,8 @@ class AES_256 {
         return bin2hex(base64_encode($iv . $text));
     }
     
-    private function dec_cbc(string &$text, string $key) {
+    private function dec_cbc(string &$text, string $key) :string
+    {
         $key = substr(hash('sha256', $key, true), 0, 32);
         $cipher = 'aes-256-cbc';
         $iv_len = openssl_cipher_iv_length($cipher);
@@ -60,7 +65,8 @@ class AES_256 {
  
     // Below are the methods for working with AES 256 with GCM
 
-    private function enc_gcm(string &$text, string $key, string &$tag) {
+    private function enc_gcm(string &$text, string $key, string &$tag) :string
+    {
         $key = substr(hash('sha256', $key, true), 0, 32);
         $cipher = 'aes-256-gcm';
         $iv_len = openssl_cipher_iv_length($cipher);
@@ -70,10 +76,8 @@ class AES_256 {
         return bin2hex(base64_encode($iv . $tag. $text));
     }
     
-    private function dec_gcm(string &$text, string $key, string $tag) {
-        if (empty($tag)) {
-            return null;
-        }
+    private function dec_gcm(string &$text, string $key, string $tag) :string
+    {
         $tag = hex2bin($tag);
         $key = substr(hash('sha256', $key, true), 0, 32);
         $cipher = 'aes-256-gcm';

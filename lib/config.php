@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-28
+	Date: 2020-12-31
 */
 
 // Changing "php.ini" during execution
@@ -14,7 +14,6 @@ ini_set('default_charset', 'utf-8');
 ini_set("set_time_limit", 3600);
 ini_set("max_execution_time", 3600);
 ini_set("default_socket_timeout", 3600);
-ini_set("max_input_time", 3600);
 ini_set("max_input_time", 3600);
 ini_set("max_input_vars", 6000);
 ini_set("memory_limit", "6144M");

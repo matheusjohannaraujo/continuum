@@ -5,9 +5,10 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-13
+	Date: 2020-12-31
 */
 
+use Lib\AES_256;
 use Lib\ENV;
 use Lib\URI;
 use Lib\View;
@@ -16,6 +17,7 @@ use Lib\Route;
 use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
+use Lib\JWT;
 
 /**
  * 
@@ -277,13 +279,13 @@ function input_auth()
  * 
  * **Function -> input_jwt**
  *
- * EN-US: Returns an instance of the class `JsonWT` already with the Authorization
+ * EN-US: Returns an instance of the class `JWT` already with the Authorization
  * (JWT code) that was sent to the server.
  * 
- * PT-BR: Retorna uma instância da classe `JsonWT` já com a Autorização
+ * PT-BR: Retorna uma instância da classe `JWT` já com a Autorização
  * (código JWT) que foi enviada ao servidor.
  * 
- * @return object JsonWT
+ * @return object JWT
  */
 function input_jwt()
 {
@@ -1134,4 +1136,108 @@ I18N_lang_init();
 function I18N_session(string $key, $default_value = null) {
     I18N_lang_init();
     return I18N(session("lang"), $key, $default_value);
+}
+
+/**
+ * GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
+ * Country: Brasil
+ * State: Pernambuco
+ * Developer: Matheus Johann Araujo
+ * Date: 2020-12-30
+ *
+ * Código construído com base nos links abaixo.
+ *  - https://www.toni-develops.com/2017/09/05/curl-multi-fetch
+ *  - https://imasters.com.br/back-end/non-blocking-asynchronous-requests-usando-curlmulti-e-php
+ *  - https://www.php.net/manual/pt_BR/function.curl-setopt.php
+ *  - https://thiagosantos.com/blog/623/php/php-curl-timeout-e-connecttimeout
+ *
+ * @param string|array $script
+ * @param string|null $thread_http [optional, default = null]
+ * @param bool $waitResponse [optional, default = true]
+ * @param bool $infoRequest [optional, default = false]
+ * @return array
+ */
+function thread_parallel(
+    $script,
+    ?string $thread_http = null,
+    bool $waitResponse = true,
+    bool $infoRequest = false
+) :array
+{
+    if (is_string($script)) {
+        $script = [$script];
+    }
+    if (!is_array($script)) {
+        $script = ['echo "invalid script";'];
+    }
+    $token = "";
+    if ($thread_http === null) {
+        $jwt = new JWT;
+        $jwt->exp(time() + 60);
+        $token = $jwt->token();
+        $aes = new AES_256;
+        foreach ($script as $key => $value) {
+            $script[$key] = $aes->encrypt_cbc(trim($value));
+        }
+        $thread_http = action("thread_http");
+    }
+    if (!$waitResponse) {
+        foreach ($script as $key => $value) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $thread_http);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, [
+                "_jwt" => $token,
+                "script" => base64_encode(trim($value))
+            ]);
+            // Tempo em que o client pode aguardar para conectar no server
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+            // Tempo em que o solicitante espera por uma resposta
+            curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
+            curl_exec($ch);
+            $script[$key] = [
+                "response" => null,
+                "error" => curl_errno($ch) ? curl_error($ch) : null,
+                "info" => $infoRequest ? curl_getinfo($ch) : null
+            ];
+            curl_close($ch);
+        }
+    } else {
+        // Inicializa um multi-curl handle
+        $mch = curl_multi_init();
+        foreach ($script as $key => $value) {
+            // Inicializa e seta as opções para cada requisição
+            $script[$key] = curl_init();
+            curl_setopt($script[$key], CURLOPT_URL, $thread_http);
+            curl_setopt($script[$key], CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($script[$key], CURLOPT_POSTFIELDS, [
+                "_jwt" => $token,
+                "script" => base64_encode(trim($value))
+            ]);
+            // Adiciona a requisição channel ($script[$key]) ao multi-curl handle ($mch)
+            curl_multi_add_handle($mch, $script[$key]);
+        }
+        // Fica em busy-waiting até que todas as requisições retornem
+        do {
+            $active = null;
+            // Executa as requisições definidas no multi-curl handle, e retorna imediatamente o status das requisições
+            curl_multi_exec($mch, $active);
+            usleep(50);
+        } while($active > 0);
+        foreach ($script as $key => $ch) {
+            $script[$key] = [
+                "response" => base64_decode(curl_multi_getcontent($ch)),// Acessa a resposta de cada requisição
+                "error" => curl_errno($ch) ? curl_error($ch) : null,
+                "info" => $infoRequest ? curl_getinfo($ch) : null
+            ];
+            // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
+            curl_multi_remove_handle($mch, $ch);
+            // Fecha o channel ($ch)
+            curl_close($ch);
+        }
+        // Fecha o multi-curl handle ($mch)
+        curl_multi_close($mch);
+    }
+    return $script;
 }

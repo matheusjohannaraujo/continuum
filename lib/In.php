@@ -5,13 +5,13 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-01
+	Date: 2020-12-31
 */
 
 namespace Lib;
 
 use Lib\ENV;
-use Lib\JsonWT;
+use Lib\JWT;
 
 class In
 {
@@ -53,7 +53,7 @@ class In
         return $headers;
     }
 
-    private function setJsonWT()
+    private function setJWT()
     {
         $headers = $this->headerAuthorization();
         // HEADER: Get the access token from the header
@@ -65,12 +65,11 @@ class In
             $this->auth = $this->paramReq("_jwt", $this->paramJson("_jwt", ""));
         }
         if ($this->auth) {
-            $this->jwt = new JsonWT($this->auth);
-            $this->jwt->secret($this->paramEnv("JWT_SECRET"));
+            $this->jwt = new JWT($this->auth);
             $this->jwt->valid();
         } else {
             $this->auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJzdWIiOiJBdXRoIEpXVCBTeXN0ZW0iLCJhdWQiOiJjbGllbnQiLCJleHAiOjE1ODg5NjY3OTAsIm5iZiI6MTU4ODk2MzE5MCwiaWF0IjoxNTg4OTYzMTkwLCJqdGkiOiI1ZWI1YTc3NjMxNTZhIiwibmFtZSI6IkpXVENsYXNzIn0=.T7ty+OSJ7tsbtQlTsUpyY5feYeTPpYH/kWrGW/1tg2I=";
-            $this->jwt = new JsonWT($this->auth);
+            $this->jwt = new JWT($this->auth);
         }
         return $this;
     }
@@ -137,7 +136,7 @@ class In
                 $this->json = [];
             }
         }
-        $this->setJsonWT();
+        $this->setJWT();
         return $this;
     }
 

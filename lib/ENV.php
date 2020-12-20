@@ -49,7 +49,8 @@ class ENV
         }
         $env = [];        
         $this->raw = "";
-        DataManager::fileRead($path_env, 4, function($key, $value) use (&$env) {
+        $gen = DataManager::fileRead($path_env, 3);
+        foreach ($gen as $key => $value) {
             $this->raw .= $value;
             $value = trim($value);
             $indexEqual = strpos($value, "=");
@@ -63,7 +64,7 @@ class ENV
             }
             unset($key);
             unset($value);
-        });
+        }
         return $this->env = &$env;
     }
 

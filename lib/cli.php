@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-28
+	Date: 2020-12-31
 */
 
 define("CLI", true);
@@ -66,7 +66,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("Route 4", "a875cf3d1b7cc054e87efd97be888710", $baseDomain . "/auth");
     echo "\r\n";
-    fun_test_route("Route 5", "41a8208d39dc572a02726dfeb5a6674e", $baseDomain . "/jwt");
+    fun_test_route("Route 5", "1fb51f190ff0eab3f812ccdbe485a782", $baseDomain . "/jwt");
     echo "\r\n";
     fun_test_route("Route 6", "52c761fef871620b5f6c537552671825", $baseDomain . "/text");
     echo "\r\n";

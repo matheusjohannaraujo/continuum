@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-06-23
+	Date: 2020-12-31
 */
 
 // Implementado apartir dos sites abaixo
@@ -14,7 +14,7 @@
 
 namespace Lib;
 
-class JsonWT
+class JWT
 {
 
     // alg - Algoritmo usado na criação da assinatura, no caso HS256 (HMAC SHA-256)
@@ -39,7 +39,7 @@ class JsonWT
     {
         $this->valid = false;
         $this->hash("sha256");
-        $this->secret("jwt12345");
+        $this->secret(input_env("JWT_SECRET", "JWT"));
         $this->header([
             "alg" => "HS256",
             "typ" => "JWT",
