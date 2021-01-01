@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-31
+	Date: 2021-01-01
 */
 
 define("CLI", true);
@@ -564,7 +564,7 @@ function fun_list_commands()
     echo "
  ###################################################################################################################
  #
- # The local version of the MakeMVCSS framework is " . cli_text_color("`$version_actual`", "red") . "and the remote version is " . cli_text_color("`$version_latest`") . "
+ # The local version of the MakeMVCSS framework is " . cli_text_color("`$version_actual`", "red") . " and the remote version is " . cli_text_color("`$version_latest`") . "
  #
  # Version: " . cli_text_color("`$version_actual`", "red") . " -> " . cli_text_color("`$version_latest`") . "
  #

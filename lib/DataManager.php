@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-20
+	Date: 2021-01-01
 */
 
 namespace Lib;
@@ -614,7 +614,7 @@ class DataManager
      */
     private static function fileReadGenerator(string $path, int $type = 1, int $length = 1024, string $mode = "rb") :\Generator
     {
-        if (self::exist($path) == "FILE") {
+        if (self::exist($path) == "FILE" || self::exist($path) == "FP") {
             switch ($type) {                   
                 case 1:
                     yield file_get_contents($path);
