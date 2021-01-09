@@ -172,6 +172,7 @@ class Route
         return $search;
     }
 
+    /* OLD VERSION
     public static function link(string $path = "", array $params = [])
     {
         $route_name_exist = self::matchPath($path);
@@ -202,6 +203,42 @@ class Route
             }
         }
         // dumpd($path, $link);
+        return $link;
+    }*/
+
+    public static function link(string $path = "", array $params = [])
+    {
+        $route_name_exist = self::matchPath($path);
+        if (!$route_name_exist) {
+            self::createAllRoutesStartingFromControllerAndMethod();
+            $route_name_exist = self::matchPath($path);
+        }
+        if ($route_name_exist) {
+            $path = $route_name_exist;
+        }
+        $link = URI::base(true);
+        $inc = self::stringCountReg($path, "({.+?}/?)");
+        if ($inc <= 0) {
+            if ($path[0] != "/") {
+                $path = "/" . $path;
+            }
+            $link .= $path;
+        } else if ($inc > 0) {
+            $pathParts = self::pathArray($path);
+            $i = 0;
+            foreach ($pathParts as $pathPart) {
+                if ($pathPart["var"] === false) {
+                    $link .= "/" . $pathPart["name"];
+                } else if ($pathPart["var"] === true) {
+                    if ($pathPart["req"] === true) {
+                        $link .= "/" . type_to_string($params[$i] ?? die("Param `" . $pathPart["name"] . "` not found"));
+                    } else if (!empty(type_to_string($params[$i]))) {
+                        $link .= "/" . type_to_string($params[$i]);
+                    }
+                    $i++;
+                }
+            }
+        }
         return $link;
     }
 

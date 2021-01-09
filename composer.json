@@ -15,8 +15,9 @@
         ]
     },
     "scripts": {
-        "db-install": "composer require illuminate/events:7.30.0 && composer require illuminate/database:7.30.0 && composer require illuminate/support:7.30.0",
-        "db-remove": "composer remove illuminate/events && composer remove illuminate/database && composer remove illuminate/support",
-        "git-hub": "git init && git remote add origin https://github.com/matheusjohannaraujo/makemvcss.git && git add . && git status && git commit -m \"Publicando o framework MakeMVCSS | Publishing the MakeMVCSS framework\" && git push -u origin master -f"
+        "db-require": "composer require illuminate/events:7.30.1 illuminate/database:7.30.1 illuminate/support:7.30.1",
+        "db-remove": "composer remove illuminate/events illuminate/database illuminate/support",
+        "db-install": "composer db-require",
+        "db-uninstall": "composer db-remove"
     }
 }

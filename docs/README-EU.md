@@ -6,7 +6,7 @@
 
 > ##### State: Pernambuco
 
-> ##### Date: 2021-01-01
+> ##### Date: 2021-01-09
 
 ## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
 
@@ -91,7 +91,7 @@
 
 > #### To use Eloquent ORM, it is necessary to install its dependencies. Below are the installation and uninstallation commands:
 
->> **`composer db-install`**, **`composer db-remove`**
+>> **`composer db-require`**, **`composer db-remove`**
 
 ### [Defining Services](./DefiningServices.md)
 

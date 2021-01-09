@@ -6,7 +6,7 @@
 
 > ##### Estado: Pernambuco
 
-> ##### Data: 01/01/2021
+> ##### Data: 09/01/2021
 
 ## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
 
@@ -93,7 +93,7 @@
 
 > #### Para usar o Eloquent ORM, é necessário instalar suas dependências. Abaixo estão os comandos de instalação e desinstalação:
 
->> **`composer db-install`**, **`composer db-remove`**
+>> **`composer db-require`**, **`composer db-remove`**
 
 ### [Definindo Serviços](./DefiningServices.md)
 

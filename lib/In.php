@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-31
+	Date: 2021-01-09
 */
 
 namespace Lib;
@@ -66,11 +66,11 @@ class In
         }
         if ($this->auth) {
             $this->jwt = new JWT($this->auth);
-            $this->jwt->valid();
         } else {
-            $this->auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJzdWIiOiJBdXRoIEpXVCBTeXN0ZW0iLCJhdWQiOiJjbGllbnQiLCJleHAiOjE1ODg5NjY3OTAsIm5iZiI6MTU4ODk2MzE5MCwiaWF0IjoxNTg4OTYzMTkwLCJqdGkiOiI1ZWI1YTc3NjMxNTZhIiwibmFtZSI6IkpXVENsYXNzIn0=.T7ty+OSJ7tsbtQlTsUpyY5feYeTPpYH/kWrGW/1tg2I=";
+            $this->auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJzdWIiOiJKV1QgQ3JlZGVudGlhbCAjNWZmOWM4ZTQ1ODhiYyIsImF1ZCI6ImNsaWVudCIsImV4cCI6MTYxMDIwNzIxMiwibmJmIjoxNjEwMjA1NDEyLCJpYXQiOjE2MTAyMDU0MTIsImp0aSI6IjVmZjljOGU0NTg4YmMiLCJuYW1lIjoiTWFrZU1WQ1NTIn0.h8X8ojsU9ggjoDo01poxX9KhfekPFKhekswOHWQm3aY";
             $this->jwt = new JWT($this->auth);
         }
+        $this->jwt->valid();
         return $this;
     }
 

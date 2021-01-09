@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-31
+	Date: 2021-01-09
 */
 
 use Lib\AES_256;
@@ -872,13 +872,13 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
 }
 
 /**
- * 
+ *
  * **Function -> decamelize**
  *
  * EN-US: Returns a text from `CamelCase` for a lowercase whole separated by `Underline`.
- * 
+ *
  * PT-BR: Retorna um texto de `CamelCase` para um todo em minúsculas separado por `Underline`.
- * 
+ *
  * @param string $text
  * @return string
  */
@@ -889,13 +889,45 @@ function decamelize(string $text)
 }
 
 /**
- * 
+ *
+ * **Function -> base64_url_encode**
+ *
+ * EN-US: Converts a string to base64 and removes invalid characters from `base64_encode`, allowing the encoded string to be used in a URL.
+ *
+ * PT-BR: Converte uma string para base64 e remove os caracteres inválidos do `base64_encode`, permitindo que a string encodada possa ser utilizada em uma URL.
+ *
+ * @param string $input
+ * @return string
+ */
+function base64_url_encode(string $input) :string
+{
+    return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($input));
+}
+
+/**
+ *
+ * **Function -> base64_url_decode**
+ *
+ * EN-US: Converts a base64 encoded string to one without encoding.
+ *
+ * PT-BR: Converte uma string codificada em base64 em uma sem codificação.
+ *
+ * @param string $input
+ * @return string
+ */
+function base64_url_decode(string $input) :string
+{
+    return str_replace(['+', '/', '='], ['-', '_', ''], base64_decode($input));
+}
+
+/**
+ *
  * **Function -> string_to_type**
  *
  * EN-US: Returns the conversion of the string to the type of the given value.
- * 
+ *
  * PT-BR: Retorna a conversão da string para o tipo do valor fornecido.
- * 
+ *
  * @param mixed $val
  * @return mixed
  */
@@ -918,6 +950,29 @@ function string_to_type($val)
         $int = (int) $val;
         $float = (float) $val;
         $val = ($int == $float) ? $int : $float;
+    }
+    return $val;
+}
+
+/**
+ *
+ * **Function -> type_to_string**
+ *
+ * EN-US: Returns the conversion of the given value to string.
+ *
+ * PT-BR: Retorna a conversão do valor fornecido para string.
+ *
+ * @param mixed $val
+ * @return mixed
+ */
+function type_to_string($val) :string
+{
+    if (is_bool($val)) {
+        return $val ? "true" : "false";
+    }
+    if ($val === null) {
+        //return "null";
+        return "";
     }
     return $val;
 }

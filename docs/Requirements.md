@@ -5,8 +5,7 @@
 * * Requires the minimum version of PHP 7.2.5
 * * You need to have the "composer" installed
 * * With "composer", run the following command
-* * * **```composer install```**
-* * * **```composer dump-autoload```**
+* * * **```composer update```**
 * 
 * * Installers for Windows - Apache, PHP, MySQL and Composer
 * * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Download: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
@@ -35,8 +34,7 @@
 * * Requer a versão mínima do PHP 7.2.5
 * * Você precisa ter o "composer" instalado
 * * Com "composer", execute o seguinte comando
-* * * **```composer install```**
-* * * **```composer dump-autoload```**
+* * * **```composer update```**
 * 
 * * Instaladores para Windows - Apache, PHP, MySQL e Composer
 * * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Baixar: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>

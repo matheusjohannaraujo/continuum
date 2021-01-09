@@ -10,9 +10,11 @@
 
 > Configure the database in the `.env` file
 
-> The necessary dependencies for Eloquent ORM are: `composer require illuminate/database` and `composer require illuminate/events`
+> The necessary dependencies for Eloquent ORM are: `illuminate/events`, `illuminate/database` and `illuminate/support`
 
-> Dependencies already included in `composer.json`, just run the `composer install` command
+> To install the dependencies through composer, use the command: `composer db-require`
+
+> If you want to uninstall Eloquent ORM, use the command: `composer db-remove`
 
 ### Defining Schemas
 

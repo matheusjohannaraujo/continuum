@@ -5,11 +5,12 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-31
+	Date: 2021-01-09
 */
 
 // Implementado apartir dos sites abaixo
 // https://imasters.com.br/back-end/entendendo-o-jwt
+// https://dev.to/robdwaller/how-to-create-a-json-web-token-using-php-3gml
 // https://www.jsonwebtoken.io
 
 namespace Lib;
@@ -45,15 +46,16 @@ class JWT
             "typ" => "JWT",
         ]);
         $time = time();
+        $uid = md5(uniqid() . hash_generate(uniqid()));
         $this->setPayload([
             "iss" => "localhost",
-            "sub" => "Auth JWT System",
-            "aud" => "client",
-            "exp" => $time + (60 * 60), // 1 hora de validade para o token
+            "sub" => "JWT Credential",
+            "aud" => "http://localhost/makemvcss",
+            "exp" => $time + (60 * 30), // Meia hora de validade para o token
             "nbf" => $time,
             "iat" => $time,
-            "jti" => uniqid(),
-            "name" => "JWTClass",
+            "jti" => $uid,
+            "name" => "MakeMVCSS",
         ]);
         if ($value !== "") {
             $this->token($value);
@@ -178,19 +180,19 @@ class JWT
 
     private function encode()
     {
-        $header = base64_encode(json_encode($this->header()));
-        $payload = base64_encode(json_encode($this->payload()));
-        $this->signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_url_encode(json_encode($this->header()));
+        $payload = base64_url_encode(json_encode($this->payload()));
+        $this->signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         $this->token = "$header.$payload.$this->signature";
     }
 
     private function decode()
     {
-        $part = explode(".", $this->token);
-        if (count($part) == 3) {
-            $this->header(json_decode(base64_decode($part[0]), true));
-            $this->setPayload(json_decode(base64_decode($part[1]), true));
-            $this->signature = $part[2];
+        $parts = explode(".", $this->token);
+        if (count($parts) == 3) {
+            $this->header(json_decode(base64_url_decode($parts[0]), true));
+            $this->setPayload(json_decode(base64_url_decode($parts[1]), true));
+            $this->signature = $parts[2];
         }
     }
 
@@ -209,9 +211,9 @@ class JWT
     public function valid()
     {
         $this->valid = false;
-        $header = base64_encode(json_encode($this->header()));
-        $payload = base64_encode(json_encode($this->payload()));
-        $signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_url_encode(json_encode($this->header()));
+        $payload = base64_url_encode(json_encode($this->payload()));
+        $signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         if ($this->token == "$header.$payload.$signature") {
             $time = time();
             $iat = $this->payload("iat");

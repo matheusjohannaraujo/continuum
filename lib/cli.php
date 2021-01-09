@@ -64,9 +64,9 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("Route 3", "c372e4a0e7030dcc334c53dbe74e95f7", $baseDomain . "/json");
     echo "\r\n";
-    fun_test_route("Route 4", "a875cf3d1b7cc054e87efd97be888710", $baseDomain . "/auth");
+    fun_test_route("Route 4", "9279014f262dcff5c9fa50283e1c3c7a", $baseDomain . "/auth");
     echo "\r\n";
-    fun_test_route("Route 5", "1fb51f190ff0eab3f812ccdbe485a782", $baseDomain . "/jwt");
+    fun_test_route("Route 5", "2cf1ea5adb3209dacdf0d80d50659c5e", $baseDomain . "/jwt");
     echo "\r\n";
     fun_test_route("Route 6", "52c761fef871620b5f6c537552671825", $baseDomain . "/text");
     echo "\r\n";
