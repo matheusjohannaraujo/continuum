@@ -15,7 +15,7 @@
         ]
     },
     "scripts": {
-        "db-require": "composer require illuminate/events:7.30.1 illuminate/database:7.30.1 illuminate/support:7.30.1",
+        "db-require": "composer require illuminate/events illuminate/database illuminate/support",
         "db-remove": "composer remove illuminate/events illuminate/database illuminate/support",
         "db-install": "composer db-require",
         "db-uninstall": "composer db-remove"

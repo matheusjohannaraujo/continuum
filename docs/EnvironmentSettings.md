@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.2.1
+VERSION=4.2.2
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -80,16 +80,24 @@ AES_256_SECRET=password12345
 JWT_SECRET=password12345
 
 #-----------------------------------------------------------------------------------------------------
+# EN-US: Configuration for Microsoft SQL Server
+# PT-BR: Configuração para Microsoft SQL Server
+#-----------------------------------------------------------------------------------------------------
+# DB_CONNECTION=sqlsrv
+# DB_DATABASE=db_makemvcss
+# DB_HOST=localhost
+# DB_PORT=1433
+# DB_USERNAME=root
+# DB_PASSWORD=123456
+
+#-----------------------------------------------------------------------------------------------------
 # EN-US: Configuration for PostgreSQL
 # PT-BR: Configuração para PostgreSQL
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=pgsql
 # DB_DATABASE=db_makemvcss
-# DB_PREFIX=
 # DB_HOST=localhost
 # DB_PORT=5432
-# DB_CHARSET=utf8
-# DB_CHARSET_COLLATE=utf8_unicode_ci
 # DB_USERNAME=root
 # DB_PASSWORD=123456
 
@@ -113,7 +121,6 @@ JWT_SECRET=password12345
 #-----------------------------------------------------------------------------------------------------
 DB_CONNECTION=sqlite
 DB_DATABASE=db_makemvcss
-DB_PREFIX=
 ```
 
 ### [Back to the previous page](./README-EU.md) | [Voltar para página anterior](./README.md)
