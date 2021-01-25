@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-12-31
+	Date: 2021-01-25
 */
 
 namespace Lib;
@@ -549,21 +549,17 @@ class Route
         return $result;
     }
 
-    private static function routesDump(string $method, int $index = -1)
+    private static function routesDump(string $method = "")
     {
-        // dumpd($method, $id);
         $method = strtoupper($method);
         $result = [];
         foreach (self::$route as $key => $route) {
-            if ($method === "ANY" || $method === $route["method"] || "ANY" === $route["method"]) {
+            if ($method === $route["method"] || empty($method)) {
                 if ($route["type"] == "closure") {
                     $route["action"] = "function";
                 }
                 $result[] = $route;
             }
-        }
-        if ($index != -1) {
-            return $result[$index];
         }
         return $result;
     }
@@ -598,14 +594,11 @@ class Route
                 redirect()->to($uri);
             }
             if (input_env("ENV") === "development") {
-                self::get("/routes/all/json/{method:string?}", function (string $method = "ANY") {
+                self::any("/routes/all/json/{method:string?}", function (string $method = "") {
                     return self::routesDump($method);
                 });
-                self::get("/routes/all/{method:string?}", function (string $method = "ANY") {
+                self::any("/routes/all/{method:string?}", function (string $method = "") {
                     dumpd(self::routesDump($method));
-                });
-                self::get("/routes/{index:int}/{method:string?}", function (int $index, string $method = "ANY") {
-                    dumpd(self::routesDump($method, $index));
                 });
             }
             self::createAllRoutesStartingFromControllerAndMethod();
@@ -615,7 +608,7 @@ class Route
                 // dumpd($avrs, self::$route);
             }
             if (($action = input_env("INIT_ACTION_APP")) !== null) {
-                self::get("/", $action);
+                self::any("/", $action);
             }            
             // dumpd(self::$route);
             if (!self::runRoute()) {
@@ -650,7 +643,9 @@ class Route
     private static function generateAutoViewRoutes(array &$avrs)
     {
         foreach ($avrs as $key => $avr) {
-            self::any($avr["route_path"], $avr["route_name"]);
+            self::any($avr["route_path"] . "/{arguments:array?}", function(array $arguments = []) use ($avr) {
+                return view($avr["route_name"], ["arguments" => &$arguments]);
+            });
         }
     }
 

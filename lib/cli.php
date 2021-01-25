@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-01
+	Date: 2021-01-25
 */
 
 define("CLI", true);
@@ -56,7 +56,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("Home", "b191fb28917e5334721f3bc9cf072df8", $baseDomain . "/");
+    fun_test_route("Home", "1a29988d9542b7fea6bfa5668859348c", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("Route 1", "9fa1607438b6c5ad684e682447eb1c6f", $baseDomain . "/contact");
     echo "\r\n";
@@ -433,7 +433,14 @@ function fun_clean_simple_mvcs()
     fun_folder_denied($basedir . "${folderServiceName}/");
     DataManager::folderCreate($basedir . "${folderViewName}");
     fun_folder_denied($basedir . "${folderViewName}/");
-    DataManager::fileWrite($basedir . "common.php", "<?php\r\n\r\n");
+    DataManager::fileWrite($basedir . "common.php", "<?php\r\n
+const __I18N__ = [
+    \"hello\" => [
+        \"en-us\" => \"Hello\",
+        \"pt-br\" => \"Olá\"
+    ]
+];
+");
     DataManager::fileWrite($basedir . "${folderViewName}/page_message.php", "<!DOCTYPE html>
 <html lang='pt-BR'>
 <head>
@@ -465,9 +472,9 @@ function fun_clean_simple_mvcs()
 
 use Lib\Route;
 
-Route::get(\"/\", function(){	
-	dumpd(\"Welcome\", input());
-})::name(\"home.index\");
+Route::get(\"/\", function() {
+    return \"<h1>Hello World</h1>\";
+});
 
 Route::on();
 ");

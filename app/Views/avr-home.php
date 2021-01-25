@@ -12,14 +12,18 @@ $this->section("body");
             Works only in development environment
         </span>
 
-        <div id="list-example" class="list-group mt-3">
+        <div class="list-group mt-3">
+            <span class="list-group-item bg-dark text-white">RETURN HTML DUMP</span>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all"); ?>"><b>/routes/all</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/any"); ?>"><b>/routes/all/any</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/get"); ?>"><b>/routes/all/get</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/post"); ?>"><b>/routes/all/post</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/put"); ?>"><b>/routes/all/put</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/patch"); ?>"><b>/routes/all/patch</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/delete"); ?>"><b>/routes/all/delete</b></a>
+            <span class="list-group-item bg-dark text-white">RETURN TEXT JSON</span>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json"); ?>"><b>/routes/all/json</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/any"); ?>"><b>/routes/all/json/any</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/get"); ?>"><b>/routes/all/json/get</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/post"); ?>"><b>/routes/all/json/post</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/put"); ?>"><b>/routes/all/json/put</b></a>
@@ -27,11 +31,9 @@ $this->section("body");
             <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/delete"); ?>"><b>/routes/all/json/delete</b></a>
         </div>
 
-        <hr>
+        <h4 class="mt-3">Example routes</h4>
 
-        <h4>Example routes</h4>
-
-        <div id="list-example" class="list-group mt-3 mb-3">
+        <div class="list-group mt-3 mb-3">
             <a class="list-group-item list-group-item-action" href="<?= action("contact.index"); ?>"><span class="badge badge-info mr-3">Route 1 - Method Get</span> <b>/contact/index</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("template"); ?>"><span class="badge badge-info mr-3">Route 2 - Method Any</span> <b>/template</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("json"); ?>"><span class="badge badge-info mr-3">Route 3 - Method Get</span> <b>/json</b></a>
