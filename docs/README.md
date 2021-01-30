@@ -6,7 +6,7 @@
 
 > ##### Estado: Pernambuco
 
-> ##### Data: 25/01/2021
+> ##### Data: 30/01/2021
 
 ## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
 

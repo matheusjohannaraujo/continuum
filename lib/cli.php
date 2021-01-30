@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-25
+	Date: 2021-01-30
 */
 
 define("CLI", true);
@@ -56,7 +56,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("Home", "1a29988d9542b7fea6bfa5668859348c", $baseDomain . "/");
+    fun_test_route("Home", "8db857e82e43269d22aa4b07f8cd9c36", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("Route 1", "9fa1607438b6c5ad684e682447eb1c6f", $baseDomain . "/contact");
     echo "\r\n";
@@ -571,15 +571,19 @@ function fun_list_commands()
     echo "
  ###################################################################################################################
  #
+ # " . cli_text_color("MakeMVCSS - A simple and complete PHP framework, thought and designed by Matheus Johann Araújo", "blue") . "
+ #
+ # -----------------------------------------------------------------------------------------------------------------  
+ #
  # The local version of the MakeMVCSS framework is " . cli_text_color("`$version_actual`", "red") . " and the remote version is " . cli_text_color("`$version_latest`") . "
  #
  # Version: " . cli_text_color("`$version_actual`", "red") . " -> " . cli_text_color("`$version_latest`") . "
  #
- # To update the core of the framework, use the command " . cli_text_color("`php adm update`", "cyan") . "
+ # To update the core of the framework, use the command " . cli_text_color("`php adm update`", "yellow") . "
  #
  ###################################################################################################################
- 
- COMMAND COMPLETE        | COMMAND MINIFIED   | DESCRIPTION
+ " . cli_text_color("
+ COMMAND COMPLETE        | COMMAND MINIFIED   | DESCRIPTION", "purple") . "
  -------------------------------------------------------------------------------------------------------------------
  php adm help            | php adm h          | List all commands
  -------------------------------------------------------------------------------------------------------------------
@@ -602,7 +606,7 @@ function fun_list_commands()
  -------------------------------------------------------------------------------------------------------------------
  php adm view test       | php adm v test     | Creates a file inside the folder \"app/${folderViewName}/test.php\"
  -------------------------------------------------------------------------------------------------------------------
- php adm update          | php adm u          | Updates the core framework 
+ php adm update          | php adm u          | Updates the core framework
  -------------------------------------------------------------------------------------------------------------------
  php adm test            | php adm t          | Testing the default routes
  -------------------------------------------------------------------------------------------------------------------

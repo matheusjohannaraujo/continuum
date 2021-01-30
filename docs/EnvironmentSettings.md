@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.2.2
+VERSION=4.2.3
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -84,7 +84,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para Microsoft SQL Server
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=sqlsrv
-# DB_DATABASE=db_makemvcss
+# DB_DATABASE=makemvcss
 # DB_HOST=localhost
 # DB_PORT=1433
 # DB_USERNAME=root
@@ -95,7 +95,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para PostgreSQL
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=pgsql
-# DB_DATABASE=db_makemvcss
+# DB_DATABASE=makemvcss
 # DB_HOST=localhost
 # DB_PORT=5432
 # DB_USERNAME=root
@@ -106,21 +106,21 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para MySQL ou MariaDB
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=mysql
-# DB_DATABASE=db_makemvcss
-# DB_PREFIX=
+# DB_DATABASE=makemvcss
 # DB_HOST=localhost
 # DB_PORT=3306
-# DB_CHARSET=utf8
-# DB_CHARSET_COLLATE=utf8_unicode_ci
 # DB_USERNAME=root
 # DB_PASSWORD=
+# DB_CHARSET=utf8
+# DB_CHARSET_COLLATE=utf8_unicode_ci
+# DB_PREFIX=
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Configuration for SQLite
 # PT-BR: Configuração para SQLite
 #-----------------------------------------------------------------------------------------------------
 DB_CONNECTION=sqlite
-DB_DATABASE=db_makemvcss
+DB_DATABASE=makemvcss
 ```
 
 ### [Back to the previous page](./README-EU.md) | [Voltar para página anterior](./README.md)

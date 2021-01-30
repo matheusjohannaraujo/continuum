@@ -18,7 +18,7 @@ PT-BR:
 
 const __I18N__ = [
     "slogan" => [
-        "en-us" => "A simple and complete PHP Framework, thought and designed for developers.",
-        "pt-br" => "Um framework PHP simples e completo, pensado e projetado para desenvolvedores."
+        "en-us" => "A simple and complete PHP framework, thought and designed by Matheus Johann Araújo",
+        "pt-br" => "Um framework PHP simples e completo, pensado e desenhado por Matheus Johann Araújo"
     ]
 ];

@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-28
+	Date: 2021-01-30
 */
 
 // https://github.com/illuminate/database
@@ -31,8 +31,8 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
     $capsule = new Capsule;
     if ($env->get("DB_CONNECTION") == "sqlite") {
         $database = $env->get("DB_DATABASE", __DIR__ . '/../database') . ".sqlite";
-        if (DataManager::exist($database) === false) {
-            DataManager::fileWrite($database);
+        if (DataManager::exist($database) === null) {
+            DataManager::fileCreate($database);
         }
         $capsule->addConnection([
             'driver'   => $env->get("DB_CONNECTION"),

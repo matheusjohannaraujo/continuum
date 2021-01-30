@@ -42,6 +42,21 @@ IndexIgnore *
     Deny from all
 </Files>
 
+<Files ".env">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "composer.json">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
 <Files *.txt>
     Order Allow,Deny
     Allow from all
