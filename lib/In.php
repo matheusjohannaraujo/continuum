@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-09
+	Date: 2021-02-01
 */
 
 namespace Lib;
@@ -62,7 +62,7 @@ class In
                 $this->auth = $matches[1];
             }
         } else {
-            $this->auth = $this->paramReq("_jwt", $this->paramJson("_jwt", ""));
+            $this->auth = $this->paramPost("_jwt", $this->paramJson("_jwt", ""));
         }
         if ($this->auth) {
             $this->jwt = new JWT($this->auth);

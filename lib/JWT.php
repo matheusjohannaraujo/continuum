@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-09
+	Date: 2021-02-01
 */
 
 // Implementado apartir dos sites abaixo
@@ -180,9 +180,9 @@ class JWT
 
     private function encode()
     {
-        $header = base64_url_encode(json_encode($this->header()));
-        $payload = base64_url_encode(json_encode($this->payload()));
-        $this->signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_encode(json_encode($this->header()));
+        $payload = base64_encode(json_encode($this->payload()));
+        $this->signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         $this->token = "$header.$payload.$this->signature";
     }
 
@@ -190,8 +190,8 @@ class JWT
     {
         $parts = explode(".", $this->token);
         if (count($parts) == 3) {
-            $this->header(json_decode(base64_url_decode($parts[0]), true));
-            $this->setPayload(json_decode(base64_url_decode($parts[1]), true));
+            $this->header(json_decode(base64_decode($parts[0]), true));
+            $this->setPayload(json_decode(base64_decode($parts[1]), true));
             $this->signature = $parts[2];
         }
     }
@@ -211,9 +211,9 @@ class JWT
     public function valid()
     {
         $this->valid = false;
-        $header = base64_url_encode(json_encode($this->header()));
-        $payload = base64_url_encode(json_encode($this->payload()));
-        $signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_encode(json_encode($this->header()));
+        $payload = base64_encode(json_encode($this->payload()));
+        $signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         if ($this->token == "$header.$payload.$signature") {
             $time = time();
             $iat = $this->payload("iat");

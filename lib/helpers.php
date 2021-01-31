@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-09
+	Date: 2021-02-01
 */
 
 use Lib\AES_256;
@@ -886,38 +886,6 @@ function decamelize(string $text)
 {
     $text = preg_replace("/(?<=\\w)(?=[A-Z])/","_$1", $text);
     return strtolower($text);
-}
-
-/**
- *
- * **Function -> base64_url_encode**
- *
- * EN-US: Converts a string to base64 and removes invalid characters from `base64_encode`, allowing the encoded string to be used in a URL.
- *
- * PT-BR: Converte uma string para base64 e remove os caracteres inválidos do `base64_encode`, permitindo que a string encodada possa ser utilizada em uma URL.
- *
- * @param string $input
- * @return string
- */
-function base64_url_encode(string $input) :string
-{
-    return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($input));
-}
-
-/**
- *
- * **Function -> base64_url_decode**
- *
- * EN-US: Converts a base64 encoded string to one without encoding.
- *
- * PT-BR: Converte uma string codificada em base64 em uma sem codificação.
- *
- * @param string $input
- * @return string
- */
-function base64_url_decode(string $input) :string
-{
-    return str_replace(['+', '/', '='], ['-', '_', ''], base64_decode($input));
 }
 
 /**
