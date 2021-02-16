@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-23
+	Date: 2021-02-16
 */
 
 namespace Lib;
@@ -28,7 +28,6 @@ class Out
     private $kill = true;
     private $delay = 0;
     private $bitrate = 500000;// 500kb
-    // private $bitrate = 1000000;// 1Mb
     private $contentDescription = "File Transfer";
     private $contentTransferEncoding = "binary";
     private $connection = "Keep-Alive";
@@ -46,37 +45,37 @@ class Out
         $this->dataManager = new DataManager;
     }
 
-    public function status($value)
+    public function status(int $value)
     {
         $this->status = $value;
         return $this;
     }
 
-    public function download($value)
+    public function download(int $value)
     {
         $this->download = $value;
         return $this;
     }
 
-    public function filename($value)
+    public function filename(string $value)
     {
         $this->filename = $value;
         return $this;
     }
 
-    public function extension($value)
+    public function extension(string $value)
     {
         $this->extension = $value;
         return $this;
     }
 
-    public function mimetype($value)
+    public function mimetype(string $value)
     {
         $this->mimetype = $value;
         return $this;
     }
 
-    public function name($value)
+    public function name(string $value)
     {
         $this->name = $value;
         $value = pathinfo($value);
@@ -89,10 +88,10 @@ class Out
     private $cache = null;
     private $recordCache = false;
 
-    public function cache(string $name, int $time)
+    public function cache(string $name, int $time_seconds)
     {
         $this->cache = new Cache;
-        $hasCache = $this->cache->exist($name, $time);
+        $hasCache = $this->cache->exist($name, $time_seconds);
         if ($hasCache) {
             $location = $this->cache->get_paths($name);
             $mimetype = $this->cache->env()->get("CONTENT_TYPE");
@@ -103,7 +102,7 @@ class Out
                 ->fopen($location["content"])
                 ->go();
         } else {
-            $this->recordCache = $this->cache->init($name, $time);
+            $this->recordCache = $this->cache->init($name, $time_seconds);
         }
     }
 
@@ -124,25 +123,25 @@ class Out
         return $this;
     }
 
-    public function size($value)
+    public function size(int $value)
     {
         $this->size = $value;
         return $this;
     }
 
-    public function kill($value)
+    public function kill(bool $value)
     {
         $this->kill = $value;
         return $this;
     }
 
-    public function delay($value)
+    public function delay(int $value)
     {
         $this->delay = $value;
         return $this;
     }
 
-    public function bitrate($value)
+    public function bitrate(int $value)
     {
         $this->bitrate = $value;
         return $this;
@@ -163,49 +162,49 @@ class Out
         return $this;
     }
 
-    public function stream($value)
+    public function stream(int $value)
     {
         $this->stream = $value;
         return $this;
     }
 
-    public function header($key, $value)
+    public function header(string $key, string $value)
     {
         $this->header[] = "$key: $value";
         return $this;
     }
 
-    public function contentDescription($value)
+    public function contentDescription(string $value)
     {
         $this->contentDescription = $value;
         return $this;
     }
 
-    public function contentTransferEncoding($value)
+    public function contentTransferEncoding(string $value)
     {
         $this->contentTransferEncoding = $value;
         return $this;
     }
 
-    public function connection($value)
+    public function connection(string $value)
     {
         $this->connection = $value;
         return $this;
     }
 
-    public function expires($value)
+    public function expires(string $value)
     {
         $this->expires = $value;
         return $this;
     }
 
-    public function cacheControl($value)
+    public function cacheControl(string $value)
     {
         $this->cacheControl = $value;
         return $this;
     }
 
-    public function pragma($value)
+    public function pragma(string $value)
     {
         $this->pragma = $value;
         return $this;
@@ -285,7 +284,7 @@ class Out
         flush();
     }
 
-    public function go($value = false)
+    public function go(bool $value = false)
     {
         if ($value) {
             $this->stream(2);

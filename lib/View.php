@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-13
+	Date: 2021-02-16
 */
 
 namespace Lib;
@@ -108,18 +108,18 @@ class View
      * 
      * @access public
      * @param string $name
-     * @param int $time
+     * @param int $time_seconds
      * @return string|null
      */
-    public function cache(string $name, int $time)
+    public function cache(string $name, int $time_seconds)
     {
         $this->cache = new Cache;
-        $hasCache = $this->cache->exist($name, $time);
+        $hasCache = $this->cache->exist($name, $time_seconds);
         if ($hasCache) {
             $location = $this->cache->get_paths($name);
             return DataManager::fileRead($location["content"]);
         } else {
-            $this->recordCache = $this->cache->init($name, $time);            
+            $this->recordCache = $this->cache->init($name, $time_seconds);
         }
         return null;
     }
@@ -135,17 +135,17 @@ class View
      * @access public
      * @param string $_FILE
      * @param array $_ARGS [optional]
-     * @param int $_CACHE [optional]
+     * @param int $_CACHE_SECONDS [optional]
      * @return string [reference var]
      */
-    public function & template(string $_FILE, $_ARGS = [], int $_CACHE = -1)
+    public function & template(string $_FILE, $_ARGS = [], int $_CACHE_SECONDS = -1)
     {
         $location = $_FILE;
         $_FILE = $this->locationFile($_FILE);
         if (!$_FILE) {
             return null;
         }
-        $result = $this->cache("V:${location}", $_CACHE);
+        $result = $this->cache("V:${location}", $_CACHE_SECONDS);
         if ($result !== null) {
             return $result;
         }

@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-01
+	Date: 2021-02-16
 */
 
 use Lib\AES_256;
@@ -95,7 +95,7 @@ function max_requests_per_minute(int $num_requests, string $name_request)
  * 
  * @return object In
  */
-function input()
+function input() :\Lib\In
 {
     return Route::$in;
 }
@@ -112,7 +112,7 @@ function input()
  * 
  * @return object Out
  */
-function output()
+function output() :\Lib\Out
 {
     return Route::$out;
 }
@@ -432,12 +432,12 @@ function message(string $key = null, $value = null)
  * 
  * @param string $file
  * @param array $args [optional]
- * @param int $cache [optional]
+ * @param int $cache_seconds [optional]
  * @return string
  */
-function view(string $file, $args = [], int $cache = -1)
+function view(string $file, $args = [], int $cache_seconds = -1)
 {
-    return (new View)->template($file, $args, $cache);
+    return (new View)->template($file, $args, $cache_seconds);
 }
 
 /**

@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-25
+	Date: 2021-02-16
 */
 
 namespace Lib;
@@ -242,7 +242,6 @@ class Route
         return $link;
     }
 
-    //private static function route(string $path, $action, bool $csrf = false, bool $jwt = false, int $cache = -1)
     private static function route(array &$route)
     {
         $path = $route["path"];
@@ -329,7 +328,7 @@ class Route
             $arg = $route["arg"];
             $csrf = &$route["csrf"];
             $jwt = &$route["jwt"];            
-            $cache = &$route["cache"];
+            $cache_seconds = &$route["cache"];
             unset($route["arg"]);
             unset($route["uri"]);
             unset($route["isRoute"]);
@@ -342,7 +341,7 @@ class Route
                 }
                 $result = "";
                 self::$in->setArg($arg);
-                self::$out->cache("R:${path}", $cache);                
+                self::$out->cache("R:${path}", $cache_seconds);
                 if (is_callable($action)) {
                     $result = $action(...array_values(self::$in->paramArg()));
                 } else {
@@ -440,11 +439,11 @@ class Route
         return __CLASS__;
     }
 
-    public static function cache(int $cache)
+    public static function cache(int $cache_seconds)
     {
         $index = count(self::$route) - 1;
         if ($index >= 0) {
-            self::$route[$index]["cache"] = $cache;
+            self::$route[$index]["cache"] = $cache_seconds;
         }
         return __CLASS__;
     }
@@ -474,7 +473,7 @@ class Route
         return __CLASS__;
     }
 
-    private static function defRoute(string $method, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    private static function defRoute(string $method, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
         self::$route[] = [
             "method" => strtoupper($method),
@@ -484,51 +483,51 @@ class Route
             "name" => $name ?? ((self::type($action) == "controller") ? self::classControllerToControllerName($action) : self::parseName($path)),
             "csrf" => (int) $csrf,
             "jwt" => (int) $jwt,
-            "cache" => (int) $cache,
+            "cache" => (int) $cache_seconds,
         ];
         return __CLASS__;
     }
 
-    public static function any(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function any(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("ANY", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("ANY", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function get(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function get(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("GET", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("GET", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function post(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function post(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("POST", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("POST", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function put(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function put(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("PUT", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("PUT", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function patch(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function patch(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("PATCH", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("PATCH", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function options(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function options(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("OPTIONS", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("OPTIONS", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function delete(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function delete(string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
-        return self::defRoute("DELETE", $path, $action, $name, $csrf, $jwt, $cache);
+        return self::defRoute("DELETE", $path, $action, $name, $csrf, $jwt, $cache_seconds);
     }
 
-    public static function match(array $verbs, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache = -1)
+    public static function match(array $verbs, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
         $result = [];
         foreach ($verbs as $verb) {
-            $result[] = self::defRoute($verb, $path, $action, $name, $csrf, $jwt, $cache);
+            $result[] = self::defRoute($verb, $path, $action, $name, $csrf, $jwt, $cache_seconds);
         }
         return $result;
     }
