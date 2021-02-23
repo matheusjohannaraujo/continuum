@@ -5,17 +5,19 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-28
+	Date: 2021-03-15
 */
 
+declare(ticks=1);
+declare(strict_types=1);
 $vendor = __DIR__ . "/vendor/";
 $autoload = $vendor . "autoload.php";
 
 function config_init()
 {
-	ini_set("set_time_limit", 3600);
-	ini_set("max_execution_time", 3600);
-	ini_set("default_socket_timeout", 3600);
+	ini_set("set_time_limit", "3600");
+	ini_set("max_execution_time", "3600");
+	ini_set("default_socket_timeout", "3600");
 	ini_set("memory_limit", "6144M");
 }
 

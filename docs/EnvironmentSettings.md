@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.2.3
+VERSION=4.2.5
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -21,6 +21,13 @@ VERSION=4.2.3
 #-----------------------------------------------------------------------------------------------------
 # TIMEZONE=UTC
 TIMEZONE=America/Sao_Paulo
+
+#-----------------------------------------------------------------------------------------------------
+# EN-US: Defines the main language to be used for internationalization (I18N)
+# PT-BR: Define o idioma principal a ser usado para internacionalização (I18N)
+#-----------------------------------------------------------------------------------------------------
+# MAIN_LANGUAGE=pt-br
+MAIN_LANGUAGE=en-us
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US:

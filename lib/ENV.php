@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-04
+	Date: 2021-02-23
 */
 
 namespace Lib;
@@ -42,7 +42,11 @@ class ENV
         if ($path_env === null) {
             $path_env = $this->path_env;
             if (!DataManager::exist($path_env)) {
-                dumpd("The `.env` file was not found.");
+                $path_env_example = __DIR__ . "/../.env.example";
+                if (!DataManager::exist($path_env_example)) {
+                    dumpd("The `.env` and `.env.example` files were not found.");
+                }
+                DataManager::copy($path_env_example, ".env") or dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
             }
         } else {
             $this->path_env = $path_env;

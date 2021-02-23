@@ -5,16 +5,14 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-30
+	Date: 2021-02-23
 */
 
 // https://github.com/illuminate/database
 // https://medium.com/@kshitij206/use-eloquent-without-laravel-7e1c73d79977
 // https://laravel.com/docs/5.0/schema
 // https://www.amitmerchant.com/how-to-utilize-capsule-use-eloquent-orm-outside-laravel/
-// composer require "illuminate/database"
-// composer require "illuminate/events"
-// composer require "illuminate/support"
+// composer require illuminate/events illuminate/database illuminate/support
 
 use Lib\ENV;
 use Lib\DataManager;
@@ -89,7 +87,7 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
     }
     
     function db_schemas_apply(string $nameFile)
-    {     
+    {
         $env = new ENV;
         $env->read();
         if ($env === null) {
@@ -98,11 +96,14 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
         $folderSchemaName = $env->get("NAME_FOLDER_SCHEMAS");
         $nameFile = strtolower($nameFile);
         $base = __DIR__ . "/../app/$folderSchemaName/";
+        if ($nameFile == "-c" || $nameFile == "--config") {
+            $nameFile = "config";
+        }
         if ($nameFile == "-a" || $nameFile == "--all") {
             $schemas = DataManager::folderScan(realpath($base));
             foreach ($schemas as $key => $schema) {
                 $index = strpos($schema["name"], "s_capsule.php");
-                if ($schema["type"] == "FILE" && $index !== false && $index > 0) {
+                if ($schema["type"] == "FILE" && $index !== false && $index > 0 && $schema["name"] != "configs_capsule.php") {
                     path_schema_apply($schema["path"]);
                 }                
             }

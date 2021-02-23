@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-10-04
+	Date: 2021-03-15
 */
 
 namespace Lib;
@@ -18,10 +18,38 @@ class URI
     private static $scriptName;
     private static $finalBase;
 
-    public static function Protocol()
+    /*public static function Protocol()
     {
         self::$protocol = null;
         switch (strtolower(($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ($_SERVER['REQUEST_SCHEME'] ?? "")))) {
+            case "http":
+                self::$protocol = 'http://';
+                break;
+            case "https":
+                self::$protocol = 'https://';
+                break;
+        }
+        if (self::$protocol === null) {
+            if (strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false) {
+                self::$protocol = 'http://';
+            } else {
+                self::$protocol = 'https://';
+            }
+        }
+        return self::$protocol;
+    }*/
+
+    public static function Protocol()
+    {
+        self::$protocol = null;        
+        $protocol = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? "");
+        $protocol = explode(",", $protocol);
+        if (count($protocol) > 0) {
+            $protocol = $protocol[0];
+        } else {
+            $protocol = strtolower($_SERVER['REQUEST_SCHEME'] ?? "");
+        }
+        switch ($protocol) {
             case "http":
                 self::$protocol = 'http://';
                 break;

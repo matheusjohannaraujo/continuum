@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-16
+	Date: 2021-02-23
 */
 
 use Lib\AES_256;
@@ -1136,7 +1136,7 @@ function I18N(string $lang, string $key, $default_value = null) {
 function I18N_lang_init()
 {
     if (session("lang") === null) {
-        session()->set("lang", "pt-br");
+        session()->set("lang", input_env("MAIN_LANGUAGE", "pt-br"));
         return true;
     }
     return false;

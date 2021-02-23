@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-30
+	Date: 2021-02-23
 */
 
 define("CLI", true);
@@ -56,9 +56,9 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("Home", "8db857e82e43269d22aa4b07f8cd9c36", $baseDomain . "/");
+    fun_test_route("Home", "25853b0d5f78582c29cf65792a18a866", $baseDomain . "/");
     echo "\r\n";
-    fun_test_route("Route 1", "9fa1607438b6c5ad684e682447eb1c6f", $baseDomain . "/contact");
+    fun_test_route("Route 1", "4c8299e70fbaea4664f8935e6c15d474", $baseDomain . "/contact");
     echo "\r\n";
     fun_test_route("Route 2", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";
@@ -566,7 +566,7 @@ function fun_list_commands()
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
     $version_actual = input_env("VERSION", "very old");
     $env = new ENV;    
-    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/makemvcss/master/.env");
+    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/makemvcss/master/.env.example");
     $version_latest = $env->get("VERSION", "not found");
     echo "
  ###################################################################################################################

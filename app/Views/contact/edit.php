@@ -18,7 +18,7 @@ $this->section("body");
             <?= tag_method("PUT"); ?>
             <?= tag_csrf(); ?>
             <div class="form-group">
-                <label>Id</label>
+                <label>Id:</label>
                 <input class="form-control" type="number" name="id" placeholder="Id" readonly required value="<?= old("id", $contact->id); ?>">
             </div>
             <div class="form-group">
@@ -31,7 +31,7 @@ $this->section("body");
                 <?= tag_message("email", ["class" => "alert alert-warning font-weight-bold", "role" => "alert"], "div"); ?>
                 <input class="form-control" id="input-email" type="email" name="email" placeholder="E-mail" required value="<?= old("email", $contact->email); ?>">
             </div>
-            <input class="btn btn-primary" type="submit" value="Send and save">
+            <input class="btn btn-primary" type="submit" value="Save">
         </form>
 
 <?php $this->endSection(); ?>

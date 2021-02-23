@@ -27,7 +27,7 @@ $this->section("body");
                 <?= tag_message("email", ["class" => "alert alert-warning font-weight-bold", "role" => "alert"], "div"); ?>
                 <input class="form-control" id="input-email" type="email" name="email" placeholder="E-mail" required value="<?= old("email"); ?>">
             </div>
-            <input class="btn btn-primary" type="submit" value="Send and save">
+            <input class="btn btn-primary" type="submit" value="Save">
         </form>
 
 <?php $this->endSection(); ?>
