@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.2.5
+VERSION=4.2.6
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -130,4 +130,4 @@ DB_CONNECTION=sqlite
 DB_DATABASE=makemvcss
 ```
 
-### [Back to the previous page](./README-EU.md) | [Voltar para página anterior](./README.md)
+### [Back to the previous page](./DOC-EU.md) | [Voltar para página anterior](./DOC.md)

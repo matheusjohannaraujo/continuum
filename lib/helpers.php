@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-23
+	Date: 2021-02-24
 */
 
 use Lib\AES_256;
@@ -886,6 +886,46 @@ function decamelize(string $text)
 {
     $text = preg_replace("/(?<=\\w)(?=[A-Z])/","_$1", $text);
     return strtolower($text);
+}
+
+/**
+ *
+ * **Function -> base64_url_encode**
+ *
+ * EN-US: Returns `Base64Url` encoded text that can be passed in the `URL`.
+ *
+ * PT-BR: Retorna texto codificado em `Base64Url` que pode ser passado no `URL`.
+ *
+ * @param string $data
+ * @return string
+ */
+function base64_url_encode(string $data): string
+{
+    return str_replace("=", "", strtr(base64_encode($data), "+/", "-_"));
+}
+
+/**
+ *
+ * **Function -> base64_url_decode**
+ *
+ * EN-US: Returns the result of removing the `Base64Url` encoding from the text.
+ *
+ * PT-BR: Retorna o resultado da remoção da codificação `Base64Url` do texto.
+ *
+ * @param string $data
+ * @return string
+ */
+function base64_url_decode(string $data): string
+{
+    $remainder = strlen($data) % 4;
+    if ($remainder !== 0) {
+        $data .= str_repeat("=", 4 - $remainder);
+    }
+    $decodedContent = base64_decode(strtr($data, "-_", "+/"), true);
+    if (!is_string($decodedContent)) {
+        throw new \Exception("Error while decoding from Base64: invalid characters used");
+    }
+    return $decodedContent;
 }
 
 /**

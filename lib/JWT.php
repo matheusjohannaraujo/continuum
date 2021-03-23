@@ -5,13 +5,14 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-01
+	Date: 2021-03-24
 */
 
 // Implementado apartir dos sites abaixo
 // https://imasters.com.br/back-end/entendendo-o-jwt
 // https://dev.to/robdwaller/how-to-create-a-json-web-token-using-php-3gml
 // https://www.jsonwebtoken.io
+// https://tools.ietf.org/html/rfc7519#section-4.1
 
 namespace Lib;
 
@@ -28,202 +29,214 @@ class JWT
     // iat - Data de criação do token
     // jti - O id do token
     // name - Nome do usuário
-    private $hash; // Algoritmo de criptografia utilizado na assinatura do token, padrão HMAC SHA-256   
-    private $valid; // Guarda o estado atual de validação do token
-    private $token; // Token Encoded Base64
-    private $secret; // Chave de criação da assinatura do token
-    private $header; // Cabeçalho do token
-    private $payload; // Corpo do token
-    private $signature; // Assinatura do token   
+    private $hash = "sha256"; // Algoritmo de criptografia utilizado na assinatura do token, padrão HMAC SHA-256   
+    private $valid = false; // Guarda o estado atual de validação do token
+    private $token = null; // Token Encoded Base64
+    private $secret = null; // Chave de criação da assinatura do token
+    private $header = null; // Cabeçalho do token
+    private $payload = null; // Corpo do token
+    private $signature = null; // Assinatura do token   
 
-    public function __construct($value = "")
-    {
+    public function __construct(string $token = null)
+    {        
+        $this->secret(input_env("JWT_SECRET", "JWT"));
+        if ($token !== null) {
+            $this->token($token);
+            return;
+        }
         $this->valid = false;
         $this->hash("sha256");
-        $this->secret(input_env("JWT_SECRET", "JWT"));
         $this->header([
             "alg" => "HS256",
             "typ" => "JWT",
         ]);
         $time = time();
         $uid = md5(uniqid() . hash_generate(uniqid()));
-        $this->setPayload([
+        $this->payload([
             "iss" => "localhost",
             "sub" => "JWT Credential",
             "aud" => "http://localhost/makemvcss",
-            "exp" => $time + (60 * 30), // Meia hora de validade para o token
-            "nbf" => $time,
             "iat" => $time,
+            "exp" => $time + (60 * 30), // Meia hora de validade para o token
             "jti" => $uid,
             "name" => "MakeMVCSS",
         ]);
-        if ($value !== "") {
-            $this->token($value);
-        }
     }
 
-    public function hash($value = "")
+    public function hash(string $value = null) :?string
     {
-        if ($value !== "") {
+        if ($value !== null) {
             $this->hash = $value;
-            return $this;
         }
         return $this->hash;
     }
 
-    public function secret($value)
+    public function secret(string $value = null) :?string
     {
-        $this->secret = $value;
-        return $this;
+        if ($value !== null) {
+            $this->secret = $value;
+        }
+        return $this->secret;
     }
 
-    public function header($value = "")
+    public function header(array $value = null) :?array
     {
-        if ($value !== "") {
+        if ($value !== null) {
             $this->header = $value;
-            return $this;
         }
         return $this->header;
     }
 
-    private function headerKV($key, $value)
+    private function headerKV(string $key, $value = null)
     {
-        if ($value !== "") {
+        if ($value !== null) {
             $this->header[$key] = $value;
-            return $this;
         }
-        return $this->header[$key];
+        return $this->header[$key] ?? null;
     }
 
-    public function alg($value = "")
+    public function alg(string $value = null) :?string
     {
         return $this->headerKV("alg", $value);
     }
 
-    public function typ($value = "")
+    public function typ(string $value = null) :?string
     {
         return $this->headerKV("typ", $value);
     }
 
-    public function setPayload($value)
+    public function payload($body = null)
     {
-        $this->payload = $value;
-        return $this;
-    }
-
-    public function payload($key = "")
-    {
-        if ($key !== "") {
-            return $this->payload[$key] ?? "";
+        if (is_array($body)) {
+            $this->payload = $body;
+        } else if (is_string($body)) {
+            return $this->payload[$body] ?? null;
         }
         return $this->payload;
     }
 
-    private function payloadKV($key, $value)
+    private function payloadKV(string $key, $value)
     {
-        if ($value !== "") {
+        if ($value === null) {// Remove Claim Value
+            unset($this->payload[$key]);
+        } else if ($value !== "") {// Set Claim Value
             $this->payload[$key] = $value;
-            return $this;
         }
-        return $this->payload[$key];
+        return $this->payload[$key] ?? null;// Return Clain Value
     }
 
-    public function iss($value = "")
+    public function iat(?int $value = 0) :?int
+    {
+        $value = (($value === null) ? null : ($value > 0 ? $value : ""));
+        return $this->payloadKV("iat", $value);
+    }
+
+    public function nbf(?int $value = 0) :?int
+    {
+        $value = (($value === null) ? null : ($value > 0 ? $value : ""));
+        return $this->payloadKV("nbf", $value);
+    }
+
+    public function exp(?int $value = 0) :?int
+    {
+        $value = (($value === null) ? null : ($value > 0 ? $value : ""));
+        return $this->payloadKV("exp", $value);
+    }
+
+    public function iss(?string $value = "") :?string
     {
         return $this->payloadKV("iss", $value);
     }
 
-    public function sub($value = "")
+    public function sub(?string $value = "") :?string
     {
         return $this->payloadKV("sub", $value);
     }
 
-    public function aud($value = "")
+    public function aud(?string $value = "") :?string
     {
         return $this->payloadKV("aud", $value);
-    }
+    }    
 
-    public function exp($value = "")
-    {
-        return $this->payloadKV("exp", $value);
-    }
-
-    public function nbf($value = "")
-    {
-        return $this->payloadKV("nbf", $value);
-    }
-
-    public function iat($value = "")
-    {
-        return $this->payloadKV("iat", $value);
-    }
-
-    public function jti($value = "")
+    public function jti(?string $value = "") :?string
     {
         return $this->payloadKV("jti", $value);
     }
 
-    public function name($value = "")
+    public function name(?string $value = "") :?string
     {
         return $this->payloadKV("name", $value);
     }
 
-    public function claim($key, $value = "")
+    public function claim(string $key, $value = "")
     {
         return $this->payloadKV($key, $value);
     }
 
-    public function signature()
+    public function signature() :string
     {
         return $this->signature;
     }
 
-    private function encode()
+    private function encode() :void
     {
-        $header = base64_encode(json_encode($this->header()));
-        $payload = base64_encode(json_encode($this->payload()));
-        $this->signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_url_encode(json_encode($this->header()));
+        $payload = base64_url_encode(json_encode($this->payload()));
+        $this->signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         $this->token = "$header.$payload.$this->signature";
     }
 
-    private function decode()
+    private function decode() :void
     {
         $parts = explode(".", $this->token);
         if (count($parts) == 3) {
-            $this->header(json_decode(base64_decode($parts[0]), true));
-            $this->setPayload(json_decode(base64_decode($parts[1]), true));
+            $this->header(json_decode(base64_url_decode($parts[0]), true));
+            $this->payload(json_decode(base64_url_decode($parts[1]), true));
             $this->signature = $parts[2];
         }
     }
 
-    public function token($value = "")
+    public function token(string $value = null) :?string
     {
-        if ($value !== "") {
+        if ($value !== null) {
             $this->token = $value;
             $this->decode();
         } else {
-            $this->encode();
-            $this->valid();
+            $this->encode();            
         }
+        $this->valid();
         return $this->token;
     }
 
-    public function valid()
+    public function valid() :bool
     {
         $this->valid = false;
-        $header = base64_encode(json_encode($this->header()));
-        $payload = base64_encode(json_encode($this->payload()));
-        $signature = base64_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
+        $header = base64_url_encode(json_encode($this->header()));
+        $payload = base64_url_encode(json_encode($this->payload()));
+        $signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
         if ($this->token == "$header.$payload.$signature") {
-            $time = time();
-            $iat = $this->payload("iat");
             $nbf = $this->payload("nbf");
             $exp = $this->payload("exp");
-            if ($iat < $exp && $iat <= $nbf && $nbf < $exp && $time >= $iat && $time >= $nbf && $time <= $exp) {
-                $this->valid = true;
+            if (empty($nbf) && empty($exp)) {// NBF, EXP = empty
+                return $this->valid = true;
             }
+            $time = time();
+            if (!empty($nbf) && empty($exp) && $time > $nbf) {// EXP = empty
+                return $this->valid = true;
+            }
+            if (empty($nbf) && !empty($exp) && $time < $exp) {// NBF = empty
+                return $this->valid = true;
+            }
+            if (!empty($nbf) && !empty($exp) && $time > $nbf && $time < $exp) {// NBF, EXP = not empty
+                return $this->valid = true;
+            }            
         }
         return $this->valid;
+    }
+
+    public function __toString()
+    {
+        return $this->token();
     }
 
 }

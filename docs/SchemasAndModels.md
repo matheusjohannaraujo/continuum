@@ -72,4 +72,4 @@ class Contact extends Eloquent
 
 ```
 
-### [Voltar para página anterior](./README.md)
+### [Voltar para página anterior](./DOC.md)

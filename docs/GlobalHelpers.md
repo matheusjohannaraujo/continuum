@@ -381,4 +381,4 @@ PT-BR: Retorna o MimeType de um arquivo com base em sua extensão
 > ### `get_mime_type(string $ext)`
 <hr>
 
-#### [Back to the previous page](./README-EU.md) | [Voltar para página anterior](./README.md)
+#### [Back to the previous page](./DOC-EU.md) | [Voltar para página anterior](./DOC.md)

@@ -23,7 +23,7 @@
 * * * **```composer config -g github-protocols https ssh```**
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">It is necessary to have enabled the reading of htaccess files</a>
 
-### [Back to the previous page](./README-EU.md)
+### [Back to the previous page](./DOC-EU.md)
 
 <hr>
 
@@ -52,4 +52,4 @@
 * * * **```composer config -g github-protocols https ssh```**
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">É necessário ter habilitado a leitura dos arquivos htaccess</a>
 
-### [Voltar para página anterior](./README.md)
+### [Voltar para página anterior](./DOC.md)

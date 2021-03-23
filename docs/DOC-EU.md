@@ -1,12 +1,4 @@
-# [MakeMVCSS documentation in Brazilian Portuguese](./README.md)
-
-## <a href="https://matheusjohannaraujo.herokuapp.com">Matheus Johann Araújo</a>
-
-> ##### Country: Brasil
-
-> ##### State: Pernambuco
-
-> ##### Date: 2021-03-15
+# [MakeMVCSS documentation in Brazilian Portuguese](./DOC.md)
 
 ## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
 
