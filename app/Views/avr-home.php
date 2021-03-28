@@ -14,35 +14,42 @@ $this->section("body");
 
         <div class="list-group mt-3">
             <span class="list-group-item bg-dark text-white">RETURN HTML DUMP</span>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all"); ?>"><b>/routes/all</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/any"); ?>"><b>/routes/all/any</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/get"); ?>"><b>/routes/all/get</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/post"); ?>"><b>/routes/all/post</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/put"); ?>"><b>/routes/all/put</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/patch"); ?>"><b>/routes/all/patch</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/delete"); ?>"><b>/routes/all/delete</b></a>
-            <span class="list-group-item bg-dark text-white">RETURN TEXT JSON</span>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json"); ?>"><b>/routes/all/json</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/any"); ?>"><b>/routes/all/json/any</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/get"); ?>"><b>/routes/all/json/get</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/post"); ?>"><b>/routes/all/json/post</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/put"); ?>"><b>/routes/all/json/put</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/patch"); ?>"><b>/routes/all/json/patch</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("routes/all/json/delete"); ?>"><b>/routes/all/json/delete</b></a>
+            <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("routes/all"); ?>"><b>/routes/all</b></a>
+            <a class="list-group-item list-group-item-action bg-warning" href="<?= site_url("routes/all/any"); ?>"><b>/routes/all/any</b></a>
+            <a class="list-group-item list-group-item-action bg-primary text-white" href="<?= site_url("routes/all/get"); ?>"><b>/routes/all/get</b></a>
+            <a class="list-group-item list-group-item-action bg-success text-white" href="<?= site_url("routes/all/post"); ?>"><b>/routes/all/post</b></a>
+            <a class="list-group-item list-group-item-action bg-secondary text-white" href="<?= site_url("routes/all/put"); ?>"><b>/routes/all/put</b></a>
+            <a class="list-group-item list-group-item-action bg-info text-white" href="<?= site_url("routes/all/patch"); ?>"><b>/routes/all/patch</b></a>
+            <a class="list-group-item list-group-item-action bg-danger text-white" href="<?= site_url("routes/all/delete"); ?>"><b>/routes/all/delete</b></a>
         </div>
 
-        <h4 class="mt-3">Example routes</h4>
+        <div class="list-group mt-3">
+            <span class="list-group-item bg-dark text-white">RETURN TEXT JSON</span>
+            <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("routes/all/json"); ?>"><b>/routes/all/json</b></a>
+            <a class="list-group-item list-group-item-action bg-warning" href="<?= site_url("routes/all/json/any"); ?>"><b>/routes/all/json/any</b></a>
+            <a class="list-group-item list-group-item-action bg-primary text-white" href="<?= site_url("routes/all/json/get"); ?>"><b>/routes/all/json/get</b></a>
+            <a class="list-group-item list-group-item-action bg-success text-white" href="<?= site_url("routes/all/json/post"); ?>"><b>/routes/all/json/post</b></a>
+            <a class="list-group-item list-group-item-action bg-secondary text-white" href="<?= site_url("routes/all/json/put"); ?>"><b>/routes/all/json/put</b></a>
+            <a class="list-group-item list-group-item-action bg-info text-white" href="<?= site_url("routes/all/json/patch"); ?>"><b>/routes/all/json/patch</b></a>
+            <a class="list-group-item list-group-item-action bg-danger text-white" href="<?= site_url("routes/all/json/delete"); ?>"><b>/routes/all/json/delete</b></a>
+        </div>
 
         <div class="list-group mt-3 mb-3">
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.index"); ?>"><span class="badge badge-info mr-3">Route 1 - Method Get</span> <b>/contact/index</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("template"); ?>"><span class="badge badge-info mr-3">Route 2 - Method Any</span> <b>/template</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("json"); ?>"><span class="badge badge-info mr-3">Route 3 - Method Get</span> <b>/json</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("auth"); ?>"><span class="badge badge-info mr-3">Route 4 - Method Get</span><b>/auth</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("jwt"); ?>"><span class="badge badge-info mr-3">Route 5 - Method Get</span> <b>/jwt</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("text"); ?>"><span class="badge badge-info mr-3">Route 6 - Method Get</span> <b>/text</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("video/stream"); ?>"><span class="badge badge-info mr-3">Route 7 - Method Get</span> <b>/video/stream</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("video"); ?>"><span class="badge badge-info mr-3">Route 8 - Method Get</span> <b>/video</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= site_url("math/add/3/5"); ?>"><span class="badge badge-info mr-3">Route 9 - Method Get</span> <b>/math/add/3/5</b></a>
+            <span class="list-group-item bg-dark text-white">EXAMPLE OF ROUTES - WITH HTTP METHOD</span>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("template"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/template</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("json"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/json</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("auth"); ?>"><span class="badge badge-warning mr-3">ANY</span><b>/auth</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("jwt"); ?>"><span class="badge badge-warning mr-3">ANY</span> <b>/jwt</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("math/add/3/5"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/math/add/3/5</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/text"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/text</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video/stream"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video/stream</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.index"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/index</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.new"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/new</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.create"); ?>"><span class="badge badge-success mr-3">POST</span> <b>/contact/create</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.edit", 1); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/edit/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.update", 1); ?>"><span class="badge badge-secondary mr-3">PUT</span> <b>/contact/update/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= action("contact.destroy", 1); ?>"><span class="badge badge-danger mr-3">DELETE</span> <b>/contact/destroy/{id:int}</b></a>
         </div>
 
         <!-- Button trigger modal -->

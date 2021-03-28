@@ -1,5 +1,5 @@
 <body class="bg-dark m-3">
-    <div class="container bg-light pt-3 pb-1 rounded" style="min-width: 300px;">
+    <div class="container bg-white pt-3 pb-1 rounded" style="min-width: 300px;">
 
         <div class="jumbotron jumbotron-fluid bg-dark text-white p-2 pt-3 rounded mb-3 overflow-auto">
             <div class="container">

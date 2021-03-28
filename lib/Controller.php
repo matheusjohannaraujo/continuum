@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-11-04
+	Date: 2021-03-28
 */
 
 namespace Lib;
@@ -25,26 +25,85 @@ class Controller {
 
     public function getAllControllers(bool $onlyValid = true)
     {
-        $scan = DataManager::folderScan($this->folderControllers, false, true);
         $result = [];
-        foreach ($scan as $key => $path) {
-            if ($path["type"] == "FILE" && strpos($path["name"], "Controller.php") !== false) {
-                $path["route"] = $this->getRoute($path["path"]);
-                $path["class"] = $this->getClass($path["path"]);
-                if ($path["class"] === null && (!property_exists($path["class"], "generateRoutes") || $onlyValid)) {
-                    unset($scan[$key]);
-                    continue;
+        if ($onlyValid) {
+            $scan = DataManager::folderScan($this->folderControllers, false, true);
+            foreach ($scan as $key => $path) {
+                if ($path["type"] == "FILE" && strpos($path["name"], "Controller.php") !== false) {
+                    $path["route"] = $this->getRoute($path["path"]);
+                    $path["class"] = $this->getClass($path["path"]);
+                    if ($path["class"] === null || !property_exists($path["class"], "generateRoutes")) {
+                        unset($scan[$key]);
+                        continue;
+                    }
+                    $path["method"] = $this->getAllMethodsAndParameters($this->getClass($path["path"]));
+                    $result[] = $path;
                 }
-                $path["method"] = $this->getAllMethodsAndParameters($this->getClass($path["path"]), $onlyValid);                
-                $result[] = $path;
+                unset($scan[$key]);
             }
-            unset($scan[$key]);
         }
         // dumpl($result);
         return $result;
     }
 
-    public function getClass(string $pathController)
+    public function generatePathRoutes(array &$path)
+    {
+        $path["routes"] = [];
+        foreach ($path["method"] as $method => $params) {
+            $route_config = [];
+            $arguments = [""];
+            foreach ($params as $param) {
+                // dumpd($param);
+                $name = $param["name"];
+                if ($name == "CONFIG") {
+                    $route_config = $param;
+                    continue;
+                }
+                if ($param["optional"]/* && $param["type"] != "array"*/) {
+                    $op = "?";
+                    $arguments[] = str_replace("?", "", $arguments[count($arguments) - 1]) . "/{" . $name . ":" . $param["type"] . $op . "}";
+                    continue;
+                }
+                $arguments[count($arguments) - 1] = $arguments[count($arguments) - 1] . "/{" . $name . ":" . $param["type"] . "}";
+            }
+            // $route_base = strtolower("/" . str_replace("Controller.php", "", $path["name"]) . "/$method");
+            $route_base = $path["route"] . "/$method";
+            $action = $path["class"] . "@" . $method;
+            $arguments = array_reverse($arguments);
+            foreach ($arguments as $key => $arg) {
+                $_path_route = $route_base . $arg;
+                $_method = (string) ($route_config["value"]["method"] ?? "ANY");
+                $_csrf = (bool) ($route_config["value"]["csrf"] ?? false);
+                $_jwt = (bool) ($route_config["value"]["jwt"] ?? false);
+                $_cache = (int) ($route_config["value"]["cache"] ?? -1);
+                $_name = $route_config["value"]["name"] ?? null;
+                $path["routes"][] = [
+                    "path" => $_path_route,
+                    "action" => $action,
+                    "method" => $_method,
+                    "csrf" => $_csrf,
+                    "jwt" => $_jwt,
+                    "cache" => $_cache,
+                    "name" => $_name
+                ];
+                $index_route = strrpos($_path_route, "/$method");
+                if ($method == "index" && $index_route !== false) {
+                    $path["routes"][] = [
+                        "path" => substr($_path_route, 0, $index_route) . substr($_path_route, $index_route + strlen("/$method")),
+                        "action" => $action,
+                        "method" => $_method,
+                        "csrf" => $_csrf,
+                        "jwt" => $_jwt,
+                        "cache" => $_cache,
+                        "name" => $_name
+                    ];
+                }
+            }
+        }
+        //dumpd($path["routes"]);
+    }
+
+    private function getClass(string $pathController)
     {        
         $init = "app/" . $this->nameFolderControllers . "/";
         $indexApp = strpos($pathController, $init);
@@ -60,7 +119,7 @@ class Controller {
         return null;
     }
 
-    public function getRoute(string $pathController)
+    private function getRoute(string $pathController)
     {
         $base = "app/" . $this->nameFolderControllers;
         $indexControllers = strpos($pathController, $base);
@@ -72,10 +131,10 @@ class Controller {
         return $pathController;
     }
 
-    public function getAllMethodsAndParameters(string $class, bool $onlyValid = true)
+    private function getAllMethodsAndParameters(string $class)
     {        
         $result = [];        
-        if (class_exists($class) && (property_exists($class, "generateRoutes") || !$onlyValid)) {
+        if (class_exists($class) && property_exists($class, "generateRoutes")) {
             $methods = get_class_methods($class);
             foreach ($methods as $index => $method) {
                 $ReflectionMethod = new \ReflectionMethod($class, $method);
@@ -106,63 +165,6 @@ class Controller {
             }
         }        
         return $result;
-    }
-
-    public function generatePathRoutes(array &$path)
-    {
-        $path["routes"] = [];
-        foreach ($path["method"] as $method => $params) {
-            $route_config = [];
-            $arguments = [""];
-            foreach ($params as $param) {
-                // dumpd($param);
-                $name = $param["name"];
-                if ($name == "CONFIG") {
-                    $route_config = $param;
-                    continue;
-                }                            
-                if ($param["optional"]/* && $param["type"] != "array"*/) {
-                    $op = "?";
-                    $arguments[] = str_replace("?", "", $arguments[count($arguments) - 1]) . "/{" . $name . ":" . $param["type"] . $op . "}";
-                    continue;
-                }
-                $arguments[count($arguments) - 1] = $arguments[count($arguments) - 1] . "/{" . $name . ":" . $param["type"] . "}";
-            }
-            // $route_base = strtolower("/" . str_replace("Controller.php", "", $path["name"]) . "/$method");
-            $route_base = $path["route"] . "/$method";
-            $action = $path["class"] . "@" . $method;
-            $arguments = array_reverse($arguments);
-            foreach ($arguments as $key => $arg) {
-                $_path_route = $route_base . $arg;
-                $_method = (string) ($route_config["value"]["method"] ?? "ANY");
-                $_csrf = (bool) ($route_config["value"]["csrf"] ?? false);
-                $_jwt = (bool) ($route_config["value"]["jwt"] ?? false);                
-                $_cache = (int) ($route_config["value"]["cache"] ?? -1);
-                $_name = $route_config["value"]["name"] ?? null;
-                $path["routes"][] = [
-                    "path" => $_path_route,
-                    "action" => $action,
-                    "method" => $_method,
-                    "csrf" => $_csrf,
-                    "jwt" => $_jwt,
-                    "cache" => $_cache,
-                    "name" => $_name
-                ];
-                $index_route = strrpos($_path_route, "/$method");
-                if ($method == "index" && $index_route !== false) {
-                    $path["routes"][] = [
-                        "path" => substr($_path_route, 0, $index_route) . substr($_path_route, $index_route + strlen("/$method")),
-                        "action" => $action,
-                        "method" => $_method,
-                        "csrf" => $_csrf,
-                        "jwt" => $_jwt,
-                        "cache" => $_cache,
-                        "name" => $_name
-                    ];
-                }
-            }
-        }
-        //dumpd($path["routes"]);
     }
 
 }

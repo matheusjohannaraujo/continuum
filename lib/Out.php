@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-16
+	Date: 2021-03-28
 */
 
 namespace Lib;
@@ -306,6 +306,20 @@ class Out
         }
     }
 
+    public function page(int $status_code)
+    {
+        switch ($status_code) {
+            case 401:
+                $this->pageJWT();
+            case 403:
+                $this->pageCSRF();
+            case 404:
+                $this->page404();
+            case 405:
+                $this->page405();
+        }
+    }
+
     public function page404()
     {
         if (input()->contentTypeIsJSON()) {
@@ -326,6 +340,26 @@ class Out
             ->go();
     }
 
+    public function page405()
+    {
+        if (input()->contentTypeIsJSON()) {
+            $this->content([
+                "error" => "METHOD NOT ALLOWED",
+                "status" => 405,
+                "message" => "Sorry, an error has occured, Requested page not found!"
+            ]);
+        } else {
+            $link = action("message-status-code", 404);
+            $this->content(view("page_message", [
+                "title" => "405 - METHOD NOT ALLOWED",
+                "body" => "<h1>STATUS CODE: 405 - METHOD NOT ALLOWED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred, the method entered was not found!</h1></marquee>"
+            ]));
+        }
+        $this
+            ->status(405)
+            ->go();
+    }
+
     public function pageCSRF()
     {
         if (input()->contentTypeIsJSON()) {
@@ -337,8 +371,7 @@ class Out
         } else {
             $this->content(view("page_message", [
                 "title" => "403 - CSRF FORBIDDEN",
-                "body" => "<h1>STATUS CODE: 403 - CSRF FORBIDDEN</h1>
-                <marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The CSRF Token informed is not valid!</h1></marquee>",
+                "body" => "<h1>STATUS CODE: 403 - CSRF FORBIDDEN</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The CSRF Token informed is not valid!</h1></marquee>"
             ]));
         }
         $this
@@ -357,8 +390,7 @@ class Out
         } else {
             $this->content(view("page_message", [
                 "title" => "401 - JWT UNAUTHORIZED",
-                "body" => "<h1>STATUS CODE: 401 - JWT UNAUTHORIZED</h1>
-                <marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The JWT Token informed is not valid!</h1></marquee>",
+                "body" => "<h1>STATUS CODE: 401 - JWT UNAUTHORIZED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The JWT Token informed is not valid!</h1></marquee>"
             ]));
         }
         $this

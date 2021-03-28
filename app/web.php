@@ -12,7 +12,7 @@
                 The verb "MATCH" in practice does not exist, when used it means that the route can be called by the valid HTTP method that was configured in the array ["GET", "POST", "PUT"]
             ]
 
-            Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete(), Route::options(), Route::any(), Route::match(["GET", "POST"])
+            Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete(), Route::options(), Route::any(), Route::match(["GET", "POST"]), Route::group(string $path, callable $action)
 
         Inside the parentheses it is necessary to inform the parameters for the verb HTTP. 
 
@@ -41,7 +41,7 @@
                 O verbo "MATCH" na prática não existe, quando utilizado significa que a rota pode ser chamada pelo método HTTP válido que foi configurado no array ["GET", "POST", "PUT"]
             ]
 
-            Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete(), Route::options(), Route::any(), Route::match(["GET", "POST"])
+            Route::get(), Route::post(), Route::put(), Route::patch(), Route::delete(), Route::options(), Route::any(), Route::match(["GET", "POST"]), Route::group(string $path, callable $action)
 
         Dentro dos parênteses é necessário informar os parâmetros para o verbo HTTP.
         
@@ -114,44 +114,6 @@ Route::any("/jwt", function () {
     return input_jwt();
 });
 
-Route::get("/text", function () {
-    /*
-        EN-US: Provides the contents of a txt file
-        -
-        PT-BR: Fornece o conteúdo de um arquivo `text.txt`
-    */
-    output()
-        ->fopen(folder_storage("text.txt"))
-        ->name("text.txt")
-        ->bitrate(256)
-        ->go();
-});
-
-Route::get("/video/stream", function () {
-    /*
-        EN-US: Performs the processing of several mp4 files and delivers it as a stream
-        -
-        PT-BR: Executa o processamento de vários arquivos mp4 e o entrega como um fluxo (stream)
-    */
-    output()
-        ->fopen(folder_storage("split_video.mp4/"))
-        ->name("video.mp4")
-        ->go(true);
-});
-
-Route::get("/video", function () {
-    /*
-        EN-US: Performs the processing of several mp4 files and delivers it as a single mp4 file
-        -
-        PT-BR: Executa o processamento de vários arquivos mp4 e o entrega como um único arquivo mp4
-    */
-    output()
-        ->fopen(folder_storage("split_video.mp4/"))
-        ->name("video.mp4")
-        //->download(2)
-        ->go();
-});
-
 Route::get("/math/add/{nums:array}", function (array $nums) {
     /*
         EN-US: Including the "math" helper    
@@ -168,6 +130,53 @@ Route::get("/math/add/{nums:array}", function (array $nums) {
         "nums" => implode(" + ", $nums),
         "sum" => \math\add(...$nums)
     ];
+});
+
+/*
+    EN-US: Defines a group of routes based on the `$path` entered.
+    -
+    PT-BR: Define um grupo de rotas com base no `$path` inserido.
+*/
+Route::group("/api/v1", function () {
+
+    Route::get("/text", function () {
+        /*
+            EN-US: Provides the contents of a txt file
+            -
+            PT-BR: Fornece o conteúdo de um arquivo `text.txt`
+        */
+        output()
+            ->fopen(folder_storage("text.txt"))
+            ->name("text.txt")
+            ->bitrate(256)
+            ->go();
+    });
+
+    Route::get("/video/stream", function () {
+        /*
+            EN-US: Performs the processing of several mp4 files and delivers it as a stream
+            -
+            PT-BR: Executa o processamento de vários arquivos mp4 e o entrega como um fluxo (stream)
+        */
+        output()
+            ->fopen(folder_storage("split_video.mp4/"))
+            ->name("video.mp4")
+            ->go(true);
+    });
+
+    Route::get("/video", function () {
+        /*
+            EN-US: Performs the processing of several mp4 files and delivers it as a single mp4 file
+            -
+            PT-BR: Executa o processamento de vários arquivos mp4 e o entrega como um único arquivo mp4
+        */
+        output()
+            ->fopen(folder_storage("split_video.mp4/"))
+            ->name("video.mp4")
+            //->download(2)
+            ->go();
+    });
+
 });
 
 /*

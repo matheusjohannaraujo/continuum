@@ -91,7 +91,7 @@ class ContactController
     public function show(int $id, array $CONFIG = ["method" => "GET"])
     {
         return $this->contactService->findId($id)->toArray();
-    }   
+    }
 
     // Update a single contact
     public function update(int $id, array $CONFIG = ["method" => "PUT", "csrf" => true])

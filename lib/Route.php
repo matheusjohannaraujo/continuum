@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-16
+	Date: 2021-03-28
 */
 
 namespace Lib;
@@ -20,9 +20,10 @@ use Lib\DataManager;
 class Route
 {
 
-    public static $in;
-    public static $out;
-    public static $route;
+    public static $in = null;
+    public static $out = null;
+    public static $route = null;
+    private static $groupPath = null;
 
     public static function init()
     {
@@ -171,40 +172,6 @@ class Route
         }
         return $search;
     }
-
-    /* OLD VERSION
-    public static function link(string $path = "", array $params = [])
-    {
-        $route_name_exist = self::matchPath($path);
-        if (!$route_name_exist) {
-            self::createAllRoutesStartingFromControllerAndMethod();
-            $route_name_exist = self::matchPath($path);
-        }
-        if ($route_name_exist) {
-            $path = $route_name_exist;
-        }
-        $link = URI::base(true);
-        $inc = self::stringCountReg($path, "({.+?}/?)");
-        if ($inc <= 0) {
-            if ($path[0] != "/") {
-                $path = "/" . $path;
-            }
-            $link .= $path;
-        } else if ($inc > 0) {
-            $pathParts = self::pathArray($path);
-            $i = 0;
-            foreach ($pathParts as $key => $pathPart) {
-                // dumpd($pathParts);
-                if ($pathPart["var"] === false) {
-                    $link .= "/" . $pathPart["name"];
-                } else if ($pathPart["var"] === true && $pathPart["req"] === true) {
-                    $link .= "/" . ($params[$i++] ?? die("Param `" . $pathPart["name"] . "` not found"));
-                }
-            }
-        }
-        // dumpd($path, $link);
-        return $link;
-    }*/
 
     public static function link(string $path = "", array $params = [])
     {
@@ -475,6 +442,9 @@ class Route
 
     private static function defRoute(string $method, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
+        if (self::$groupPath !== null) {
+            $path = self::$groupPath . $path;
+        }
         self::$route[] = [
             "method" => strtoupper($method),
             "path" => $path,
@@ -532,6 +502,13 @@ class Route
         return $result;
     }
 
+    public static function group(string $path, callable $action)
+    {
+        self::$groupPath = $path;
+        $action();
+        self::$groupPath = null;
+    }
+
     private static function runRoute()
     {
         $result = false;
@@ -584,6 +561,9 @@ class Route
             }
             die(base64_encode($script));
         })::jwt(true);
+        self::any("/page_message/{status_code:int}", function(int $status_code) {
+            self::$out->page($status_code);
+        });
         if (!self::runRoute()) {
             $uri = self::uri();
             $path = DataManager::path(realpath(__DIR__ . "/../public") . "/$uri");
@@ -612,7 +592,7 @@ class Route
             // dumpd(self::$route);
             if (!self::runRoute()) {
                 // If no route is served, it returns an html page containing the 404 error.
-                self::$out->page404();
+                self::$out->page405();
             }
         }
     }
@@ -673,7 +653,7 @@ class Route
 
     private static function createAllRoutesStartingFromControllerAndMethod()
     {
-        $controllers = self::getAllControllersAndMethods(input_env("GENERATE_SIGNED_CONTROLLER_ROUTES_ONLY", true));
+        $controllers = self::getAllControllersAndMethods(input_env("GENERATE_SIGNED_CONTROLLER_ROUTES_ONLY", false));
         $route_backup = self::$route;
         self::$route = [];
         for ($i = 0, $j = count($controllers); $i < $j; $i++) { 

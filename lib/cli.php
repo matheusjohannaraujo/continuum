@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-24
+	Date: 2021-03-28
 */
 
 define("CLI", true);
@@ -56,25 +56,25 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("Home", "25853b0d5f78582c29cf65792a18a866", $baseDomain . "/");
+    fun_test_route("/", "9d99ab58f34bfb46a476055b1c23e6ab", $baseDomain . "/");
     echo "\r\n";
-    fun_test_route("Route 1", "4c8299e70fbaea4664f8935e6c15d474", $baseDomain . "/contact");
+    fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";
-    fun_test_route("Route 2", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
+    fun_test_route("/json", "c372e4a0e7030dcc334c53dbe74e95f7", $baseDomain . "/json");
     echo "\r\n";
-    fun_test_route("Route 3", "c372e4a0e7030dcc334c53dbe74e95f7", $baseDomain . "/json");
+    fun_test_route("/auth", "c7b55c93fbffa43912d8c0a46bf72ee1", $baseDomain . "/auth");
     echo "\r\n";
-    fun_test_route("Route 4", "c7b55c93fbffa43912d8c0a46bf72ee1", $baseDomain . "/auth");
+    fun_test_route("/jwt", "4ac340b1ea55ad5426f0fd9335b98bd1", $baseDomain . "/jwt");
     echo "\r\n";
-    fun_test_route("Route 5", "4ac340b1ea55ad5426f0fd9335b98bd1", $baseDomain . "/jwt");
+    fun_test_route("/math/add/3/5", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "/math/add/3/5");
     echo "\r\n";
-    fun_test_route("Route 6", "52c761fef871620b5f6c537552671825", $baseDomain . "/text");
+    fun_test_route("/api/v1/text", "52c761fef871620b5f6c537552671825", $baseDomain . "/api/v1/text");
     echo "\r\n";
-    fun_test_route("Route 7", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/video/stream");
+    fun_test_route("/api/v1/video", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video");
     echo "\r\n";
-    fun_test_route("Route 8", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/video");
+    fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video/stream");
     echo "\r\n";
-    fun_test_route("Route 9", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "/math/add/3/5");
+    fun_test_route("/contact", "41cdf995d47aa5229674094d39fa7788", $baseDomain . "/contact");
 }
 
 function fun_create_app_file(string $class, string $content, string $pathFile)
