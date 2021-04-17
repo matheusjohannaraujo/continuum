@@ -14,6 +14,8 @@
 
 > Para instalar as dependências através do composer, use o comando: `composer db-require`
 
+> Execute o esquema `config` para configurar e criar as tabelas, use o comando: `php adm d config`
+
 > Se você deseja desinstalar o Eloquent ORM, use o comando: `composer db-remove`
 
 ### Definindo Esquema

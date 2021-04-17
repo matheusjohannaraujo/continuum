@@ -14,6 +14,8 @@
 
 > To install the dependencies through composer, use the command: `composer db-require`
 
+> Run the `config` scheme to configure and create the tables, use the command: `php adm d config`
+
 > If you want to uninstall Eloquent ORM, use the command: `composer db-remove`
 
 ### Defining Schemas

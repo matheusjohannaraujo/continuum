@@ -11,9 +11,10 @@
         },
         "files": [
             "app/common.php",
-            "lib/helpers.php",
+            "lib/dump.php",
             "lib/work.php",
-            "lib/Promise.php"
+            "lib/Promise.php",
+            "lib/helpers.php"            
         ]
     },
     "scripts": {
