@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-28
+	Date: 2021-05-23
 */
 
 define("CLI", true);
@@ -521,6 +521,9 @@ Disallow:
 function fun_update_project()
 {
     $folderActual = DataManager::path(realpath(__DIR__ . "/../"));
+    if (DataManager::exist($folderActual . ".git") == "FOLDER") {        
+        exit(shell_exec("cd $folderActual && git pull"));
+    }
     $folderUpdate = DataManager::path($folderActual . "makemvcss-master/");
     echo "\r\n";
     echo cli_text_color(" Dir actual: " . $folderActual);
