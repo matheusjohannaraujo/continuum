@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-04-17
+	Date: 2021-06-20
 */
 
 use Lib\AES_256;
@@ -771,35 +771,6 @@ function parse_array_object_to_array($array)
 }
 
 /**
- * 
- * **Function -> curl_http_post**
- *
- * EN-US: Returns the result of an HTTP request using the POST method.
- * 
- * PT-BR: Retorna o resultado de uma solicitação HTTP usando o método POST.
- * 
- * @param string $action
- * @param array $data
- * @param bool $content_type_is_json [optional]
- * @return mixed|array
- */
-function curl_http_post(string $action, array $data, bool $content_type_is_json = false)
-{
-    $cURL = curl_init();
-    curl_setopt($cURL, CURLOPT_URL, $action);
-    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($cURL, CURLOPT_POST, true);
-    if ($content_type_is_json) {
-        curl_setopt($cURL, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        $data = json_encode($data);
-    }
-    curl_setopt($cURL, CURLOPT_POSTFIELDS, $data);
-    $output = curl_exec($cURL);
-    curl_close($cURL);
-    return json_decode($output) ?? $output;
-}
-
-/**
  *
  * **Function -> decamelize**
  *
@@ -1083,9 +1054,7 @@ function get_mime_type(string $ext)
  * @return mixed
  */
 function I18N(string $lang, string $key, $default_value = null) {
-    $key = str_replace("-", "_", $key);
     if (!isset(__I18N__[$key]) || !isset(__I18N__[$key][$lang])) {
-        // return "################################### $key ####################################";
         return $default_value;
     } 
     return __I18N__[$key][$lang];
@@ -1130,6 +1099,35 @@ function I18N_session(string $key, $default_value = null) {
 }
 
 /**
+ * 
+ * **Function -> curl_http_post**
+ *
+ * EN-US: Returns the result of an HTTP request using the POST method.
+ * 
+ * PT-BR: Retorna o resultado de uma solicitação HTTP usando o método POST.
+ * 
+ * @param string $action
+ * @param array $data
+ * @param bool $content_type_is_json [optional]
+ * @return mixed|array
+ */
+function curl_http_post(string $action, array $data, bool $content_type_is_json = false)
+{
+    $cURL = curl_init();
+    curl_setopt($cURL, CURLOPT_URL, $action);
+    curl_setopt($cURL, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($cURL, CURLOPT_POST, true);
+    if ($content_type_is_json) {
+        curl_setopt($cURL, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+        $data = json_encode($data);
+    }
+    curl_setopt($cURL, CURLOPT_POSTFIELDS, $data);
+    $output = curl_exec($cURL);
+    curl_close($cURL);
+    return json_decode($output) ?? $output;
+}
+
+/**
  * GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
  * Country: Brasil
  * State: Pernambuco
@@ -1143,16 +1141,16 @@ function I18N_session(string $key, $default_value = null) {
  *  - https://thiagosantos.com/blog/623/php/php-curl-timeout-e-connecttimeout
  *
  * @param string|array $script
- * @param string|null $thread_http [optional, default = null]
  * @param bool $waitResponse [optional, default = true]
  * @param bool $infoRequest [optional, default = false]
+ * @param string|null $thread_http [optional, default = null]
  * @return array
  */
 function thread_parallel(
     $script,
-    ?string $thread_http = null,
     bool $waitResponse = true,
-    bool $infoRequest = false
+    bool $infoRequest = false,
+    ?string $thread_http = null
 ) :array
 {
     if (is_string($script)) {

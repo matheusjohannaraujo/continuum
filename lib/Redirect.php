@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2020-10-24
+	Date: 2020-06-20
 */
 
 namespace Lib;
@@ -47,7 +47,7 @@ class Redirect
         } else {
             die(json_encode([
                 "error" => "Redirect->back()",
-                "input" => session()->get_input()
+                "input" => session()
             ]));
         }
     }

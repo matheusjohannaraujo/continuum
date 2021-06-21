@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=7.2.5"
+        "php": ">=7.2.5"     
     },
     "autoload": {
         "psr-4": {
@@ -20,7 +20,7 @@
     "scripts": {
         "db-require": "composer require illuminate/events illuminate/database illuminate/support",
         "db-remove": "composer remove illuminate/events illuminate/database illuminate/support",
-        "db-install": "composer db-require",
-        "db-uninstall": "composer db-remove"
+        "ext-require": "composer require ext-curl:* ext-fileinfo:* ext-intl:* ext-gd:* ext-openssl:* ext-ftp:* ext-pdo_sqlite:* ext-pdo_mysql:* ext-pdo_pgsql:* --ignore-platform-reqs",
+        "ext-remove": "composer remove ext-curl ext-fileinfo ext-intl ext-gd ext-openssl ext-ftp ext-pdo_sqlite ext-pdo_mysql ext-pdo_pgsql"
     }
 }
