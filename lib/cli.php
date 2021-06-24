@@ -521,9 +521,9 @@ Disallow:
 function fun_update_project()
 {
     $folderActual = DataManager::path(realpath(__DIR__ . "/../"));
-    if (DataManager::exist($folderActual . ".git") == "FOLDER") {        
+    /*if (DataManager::exist($folderActual . ".git") == "FOLDER") {        
         exit(shell_exec("cd $folderActual && git pull"));
-    }
+    }*/
     $folderUpdate = DataManager::path($folderActual . "makemvcss-master/");
     echo "\r\n";
     echo cli_text_color(" Dir actual: " . $folderActual);
