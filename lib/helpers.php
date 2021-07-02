@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-06-20
+	Date: 2021-07-02
 */
 
 use Lib\AES_256;
@@ -1132,7 +1132,7 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  * Country: Brasil
  * State: Pernambuco
  * Developer: Matheus Johann Araujo
- * Date: 2020-12-30
+ * Date: 2021-07-02
  *
  * Código construído com base nos links abaixo.
  *  - https://www.toni-develops.com/2017/09/05/curl-multi-fetch
@@ -1142,14 +1142,14 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  *
  * @param string|array $script
  * @param bool $waitResponse [optional, default = true]
- * @param bool $infoRequest [optional, default = false]
+ * @param bool $infoRequest [optional, default = true]
  * @param string|null $thread_http [optional, default = null]
  * @return array
  */
 function thread_parallel(
     $script,
     bool $waitResponse = true,
-    bool $infoRequest = false,
+    bool $infoRequest = true,
     ?string $thread_http = null
 ) :array
 {
@@ -1170,29 +1170,31 @@ function thread_parallel(
         }
         $thread_http = action("thread_http");
     }
-    if (!$waitResponse) {
+    if (!$waitResponse) { // Requisição sem espera de resposta
         foreach ($script as $key => $value) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $thread_http);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, [
                 "_jwt" => $token,
                 "script" => base64_encode(trim($value))
             ]);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             // Tempo em que o client pode aguardar para conectar no server
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
             // Tempo em que o solicitante espera por uma resposta
             curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
-            curl_exec($ch);
+            $response = base64_decode($aes->decrypt_cbc(curl_exec($ch)));
             $script[$key] = [
-                "response" => null,
+                "await" => false,
+                "response" => empty($response) ? null : $response,
                 "error" => curl_errno($ch) ? curl_error($ch) : null,
                 "info" => $infoRequest ? curl_getinfo($ch) : null
             ];
             curl_close($ch);
         }
-    } else {
+    } else { // Requisição com espera da resposta
         // Inicializa um multi-curl handle
         $mch = curl_multi_init();
         foreach ($script as $key => $value) {
@@ -1216,9 +1218,10 @@ function thread_parallel(
         } while($active > 0);
         foreach ($script as $key => $ch) {
             $script[$key] = [
-                "response" => base64_decode(curl_multi_getcontent($ch)),// Acessa a resposta de cada requisição
+                "await" => true,
+                "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
                 "error" => curl_errno($ch) ? curl_error($ch) : null,
-                "info" => $infoRequest ? curl_getinfo($ch) : null
+                "info" => $infoRequest ? curl_getinfo($ch) : null                
             ];
             // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
             curl_multi_remove_handle($mch, $ch);

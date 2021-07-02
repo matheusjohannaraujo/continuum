@@ -41,8 +41,8 @@
 >> #### Attention: This Framework was built to be used on Apache server, however it works on Nginx and IIS.
 
 >> ```
->> The framework uses the Apache Server rewrite through HTACCESS, on servers
->> Nginx and IIS some of the features present in HTACCESS may not work.
+>> The framework uses the Apache Server rewrite through HTACCESS,
+>> on IIS and Nginx servers the framework may not work correctly.
 >> ```
 
 <hr>

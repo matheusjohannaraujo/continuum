@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-28
+	Date: 2021-07-02
 */
 
 namespace Lib;
@@ -540,63 +540,6 @@ class Route
         return $result;
     }
 
-    public static function on()
-    {
-        self::post("/thread_http", function() {
-            // GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
-            $script = input_post("script", "");
-            if (!empty($script)) {
-                ob_start();
-                try {
-                    $aes = new AES_256;
-                    $script = base64_decode($script);
-                    $script = $aes->decrypt_cbc($script);
-                    eval($script);
-                } catch (\Throwable $th) {
-                    var_export($th);
-                }
-                $script = ob_get_clean();
-            } else {
-                $script = "";
-            }
-            die(base64_encode($script));
-        })::jwt(true);
-        self::any("/page_message/{status_code:int}", function(int $status_code) {
-            self::$out->page($status_code);
-        });
-        if (!self::runRoute()) {
-            $uri = self::uri();
-            $path = DataManager::path(realpath(__DIR__ . "/../public") . "/$uri");
-            // dumpd($uri, $path);
-            if (DataManager::exist($path) && $uri != "" && $uri != "/") {
-                $uri = URI::base() . "public/" . $uri;
-                redirect()->to($uri);
-            }
-            if (input_env("ENV") === "development") {
-                self::any("/routes/all/json/{method:string?}", function (string $method = "") {
-                    return self::routesDump($method);
-                });
-                self::any("/routes/all/{method:string?}", function (string $method = "") {
-                    dumpd(self::routesDump($method));
-                });
-            }
-            self::createAllRoutesStartingFromControllerAndMethod();
-            if (input_env("AUTO_VIEW_ROUTE")) {
-                $avrs = self::getAllAutoViewRoutes();
-                self::generateAutoViewRoutes($avrs);
-                // dumpd($avrs, self::$route);
-            }
-            if (($action = input_env("INIT_ACTION_APP")) !== null) {
-                self::any("/", $action);
-            }            
-            // dumpd(self::$route);
-            if (!self::runRoute()) {
-                // If no route is served, it returns an html page containing the 404 error.
-                self::$out->page405();
-            }
-        }
-    }
-
     private static function getAllAutoViewRoutes()
     {
         $folderViewName = input_env("NAME_FOLDER_VIEWS");
@@ -661,6 +604,62 @@ class Route
         }
         // dumpd(self::$route);
         self::$route = array_merge(self::$route, $route_backup);
+    }
+
+    public static function on()
+    {
+        self::post("/thread_http", function() {
+            // GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
+            $aes = new AES_256;
+            $script = input_post("script", "");
+            if (!empty($script)) {
+                ob_start();
+                try {
+                    $script = $aes->decrypt_cbc(base64_decode($script));
+                    eval($script);
+                } catch (\Throwable $th) {
+                    var_dump($th);
+                }
+                $script = ob_get_clean();
+            } else {
+                $script = "";
+            }            
+            die($aes->encrypt_cbc(base64_encode($script)));
+        })::jwt(true);
+        self::any("/page_message/{status_code:int}", function(int $status_code) {
+            self::$out->page($status_code);
+        });
+        if (!self::runRoute()) {
+            $uri = self::uri();
+            $path = DataManager::path(realpath(__DIR__ . "/../public") . "/$uri");
+            // dumpd($uri, $path);
+            if (DataManager::exist($path) && $uri != "" && $uri != "/") {
+                $uri = URI::base() . "public/" . $uri;
+                redirect()->to($uri);
+            }
+            if (input_env("ENV") === "development") {
+                self::any("/routes/all/json/{method:string?}", function (string $method = "") {
+                    return self::routesDump($method);
+                });
+                self::any("/routes/all/{method:string?}", function (string $method = "") {
+                    dumpd(self::routesDump($method));
+                });
+            }
+            self::createAllRoutesStartingFromControllerAndMethod();
+            if (input_env("AUTO_VIEW_ROUTE")) {
+                $avrs = self::getAllAutoViewRoutes();
+                self::generateAutoViewRoutes($avrs);
+                // dumpd($avrs, self::$route);
+            }
+            if (($action = input_env("INIT_ACTION_APP")) !== null) {
+                self::any("/", $action);
+            }            
+            // dumpd(self::$route);
+            if (!self::runRoute()) {
+                // If no route is served, it returns an html page containing the 404 error.
+                self::$out->page405();
+            }
+        }
     }
 
 }
