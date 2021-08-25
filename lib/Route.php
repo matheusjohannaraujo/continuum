@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-07-02
+	Date: 2021-08-25
 */
 
 namespace Lib;
@@ -296,10 +296,24 @@ class Route
             $csrf = &$route["csrf"];
             $jwt = &$route["jwt"];            
             $cache_seconds = &$route["cache"];
-            unset($route["arg"]);
             unset($route["uri"]);
-            unset($route["isRoute"]);
-            if ($isRoute) {
+            /*unset($route["arg"]);            
+            unset($route["isRoute"]);*/
+            if ($isRoute) {                
+                self::$in->setArg($arg);
+                $middleware = $route["middleware"][0];
+                $closure = $route["middleware"][1];
+                if (!empty($middleware)) {
+                    if (is_callable($middleware)) {
+                        if (!$middleware($route, $closure)) {
+                            self::$out->pageMiddleware();
+                        }                        
+                    } else if (is_string($middleware)) {
+                        if (!callClassMethod(verifyClassMethod($middleware), $route, $closure)) {
+                            self::$out->pageMiddleware();
+                        }
+                    }
+                }
                 if ($csrf && !CSRF::valid()) {
                     self::$out->pageCSRF();
                 }
@@ -307,7 +321,6 @@ class Route
                     self::$out->pageJWT();
                 }
                 $result = "";
-                self::$in->setArg($arg);
                 self::$out->cache("R:${path}", $cache_seconds);
                 if (is_callable($action)) {
                     $result = $action(...array_values(self::$in->paramArg()));
@@ -440,6 +453,15 @@ class Route
         return __CLASS__;
     }
 
+    public static function middleware($middleware, \Closure $closure = null)
+    {
+        $index = count(self::$route) - 1;
+        if ($index >= 0) {
+            self::$route[$index]["middleware"] = [$middleware, ($closure ?? function($args) { return $args; })];
+        }
+        return __CLASS__;
+    }
+
     private static function defRoute(string $method, string $path, $action, string $name = null, bool $csrf = false, bool $jwt = false, int $cache_seconds = -1)
     {
         if (self::$groupPath !== null) {
@@ -454,6 +476,9 @@ class Route
             "csrf" => (int) $csrf,
             "jwt" => (int) $jwt,
             "cache" => (int) $cache_seconds,
+            "arg" => [],
+            "isRoute" => false,
+            "middleware" => null
         ];
         return __CLASS__;
     }
@@ -525,17 +550,19 @@ class Route
         return $result;
     }
 
-    private static function routesDump(string $method = "")
+    private static function routesDump(array $arrayMethod)
     {
-        $method = strtoupper($method);
         $result = [];
-        foreach (self::$route as $key => $route) {
-            if ($method === $route["method"] || empty($method)) {
-                if ($route["type"] == "closure") {
-                    $route["action"] = "function";
+        for ($i = 0; $i < count($arrayMethod); $i++) { 
+            $method = strtoupper($arrayMethod[$i]);
+            foreach (self::$route as $key => $route) {
+                if ($method === $route["method"] || empty($method)) {
+                    if ($route["type"] == "closure") {
+                        $route["action"] = "function";
+                    }
+                    $result[] = $route;
                 }
-                $result[] = $route;
-            }
+            }    
         }
         return $result;
     }
@@ -638,11 +665,11 @@ class Route
                 redirect()->to($uri);
             }
             if (input_env("ENV") === "development") {
-                self::any("/routes/all/json/{method:string?}", function (string $method = "") {
-                    return self::routesDump($method);
+                self::any("/routes/all/json/{method:array?}", function (array $arrayMethod = [""]) {
+                    return self::routesDump($arrayMethod);
                 });
-                self::any("/routes/all/{method:string?}", function (string $method = "") {
-                    dumpd(self::routesDump($method));
+                self::any("/routes/all/{method:array?}", function (array $arrayMethod = [""]) {
+                    dumpd(self::routesDump($arrayMethod));
                 });
             }
             self::createAllRoutesStartingFromControllerAndMethod();

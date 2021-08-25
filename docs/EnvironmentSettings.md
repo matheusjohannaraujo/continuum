@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.2.6
+VERSION=4.3.1
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -26,8 +26,8 @@ TIMEZONE=America/Sao_Paulo
 # EN-US: Defines the main language to be used for internationalization (I18N)
 # PT-BR: Define o idioma principal a ser usado para internacionalização (I18N)
 #-----------------------------------------------------------------------------------------------------
-# MAIN_LANGUAGE=pt-br
 MAIN_LANGUAGE=en-us
+# MAIN_LANGUAGE=pt-br
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US:
@@ -91,7 +91,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para Microsoft SQL Server
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=sqlsrv
-# DB_DATABASE=makemvcss
+# DB_DATABASE=database
 # DB_HOST=localhost
 # DB_PORT=1433
 # DB_USERNAME=root
@@ -102,7 +102,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para PostgreSQL
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=pgsql
-# DB_DATABASE=makemvcss
+# DB_DATABASE=database
 # DB_HOST=localhost
 # DB_PORT=5432
 # DB_USERNAME=root
@@ -113,7 +113,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para MySQL ou MariaDB
 #-----------------------------------------------------------------------------------------------------
 # DB_CONNECTION=mysql
-# DB_DATABASE=makemvcss
+# DB_DATABASE=database
 # DB_HOST=localhost
 # DB_PORT=3306
 # DB_USERNAME=root
@@ -127,7 +127,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para SQLite
 #-----------------------------------------------------------------------------------------------------
 DB_CONNECTION=sqlite
-DB_DATABASE=makemvcss
+DB_DATABASE=database
 ```
 
 ### [Back to the previous page](./DOC-EU.md) | [Voltar para página anterior](./DOC.md)

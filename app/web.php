@@ -130,7 +130,7 @@ Route::get("/math/add/{nums:array}", function (array $nums) {
         "nums" => implode(" + ", $nums),
         "sum" => \math\add(...$nums)
     ];
-});
+})::middleware("App\Middlewares\Example::handle");
 
 /*
     EN-US: Defines a group of routes based on the `$path` entered.

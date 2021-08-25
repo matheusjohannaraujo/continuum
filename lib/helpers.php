@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-07-02
+	Date: 2021-08-25
 */
 
 use Lib\AES_256;
@@ -1232,4 +1232,71 @@ function thread_parallel(
         curl_multi_close($mch);
     }
     return $script;
+}
+
+/**
+ * 
+ * **Function -> verifyClassMethod**
+ *
+ * EN-US: Returns an array containing the scan result of a class/method that was informed in the string.
+ * 
+ * PT-BR: Retorna uma matriz contendo o resultado da verificação de uma classe/método informada na string.
+ * 
+ * @param string $ClassMethod (Namespace\Class@Method, Namespace\Class->Method, Namespace\Class::Method)
+ * @return array
+*/
+function verifyClassMethod(string $ClassMethod) :array
+{
+    $caracs = ["@", "::", "->"];
+    $carac = null;
+    for ($i = 0; $i < count($caracs); $i++) { 
+        if (strpos($ClassMethod, $caracs[$i]) !== false) {
+            $carac = $caracs[$i];
+        }
+    }
+    if ($carac !== null) {
+        $ClassMethod = explode($carac, $ClassMethod);
+        if (!class_exists($ClassMethod[0]) || !method_exists($ClassMethod[0], $ClassMethod[1])) {
+            $ClassMethod = [null, null];
+        }
+    } else {
+        $ClassMethod = [null, null];
+    }
+    return [
+        "class" => $ClassMethod[0],
+        "method" => $ClassMethod[1],
+        "carac" => $carac
+    ];
+}
+
+/**
+ * 
+ * **Function -> callClassMethod**
+ *
+ * EN-US: Returns the result of the call of a method in a class. The first informed parameter should be in the standard returned by Function `VerifyClassMethod`.
+ * 
+ * PT-BR: Retorna o resultado da chamada de um método em uma classe. O primeiro parâmetro informado deve estar no padrão retornado pela função `verifyclassmethod`.
+ * 
+ * @param array $returnVerifyClassMethod
+ * @param array $argsMethod [optional, default = null]
+ * @param array $argsConstructor [optional, default = null]
+ * @return array
+*/
+function callClassMethod(array $returnVerifyClassMethod, array $argsMethod = [], array $argsConstructor = [])
+{
+    if (
+        $returnVerifyClassMethod["class"] === null ||
+        $returnVerifyClassMethod["method"] === null ||
+        $returnVerifyClassMethod["carac"] === null
+    ) {
+        return;
+    }
+    $class = $returnVerifyClassMethod["class"];
+    $method = $returnVerifyClassMethod["method"];
+    $carac = $returnVerifyClassMethod["carac"];
+    if ($carac == "@" || $carac == "->") {
+        return (new $class(...$argsConstructor))->$method(...$argsMethod);
+    } else if ($returnVerifyClassMethod["carac"] == "::") {
+        return ($class)::$method(...$argsMethod);
+    }
 }

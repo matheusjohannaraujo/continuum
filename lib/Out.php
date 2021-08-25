@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-28
+	Date: 2021-08-25
 */
 
 namespace Lib;
@@ -391,6 +391,25 @@ class Out
             $this->content(view("page_message", [
                 "title" => "401 - JWT UNAUTHORIZED",
                 "body" => "<h1>STATUS CODE: 401 - JWT UNAUTHORIZED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The JWT Token informed is not valid!</h1></marquee>"
+            ]));
+        }
+        $this
+            ->status(401)
+            ->go();
+    }
+
+    public function pageMiddleware()
+    {
+        if (input()->contentTypeIsJSON()) {
+            $this->content([
+                "error" => "MIDDLEWARE UNAUTHORIZED",
+                "status" => 401,
+                "message" => "Sorry, an error occurred. Middleware failed or rejected the request!"
+            ]);
+        } else {
+            $this->content(view("page_message", [
+                "title" => "401 - MIDDLEWARE UNAUTHORIZED",
+                "body" => "<h1>STATUS CODE: 401 - MIDDLEWARE UNAUTHORIZED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. Middleware failed or rejected the request!</h1></marquee>"
             ]));
         }
         $this
