@@ -16,6 +16,7 @@ use Lib\Out;
 use Lib\CSRF;
 use Lib\Controller;
 use Lib\DataManager;
+use function Opis\Closure\{serialize as sopis, unserialize as uopis};
 
 class Route
 {
@@ -642,8 +643,8 @@ class Route
             if (!empty($script)) {
                 ob_start();
                 try {
-                    $script = $aes->decrypt_cbc(base64_decode($script));
-                    eval($script);
+                    $script = uopis($aes->decrypt_cbc(base64_decode($script)));
+                    $script();
                 } catch (\Throwable $th) {
                     var_dump($th);
                 }

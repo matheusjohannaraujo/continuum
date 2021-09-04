@@ -18,6 +18,7 @@ use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
 use Lib\JWT;
+use function Opis\Closure\{serialize as sopis, unserialize as uopis};
 
 /**
  * 
@@ -1135,25 +1136,25 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  *  - https://www.php.net/manual/pt_BR/function.curl-setopt.php
  *  - https://thiagosantos.com/blog/623/php/php-curl-timeout-e-connecttimeout
  *
- * @param string|array $script
+ * @param callable|array[callable] $script
  * @param bool $wait_response [optional, default = true]
+ * @param bool $return_promise [optional, default = true]
  * @param bool $info_request [optional, default = true]
- * @param string|null $thread_http [optional, default = null]
+ * @param string $thread_http [optional, default = null]
  * @return array|Promise
  */
 function thread_parallel(
     $script,
     bool $wait_response = true,
-    bool $info_request = true,
     bool $return_promise = true,
-    ?string $thread_http = null    
-) //:array
-{
-    if (is_string($script)) {
+    bool $info_request = true,
+    ?string $thread_http = null
+) {
+    if (is_callable($script)) {
         $script = [$script];
     }
     if (!is_array($script)) {
-        $script = ['echo "invalid script";'];
+        $script = [function() { echo "invalid script"; }];
     }
     $token = "";
     $jwt = null;
@@ -1164,7 +1165,7 @@ function thread_parallel(
         $token = $jwt->token();
         $aes = new AES_256;
         foreach ($script as $key => $value) {
-            $script[$key] = $aes->encrypt_cbc(trim($value));
+            $script[$key] = $aes->encrypt_cbc(sopis($value));
         }
         $thread_http = action("thread_http");
     }
@@ -1185,12 +1186,15 @@ function thread_parallel(
             curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
             $response = base64_decode($aes->decrypt_cbc(curl_exec($ch)));
             $script[$key] = [
-                "await" => false,
                 "response" => empty($response) ? null : $response,
+                "await" => false,
                 "error" => curl_errno($ch) ? curl_error($ch) : null,
                 "info" => $info_request ? curl_getinfo($ch) : null
             ];
             curl_close($ch);
+        }
+        if (count($script) === 1) {
+            $script = $script[0];
         }
     } else { // Requisição com espera da resposta
         // Inicializa um multi-curl handle
@@ -1207,32 +1211,38 @@ function thread_parallel(
             // Adiciona a requisição channel ($script[$key]) ao multi-curl handle ($mch)
             curl_multi_add_handle($mch, $script[$key]);
         }
+        $result_curl = function () use (&$mch, &$script, &$aes, &$info_request) {
+            foreach ($script as $key => $ch) {
+                $script[$key] = [
+                    "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
+                    "await" => true,
+                    "error" => curl_errno($ch) ? curl_error($ch) : null,
+                    "info" => $info_request ? curl_getinfo($ch) : null
+                ];
+                // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
+                curl_multi_remove_handle($mch, $ch);
+                // Fecha o channel ($ch)
+                curl_close($ch);
+            }
+            // Fecha o multi-curl handle ($mch)
+            curl_multi_close($mch);
+            if (count($script) === 1) {
+                $script = $script[0];
+            }
+        };
         if ($return_promise) {
-            return new Promise(function($resolve, $reject) use (&$mch, &$script, &$aes) {
-                $uidInterval = setInterval(function() use (&$uidInterval, &$resolve, &$mch, &$script, &$aes) {
+            return new Promise(function($resolve, $reject) use (&$result_curl, &$mch, &$script, &$aes) {
+                $uidInterval = setInterval(function() use (&$uidInterval, &$resolve, &$result_curl, &$mch, &$script, &$aes) {
                     $active = null;
                     curl_multi_exec($mch, $active);
                     if ($active > 0) {
                         return;
                     }
                     clearInterval($uidInterval);
-                    foreach ($script as $key => $ch) {
-                        $script[$key] = [
-                            "await" => true,
-                            "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
-                            "error" => curl_errno($ch) ? curl_error($ch) : null,
-                            "info" => $info_request ? curl_getinfo($ch) : null                
-                        ];
-                        // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
-                        curl_multi_remove_handle($mch, $ch);
-                        // Fecha o channel ($ch)
-                        curl_close($ch);
-                    }
-                    // Fecha o multi-curl handle ($mch)
-                    curl_multi_close($mch);
+                    $result_curl();
                     $resolve($script);
                 }, 50);
-            });        
+            });
         }
         // Fica em busy-waiting até que todas as requisições retornem
         do {
@@ -1241,20 +1251,7 @@ function thread_parallel(
             curl_multi_exec($mch, $active);
             usleep(50);
         } while($active > 0);
-        foreach ($script as $key => $ch) {
-            $script[$key] = [
-                "await" => true,
-                "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
-                "error" => curl_errno($ch) ? curl_error($ch) : null,
-                "info" => $info_request ? curl_getinfo($ch) : null                
-            ];
-            // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
-            curl_multi_remove_handle($mch, $ch);
-            // Fecha o channel ($ch)
-            curl_close($ch);
-        }
-        // Fecha o multi-curl handle ($mch)
-        curl_multi_close($mch);
+        $result_curl();
     }
     return $script;
 }

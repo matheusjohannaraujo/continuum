@@ -191,39 +191,23 @@ Route::get("/", "home")::name("home");
     -
     PT-BR: Exemplo Multi-Thread e obtenção do retorno de cada fluxo de execução por meio da biblioteca work.php e Promise.php
 */
-Route::get("/parallel", function () {    
-    thread_parallel('        
-        for ($i = 0; $i < 3; $i++) { 
-            echo PHP_EOL, $i;
-            sleep(1);
-        }
-        echo PHP_EOL;
-    ')->then(function($val) {
-        dumpl($val[0]['response']);
-    });
+Route::get("/parallel", function () {
 
-    thread_parallel('
-        for ($i = 1; $i <= 3; $i++) { 
-            echo PHP_EOL, $i;
-            sleep(1);
-        }
-        echo PHP_EOL;
-    ')->then(function($val) {
-        dumpl($val[0]['response']);
-    });
+    $max_await = 3;
 
-    thread_parallel('
-        for ($i = 3; $i > 0; $i--) { 
-            echo PHP_EOL, $i;
-            sleep(1);
-        }
-        echo PHP_EOL;
-    ')->then(function($val) {
-        dumpl($val[0]['response']);
-    });
+    for ($i = 1; $i <= 5; $i++) {
+        thread_parallel(function() use ($max_await) {
+            echo $await = rand(0, $max_await);
+            sleep($await);
+        })->then(function($val) use ($i) {
+            dumpl("${i}ª Thread: " . $val["response"]);
+        });
+    }
 
-    workWait(function() { usleep(1); });
+    dumpl("workWait: " . workWait(function() { usleep(1); }));
+
     \Lib\Meter::stop(true);
+
 });
 
 /*
