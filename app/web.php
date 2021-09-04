@@ -187,6 +187,46 @@ Route::group("/api/v1", function () {
 Route::get("/", "home")::name("home");
 
 /*
+    EN-US: Multi-Thread example and getting the return of each execution stream through work.php and Promise.php library
+    -
+    PT-BR: Exemplo Multi-Thread e obtenção do retorno de cada fluxo de execução por meio da biblioteca work.php e Promise.php
+*/
+Route::get("/parallel", function () {    
+    thread_parallel('        
+        for ($i = 0; $i < 3; $i++) { 
+            echo PHP_EOL, $i;
+            sleep(1);
+        }
+        echo PHP_EOL;
+    ')->then(function($val) {
+        dumpl($val[0]['response']);
+    });
+
+    thread_parallel('
+        for ($i = 1; $i <= 3; $i++) { 
+            echo PHP_EOL, $i;
+            sleep(1);
+        }
+        echo PHP_EOL;
+    ')->then(function($val) {
+        dumpl($val[0]['response']);
+    });
+
+    thread_parallel('
+        for ($i = 3; $i > 0; $i--) { 
+            echo PHP_EOL, $i;
+            sleep(1);
+        }
+        echo PHP_EOL;
+    ')->then(function($val) {
+        dumpl($val[0]['response']);
+    });
+
+    workWait(function() { usleep(1); });
+    \Lib\Meter::stop(true);
+});
+
+/*
     EN-US: Starts route interpretation process
     -
     PT-BR: Inicia o processo de interpretação das rotas

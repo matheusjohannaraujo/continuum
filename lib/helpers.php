@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-08-25
+	Date: 2021-09-04
 */
 
 use Lib\AES_256;
@@ -1129,11 +1129,6 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
 
 /**
  * GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
- * Country: Brasil
- * State: Pernambuco
- * Developer: Matheus Johann Araujo
- * Date: 2021-07-02
- *
  * Código construído com base nos links abaixo.
  *  - https://www.toni-develops.com/2017/09/05/curl-multi-fetch
  *  - https://imasters.com.br/back-end/non-blocking-asynchronous-requests-usando-curlmulti-e-php
@@ -1141,17 +1136,18 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  *  - https://thiagosantos.com/blog/623/php/php-curl-timeout-e-connecttimeout
  *
  * @param string|array $script
- * @param bool $waitResponse [optional, default = true]
- * @param bool $infoRequest [optional, default = true]
+ * @param bool $wait_response [optional, default = true]
+ * @param bool $info_request [optional, default = true]
  * @param string|null $thread_http [optional, default = null]
- * @return array
+ * @return array|Promise
  */
 function thread_parallel(
     $script,
-    bool $waitResponse = true,
-    bool $infoRequest = true,
-    ?string $thread_http = null
-) :array
+    bool $wait_response = true,
+    bool $info_request = true,
+    bool $return_promise = true,
+    ?string $thread_http = null    
+) //:array
 {
     if (is_string($script)) {
         $script = [$script];
@@ -1160,6 +1156,8 @@ function thread_parallel(
         $script = ['echo "invalid script";'];
     }
     $token = "";
+    $jwt = null;
+    $aes = null;
     if ($thread_http === null) {
         $jwt = new JWT;
         $jwt->exp(time() + 60);
@@ -1170,7 +1168,7 @@ function thread_parallel(
         }
         $thread_http = action("thread_http");
     }
-    if (!$waitResponse) { // Requisição sem espera de resposta
+    if (!$wait_response) { // Requisição sem espera de resposta
         foreach ($script as $key => $value) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $thread_http);
@@ -1190,7 +1188,7 @@ function thread_parallel(
                 "await" => false,
                 "response" => empty($response) ? null : $response,
                 "error" => curl_errno($ch) ? curl_error($ch) : null,
-                "info" => $infoRequest ? curl_getinfo($ch) : null
+                "info" => $info_request ? curl_getinfo($ch) : null
             ];
             curl_close($ch);
         }
@@ -1209,6 +1207,33 @@ function thread_parallel(
             // Adiciona a requisição channel ($script[$key]) ao multi-curl handle ($mch)
             curl_multi_add_handle($mch, $script[$key]);
         }
+        if ($return_promise) {
+            return new Promise(function($resolve, $reject) use (&$mch, &$script, &$aes) {
+                $uidInterval = setInterval(function() use (&$uidInterval, &$resolve, &$mch, &$script, &$aes) {
+                    $active = null;
+                    curl_multi_exec($mch, $active);
+                    if ($active > 0) {
+                        return;
+                    }
+                    clearInterval($uidInterval);
+                    foreach ($script as $key => $ch) {
+                        $script[$key] = [
+                            "await" => true,
+                            "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
+                            "error" => curl_errno($ch) ? curl_error($ch) : null,
+                            "info" => $info_request ? curl_getinfo($ch) : null                
+                        ];
+                        // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
+                        curl_multi_remove_handle($mch, $ch);
+                        // Fecha o channel ($ch)
+                        curl_close($ch);
+                    }
+                    // Fecha o multi-curl handle ($mch)
+                    curl_multi_close($mch);
+                    $resolve($script);
+                }, 50);
+            });        
+        }
         // Fica em busy-waiting até que todas as requisições retornem
         do {
             $active = null;
@@ -1221,7 +1246,7 @@ function thread_parallel(
                 "await" => true,
                 "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
                 "error" => curl_errno($ch) ? curl_error($ch) : null,
-                "info" => $infoRequest ? curl_getinfo($ch) : null                
+                "info" => $info_request ? curl_getinfo($ch) : null                
             ];
             // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
             curl_multi_remove_handle($mch, $ch);
