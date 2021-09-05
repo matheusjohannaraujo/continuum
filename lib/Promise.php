@@ -6,6 +6,9 @@
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
 	Date: 2021-08-29
+    ---------------------------------------------------------------
+    Added function static async in Promise
+    Date: 2021-09-05
 */
 
 class Promise {
@@ -127,6 +130,27 @@ class Promise {
     public function getMonitor() :string
     {
         return $this->monitor;
+    }
+
+    public static function async(callable $main)
+    {
+        return new Promise(function($resolve, $reject) use ($main) {
+            thread_parallel(function () use ($main) {
+                $res = function ($val) {
+                    echo json_encode(["res", $val]);
+                };
+                $rej = function ($val) {
+                    echo json_encode(["rej", $val]);
+                };
+                $main($res, $rej);
+            })->then(function($value) use ($resolve, $reject) {
+                $value = json_decode($value["response"]);
+                if ($value[0] === "res") {
+                    return $resolve($value[1]);
+                }
+                $reject($value[1]);
+            });
+        });
     }
 
 }
