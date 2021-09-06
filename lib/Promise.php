@@ -5,10 +5,10 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-08-29
+	Date: 2021-09-06
     ---------------------------------------------------------------
     Added function static async in Promise
-    Date: 2021-09-05
+    Date: 2021-09-07
 */
 
 class Promise {
@@ -71,7 +71,7 @@ class Promise {
         return $this->self;
     }
 
-    private function run()
+    public function run()
     {
         if ($this->monitor == "undefined") {
             $self = &$this->self;

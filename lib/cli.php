@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-05-23
+	Date: 2021-09-07
 */
 
 define("CLI", true);
@@ -267,6 +267,34 @@ function fun_create_helper(string $nameFile, $require = false)
     fun_create_app_file($class, $content, $pathFile);
 }
 
+function fun_create_middleware(string $nameFile, $require = false)
+{
+    $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
+    $pathinfo = pathinfo($nameFile);
+    $dirname = $pathinfo['dirname'];
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/${folderMiddlewareName}/${dirname}/");
+    if (!DataManager::exist($dircontroller)) {
+        DataManager::folderCreate($dircontroller);
+    }
+    $class = "${nameFile}";
+    $pathFile = "/${folderMiddlewareName}/${class}.php";
+    $content = "<?php
+
+namespace App\\${folderMiddlewareName};
+
+class ${nameFile} {
+
+    public static function handle(\$route, \Closure \$next) :bool
+    {
+        dumpl(\"handle\", \$route);
+        return \$next(rand(0, 1));
+    }
+
+}
+";
+    fun_create_app_file($class, $content, $pathFile);
+}
+
 function fun_create_model(string $nameFile, $require = false)
 {
     if (!$require) {
@@ -419,6 +447,7 @@ function fun_clean_simple_mvcs()
     $folderSchemaName = input_env("NAME_FOLDER_SCHEMAS");
     $folderServiceName = input_env("NAME_FOLDER_SERVICES");
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
+    $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $basedir = __BASE_DIR__ . "/app/";
     DataManager::delete($basedir);
     DataManager::folderCreate($basedir . "${folderSchemaName}");
@@ -427,6 +456,8 @@ function fun_clean_simple_mvcs()
     fun_folder_denied($basedir . "${folderHelperName}/");
     DataManager::folderCreate($basedir . "${folderControllerName}");
     fun_folder_denied($basedir . "${folderControllerName}/");
+    DataManager::folderCreate($basedir . "${folderMiddlewareName}");
+    fun_folder_denied($basedir . "${folderMiddlewareName}/");
     DataManager::folderCreate($basedir . "${folderModelName}");
     fun_folder_denied($basedir . "${folderModelName}/");
     DataManager::folderCreate($basedir . "${folderServiceName}");
@@ -567,6 +598,7 @@ function fun_list_commands()
     $folderSchemaName = input_env("NAME_FOLDER_SCHEMAS");
     $folderServiceName = input_env("NAME_FOLDER_SERVICES");
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
+    $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $version_actual = input_env("VERSION", "very old");
     $env = new ENV;    
     $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/makemvcss/master/.env.example");
@@ -595,6 +627,8 @@ function fun_list_commands()
  php adm server          | php adm s:80       | Start a web server on port 80
  -------------------------------------------------------------------------------------------------------------------
  php adm controller Test | php adm c Test     | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
+ -------------------------------------------------------------------------------------------------------------------
+ php adm middleware Test | php adm mi Test    | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
  -------------------------------------------------------------------------------------------------------------------
  php adm model Test      | php adm m Test     | Creates a file inside the folder \"app/${folderModelName}/Test.php\"
                                               | and another one in \"app/${folderSchemaName}/tests_capsule.php\"
@@ -658,6 +692,10 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
         case "controller":
         case "c":
             fun_create_controller($nameFile, !$require);
+            break;
+        case "middleware":
+        case "mi":
+            fun_create_middleware($nameFile, !$require);
             break;
         case "service":
         case "s":

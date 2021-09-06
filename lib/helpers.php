@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-04
+	Date: 2021-09-07
 */
 
 use Lib\AES_256;
@@ -1266,16 +1266,40 @@ function thread_parallel(
  *
  * @param callable $call
  * @param bool $return [optional, default = true]
- * @return Promise
+ * @return Promise|array
  */
 function async(callable $call, bool $return = true)
 {
-    return new Promise(function($resolve) use ($call, $return) {
-        thread_parallel($call, $return, $return)
-        ->then(function($val) use ($resolve) {
+    $parallel = thread_parallel($call, $return, $return);
+    if (!$return) {
+        return $parallel;
+    }
+    return new Promise(function($resolve) use (&$parallel) {
+        $parallel->then(function($val) use ($resolve) {
             $resolve($val["response"]);
         });
     });
+}
+
+/**
+ *
+ * **Function -> await**
+ *
+ * EN-US: Waits for a Promise to be resolved and returns the result of the execution
+ *
+ * PT-BR: Espera que uma Promise seja resolvida e retorna o resultado da execução
+ *
+ * @param Promise $promise
+ * @return mixed
+ */
+function await(Promise $promise)
+{
+    $promise->run();
+    while ($promise->getMonitor() !== "settled") {
+        workRun();
+        usleep(1);
+    }
+    return $promise->getValue();
 }
 
 /**
