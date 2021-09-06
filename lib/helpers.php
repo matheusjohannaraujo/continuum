@@ -1138,7 +1138,7 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  *
  * @param callable|array[callable] $script
  * @param bool $wait_response [optional, default = true]
- * @param bool $return_promise [optional, default = true]
+ * @param bool $return_promise [optional, default = false]
  * @param bool $info_request [optional, default = true]
  * @param string $thread_http [optional, default = null]
  * @return array|Promise
@@ -1146,7 +1146,7 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
 function thread_parallel(
     $script,
     bool $wait_response = true,
-    bool $return_promise = true,
+    bool $return_promise = false,
     bool $info_request = true,
     ?string $thread_http = null
 ) {
@@ -1254,6 +1254,28 @@ function thread_parallel(
         $result_curl();
     }
     return $script;
+}
+
+/**
+ *
+ * **Function -> async**
+ *
+ * EN-US: Executes a function without blocking the flow of execution
+ *
+ * PT-BR: Executa uma função sem bloquear o fluxo de execução
+ *
+ * @param callable $call
+ * @param bool $return [optional, default = true]
+ * @return Promise
+ */
+function async(callable $call, bool $return = true)
+{
+    return new Promise(function($resolve) use ($call, $return) {
+        thread_parallel($call, $return, $return)
+        ->then(function($val) use ($resolve) {
+            $resolve($val["response"]);
+        });
+    });
 }
 
 /**

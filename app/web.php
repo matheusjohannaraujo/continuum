@@ -187,24 +187,24 @@ Route::group("/api/v1", function () {
 Route::get("/", "home")::name("home");
 
 /*
-    EN-US: Multi-Thread example and getting the return of each execution stream through work.php and Promise.php library
+    EN-US: Asynchronous execution example, getting the return of each execution flow through the work.php and Promise.php library
     -
-    PT-BR: Exemplo Multi-Thread e obtenção do retorno de cada fluxo de execução por meio da biblioteca work.php e Promise.php
+    PT-BR: Exemplo de execução assíncrona, obtendo o retorno de cada fluxo de execução por meio da biblioteca work.php e Promise.php
 */
-Route::get("/parallel", function () {
+Route::get("/async", function () {
 
-    $max_await = 3;
+    $max_await = 5;
 
-    for ($i = 1; $i <= 5; $i++) {
-        thread_parallel(function() use ($max_await) {
-            echo $await = rand(0, $max_await);
+    for ($i = 1; $i <= 8; $i++) {
+        async(function() use ($max_await) {
+            echo $await = rand(2, $max_await);
             sleep($await);
         })->then(function($val) use ($i) {
-            dumpl("${i}ª Thread: " . $val["response"]);
+            dumpl("The async ${i} function took ${val} seconds to run");
         });
     }
 
-    dumpl("workWait: " . workWait(function() { usleep(1); }));
+    dumpl("work wait counter: " . workWait(function() { usleep(1); }));
 
     \Lib\Meter::stop(true);
 

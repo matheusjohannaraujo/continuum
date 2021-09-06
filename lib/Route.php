@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-08-25
+	Date: 2021-09-05
 */
 
 namespace Lib;
@@ -642,13 +642,25 @@ class Route
             $script = input_post("script", "");
             if (!empty($script)) {
                 ob_start();
+                $returned = null;
                 try {
-                    $script = uopis($aes->decrypt_cbc(base64_decode($script)));
-                    $script();
+                    $returned = uopis($aes->decrypt_cbc(base64_decode($script)))();
                 } catch (\Throwable $th) {
                     var_dump($th);
                 }
-                $script = ob_get_clean();
+                $printed = ob_get_clean();
+                if (empty($printed) && empty($returned)) {
+                    $script = "";
+                } else if (!empty($printed) && empty($returned)) {
+                    $script = $printed;
+                } else if (empty($printed) && !empty($returned)) {
+                    $script = $returned;
+                } else {
+                    $script = json_encode([
+                        "printed" => &$printed,
+                        "returned" => &$returned
+                    ]);
+                }
             } else {
                 $script = "";
             }            
