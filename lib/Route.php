@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-05
+	Date: 2021-09-09
 */
 
 namespace Lib;
@@ -637,34 +637,14 @@ class Route
     public static function on()
     {
         self::post("/thread_http", function() {
-            // GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
             $aes = new AES_256;
             $script = input_post("script", "");
-            if (!empty($script)) {
-                ob_start();
-                $returned = null;
-                try {
-                    $returned = uopis($aes->decrypt_cbc(base64_decode($script)))();
-                } catch (\Throwable $th) {
-                    var_dump($th);
-                }
-                $printed = ob_get_clean();
-                if (empty($printed) && empty($returned)) {
-                    $script = "";
-                } else if (!empty($printed) && empty($returned)) {
-                    $script = $printed;
-                } else if (empty($printed) && !empty($returned)) {
-                    $script = $returned;
-                } else {
-                    $script = json_encode([
-                        "printed" => &$printed,
-                        "returned" => &$returned
-                    ]);
-                }
-            } else {
-                $script = "";
-            }            
-            die($aes->encrypt_cbc(base64_encode($script)));
+            $script = base64_decode($script);
+            $script = $aes->decrypt_cbc($script);
+            $script = rpc_thread_parallel($script);           
+            $script = $aes->encrypt_cbc($script);
+            $script = base64_encode($script);
+            return $script;
         })::jwt(true);
         self::any("/page_message/{status_code:int}", function(int $status_code) {
             self::$out->page($status_code);

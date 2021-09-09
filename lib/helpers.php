@@ -5,10 +5,9 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-07
+	Date: 2021-09-09
 */
 
-use Lib\AES_256;
 use Lib\ENV;
 use Lib\URI;
 use Lib\View;
@@ -17,8 +16,6 @@ use Lib\Route;
 use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
-use Lib\JWT;
-use function Opis\Closure\{serialize as sopis, unserialize as uopis};
 
 /**
  * 
@@ -1126,180 +1123,6 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
     $output = curl_exec($cURL);
     curl_close($cURL);
     return json_decode($output) ?? $output;
-}
-
-/**
- * GitHub: https://github.com/matheusjohannaraujo/php_thread_parallel
- * Código construído com base nos links abaixo.
- *  - https://www.toni-develops.com/2017/09/05/curl-multi-fetch
- *  - https://imasters.com.br/back-end/non-blocking-asynchronous-requests-usando-curlmulti-e-php
- *  - https://www.php.net/manual/pt_BR/function.curl-setopt.php
- *  - https://thiagosantos.com/blog/623/php/php-curl-timeout-e-connecttimeout
- *
- * @param callable|array[callable] $script
- * @param bool $wait_response [optional, default = true]
- * @param bool $return_promise [optional, default = false]
- * @param bool $info_request [optional, default = true]
- * @param string $thread_http [optional, default = null]
- * @return array|Promise
- */
-function thread_parallel(
-    $script,
-    bool $wait_response = true,
-    bool $return_promise = false,
-    bool $info_request = true,
-    ?string $thread_http = null
-) {
-    if (is_callable($script)) {
-        $script = [$script];
-    }
-    if (!is_array($script)) {
-        $script = [function() { echo "invalid script"; }];
-    }
-    $token = "";
-    $jwt = null;
-    $aes = null;
-    if ($thread_http === null) {
-        $jwt = new JWT;
-        $jwt->exp(time() + 60);
-        $token = $jwt->token();
-        $aes = new AES_256;
-        foreach ($script as $key => $value) {
-            $script[$key] = $aes->encrypt_cbc(sopis($value));
-        }
-        $thread_http = action("thread_http");
-    }
-    if (!$wait_response) { // Requisição sem espera de resposta
-        foreach ($script as $key => $value) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $thread_http);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, [
-                "_jwt" => $token,
-                "script" => base64_encode(trim($value))
-            ]);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-            // Tempo em que o client pode aguardar para conectar no server
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-            // Tempo em que o solicitante espera por uma resposta
-            curl_setopt($ch, CURLOPT_TIMEOUT_MS, 500);
-            $response = base64_decode($aes->decrypt_cbc(curl_exec($ch)));
-            $script[$key] = [
-                "response" => empty($response) ? null : $response,
-                "await" => false,
-                "error" => curl_errno($ch) ? curl_error($ch) : null,
-                "info" => $info_request ? curl_getinfo($ch) : null
-            ];
-            curl_close($ch);
-        }
-        if (count($script) === 1) {
-            $script = $script[0];
-        }
-    } else { // Requisição com espera da resposta
-        // Inicializa um multi-curl handle
-        $mch = curl_multi_init();
-        foreach ($script as $key => $value) {
-            // Inicializa e seta as opções para cada requisição
-            $script[$key] = curl_init();
-            curl_setopt($script[$key], CURLOPT_URL, $thread_http);
-            curl_setopt($script[$key], CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($script[$key], CURLOPT_POSTFIELDS, [
-                "_jwt" => $token,
-                "script" => base64_encode(trim($value))
-            ]);
-            // Adiciona a requisição channel ($script[$key]) ao multi-curl handle ($mch)
-            curl_multi_add_handle($mch, $script[$key]);
-        }
-        $result_curl = function () use (&$mch, &$script, &$aes, &$info_request) {
-            foreach ($script as $key => $ch) {
-                $script[$key] = [
-                    "response" => base64_decode($aes->decrypt_cbc(curl_multi_getcontent($ch))),// Acessa a resposta de cada requisição
-                    "await" => true,
-                    "error" => curl_errno($ch) ? curl_error($ch) : null,
-                    "info" => $info_request ? curl_getinfo($ch) : null
-                ];
-                // Remove o channel ($ch) da requisição do multi-curl handle ($mch)
-                curl_multi_remove_handle($mch, $ch);
-                // Fecha o channel ($ch)
-                curl_close($ch);
-            }
-            // Fecha o multi-curl handle ($mch)
-            curl_multi_close($mch);
-            if (count($script) === 1) {
-                $script = $script[0];
-            }
-        };
-        if ($return_promise) {
-            return new Promise(function($resolve, $reject) use (&$result_curl, &$mch, &$script, &$aes) {
-                $uidInterval = setInterval(function() use (&$uidInterval, &$resolve, &$result_curl, &$mch, &$script, &$aes) {
-                    $active = null;
-                    curl_multi_exec($mch, $active);
-                    if ($active > 0) {
-                        return;
-                    }
-                    clearInterval($uidInterval);
-                    $result_curl();
-                    $resolve($script);
-                }, 50);
-            });
-        }
-        // Fica em busy-waiting até que todas as requisições retornem
-        do {
-            $active = null;
-            // Executa as requisições definidas no multi-curl handle, e retorna imediatamente o status das requisições
-            curl_multi_exec($mch, $active);
-            usleep(50);
-        } while($active > 0);
-        $result_curl();
-    }
-    return $script;
-}
-
-/**
- *
- * **Function -> async**
- *
- * EN-US: Executes a function without blocking the flow of execution
- *
- * PT-BR: Executa uma função sem bloquear o fluxo de execução
- *
- * @param callable $call
- * @param bool $return [optional, default = true]
- * @return Promise|array
- */
-function async(callable $call, bool $return = true)
-{
-    $parallel = thread_parallel($call, $return, $return);
-    if (!$return) {
-        return $parallel;
-    }
-    return new Promise(function($resolve) use (&$parallel) {
-        $parallel->then(function($val) use ($resolve) {
-            $resolve($val["response"]);
-        });
-    });
-}
-
-/**
- *
- * **Function -> await**
- *
- * EN-US: Waits for a Promise to be resolved and returns the result of the execution
- *
- * PT-BR: Espera que uma Promise seja resolvida e retorna o resultado da execução
- *
- * @param Promise $promise
- * @return mixed
- */
-function await(Promise $promise)
-{
-    $promise->run();
-    while ($promise->getMonitor() !== "settled") {
-        workRun();
-        usleep(1);
-    }
-    return $promise->getValue();
 }
 
 /**

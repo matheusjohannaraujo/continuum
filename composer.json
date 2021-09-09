@@ -12,10 +12,9 @@
         },
         "files": [
             "app/common.php",
-            "lib/dump.php",
-            "lib/work.php",
-            "lib/Promise.php",
-            "lib/helpers.php"            
+            "lib/dump.php",            
+            "lib/helpers.php",
+            "lib/php_timers_promise_async_await_thread.php"
         ]
     },
     "scripts": {
