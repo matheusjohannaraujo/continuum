@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-15
+	Date: 2022-01-13
 */
 
 declare(ticks=1);
@@ -43,7 +43,7 @@ if ((($_GET["adm"] ?? null) == "phpinfo") && file_exists($autoload)) {
 
 if (!file_exists($autoload)) {
 	config_init();
-	shell_exec("composer update");
+	shell_exec("composer update --ignore-platform-reqs");
 }
 
 if (file_exists($autoload)) {

@@ -13,7 +13,7 @@
 # EN-US: Current version number of the MakeMVCSS framework
 # PT-BR: Número da versão atual do framework MakeMVCSS
 #-----------------------------------------------------------------------------------------------------
-VERSION=4.3.1
+VERSION=4.3.7
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -61,6 +61,7 @@ NAME_FOLDER_HELPERS=Helpers
 NAME_FOLDER_SCHEMAS=Schemas
 NAME_FOLDER_SERVICES=Services
 NAME_FOLDER_CONTROLLERS=Controllers
+NAME_FOLDER_MIDDLEWARES=Middlewares
 
 #-----------------------------------------------------------------------------------------------------
 # EN-US: Defines the application entry point, can be a View or a Controller@method

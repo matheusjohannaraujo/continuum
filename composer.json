@@ -12,15 +12,16 @@
         },
         "files": [
             "app/common.php",
-            "lib/dump.php",            
+            "lib/dump.php",
             "lib/helpers.php",
             "lib/php_timers_promise_async_await_thread.php"
         ]
     },
     "scripts": {
+        "update-ignore": "composer update --ignore-platform-reqs",
         "db-require": "composer require illuminate/events illuminate/database illuminate/support",
         "db-remove": "composer remove illuminate/events illuminate/database illuminate/support",
-        "ext-require": "composer require ext-curl:* ext-fileinfo:* ext-intl:* ext-gd:* ext-openssl:* ext-ftp:* ext-pdo_sqlite:* ext-pdo_mysql:* ext-pdo_pgsql:* --ignore-platform-reqs",
+        "ext-require": "composer require --ignore-platform-reqs ext-curl:* ext-fileinfo:* ext-intl:* ext-gd:* ext-openssl:* ext-ftp:* ext-pdo_sqlite:* ext-pdo_mysql:* ext-pdo_pgsql:*",
         "ext-remove": "composer remove ext-curl ext-fileinfo ext-intl ext-gd ext-openssl ext-ftp ext-pdo_sqlite ext-pdo_mysql ext-pdo_pgsql"
     }
 }
