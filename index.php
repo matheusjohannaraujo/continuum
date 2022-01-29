@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-01-13
+	Date: 2022-01-29
 */
 
 declare(ticks=1);
@@ -21,28 +21,29 @@ function config_init()
 	ini_set("memory_limit", "6144M");
 }
 
-/*if ((($_GET["adm"] ?? null) == "unzip") && file_exists($vendor) && is_dir($vendor)) {
-	config_init();
+config_init();
+
+/*
+if ((($_GET["adm"] ?? null) == "phpinfo")) {
+	phpinfo();
+	die;
+}
+
+if ((($_GET["adm"] ?? null) == "unzip") && file_exists($vendor) && is_dir($vendor)) {
 	require_once __DIR__ . "/lib/DataManager.php";
 	\Lib\DataManager::zipUnzipFolder("./vendor/", "unzip");
 	die("End unzip");
 }
 
 if ((($_GET["adm"] ?? null) == "config") && file_exists($autoload)) {
-	config_init();
 	require_once $autoload;
 	require_once __DIR__ . "/lib/db_conn_capsule.php";
-    db_schemas_apply("config");
+	db_schemas_apply("config");
 	die;
 }
-
-if ((($_GET["adm"] ?? null) == "phpinfo") && file_exists($autoload)) {
-	phpinfo();
-	die;
-}*/
+*/
 
 if (!file_exists($autoload)) {
-	config_init();
 	shell_exec("composer update --ignore-platform-reqs");
 }
 
