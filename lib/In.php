@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-03-24
+	Date: 2022-03-09
 */
 
 namespace Lib;
@@ -179,29 +179,54 @@ class In
         return $this;
     }
 
-    public function getParameter($param, $value = null, $valueDefault = null)
+    private $keysOnly = [];
+
+    public function only(array $keys = [])
     {
-        if ($value === null) {
-            return $this->$param;
+        $this->keysOnly = $keys;
+        return $this;
+    }
+
+    public function getParameter($param, $key = null, $valueDefault = null)
+    {
+        if ($key === null) {
+            if (count($this->keysOnly) === 0) {
+                return $this->$param;
+            }
+            $parameter = [];
+            foreach ($this->keysOnly as $key => $value) {
+                if (is_int($key)) {
+                    $key = $value;
+                    $valueDefault = null;
+                } else {
+                    $valueDefault = $value;
+                }
+                $parameter[$key] = $this->$param[$key] ?? $valueDefault;
+            }
+            $this->keysOnly = [];
+            return $parameter;
         } else {
-            return $this->$param[$value] ?? $valueDefault;
+            if (is_array($key)) {
+                return $this->only($key)->getParameter($param);
+            }
+            return $this->$param[$key] ?? $valueDefault;
         }
         return false;
     }
 
-    public function paramArg($value = null, $valueDefault = null)
+    public function paramArg($key = null, $valueDefault = null)
     {
-        return $this->getParameter("arg", $value, $valueDefault);
+        return $this->getParameter("arg", $key, $valueDefault);
     }
 
-    public function paramGet($value = null, $valueDefault = null)
+    public function paramGet($key = null, $valueDefault = null)
     {
-        return $this->getParameter("get", $value, $valueDefault);
+        return $this->getParameter("get", $key, $valueDefault);
     }
 
-    public function paramReq($value = null, $valueDefault = null)
+    public function paramReq($key = null, $valueDefault = null)
     {
-        return $this->getParameter("req", $value, $valueDefault);
+        return $this->getParameter("req", $key, $valueDefault);
     }
 
     public function paramJwt()
@@ -214,29 +239,29 @@ class In
         return $this->auth;
     }
 
-    public function paramPost($value = null, $valueDefault = null)
+    public function paramPost($key = null, $valueDefault = null)
     {
-        return $this->getParameter("post", $value, $valueDefault);
+        return $this->getParameter("post", $key, $valueDefault);
     }
 
-    public function paramJson($value = null, $valueDefault = null)
+    public function paramJson($key = null, $valueDefault = null)
     {
-        return $this->getParameter("json", $value, $valueDefault);
+        return $this->getParameter("json", $key, $valueDefault);
     }
 
-    public function paramFile($value = null, $valueDefault = null)
+    public function paramFile($key = null, $valueDefault = null)
     {
-        return $this->getParameter("file", $value, $valueDefault);
+        return $this->getParameter("file", $key, $valueDefault);
     }
 
-    public function paramEnv($value = null, $valueDefault = null)
+    public function paramEnv($key = null, $valueDefault = null)
     {
-        return $this->getParameter("env", $value, $valueDefault);
+        return $this->getParameter("env", $key, $valueDefault);
     }
 
-    public function paramServer($value = null, $valueDefault = null)
+    public function paramServer($key = null, $valueDefault = null)
     {
-        return $this->getParameter("server", $value, $valueDefault);
+        return $this->getParameter("server", $key, $valueDefault);
     }
 
     public function params()
