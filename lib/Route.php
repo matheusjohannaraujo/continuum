@@ -10,11 +10,10 @@
 
 namespace Lib;
 
-
 use Lib\URI;
 use Lib\CSRF;
-use Lib\Input;
-use Lib\Output;
+use Lib\Request;
+use Lib\Response;
 use Lib\Controller;
 use Lib\DataManager;
 use function Opis\Closure\{serialize as sopis, unserialize as uopis};
@@ -29,8 +28,8 @@ class Route
 
     public static function init()
     {
-        self::$in = new Input;
-        self::$out = new Output;
+        self::$in = new Request;
+        self::$out = new Response;
         self::$route = [];
     }
 
@@ -111,8 +110,6 @@ class Route
                         $_REQUEST[$key] = $val;
                     }
                 }
-                self::$in->setGet($_GET);
-                self::$in->setReq($_REQUEST);
             }
         }
         return self::stringRemoveFinalStripe($uri);
@@ -301,7 +298,7 @@ class Route
             unset($route["uri"]);
             /*unset($route["arg"]);            
             unset($route["isRoute"]);*/
-            if ($isRoute) {                
+            if ($isRoute) {
                 self::$in->setArg($arg);
                 $middleware = $route["middleware"][0];
                 $closure = $route["middleware"][1];
@@ -355,7 +352,7 @@ class Route
                 }                
                 if ($result instanceof Route) {
                     $result->out->go();
-                } else if ($result instanceof Output) {
+                } else if ($result instanceof Response) {
                     $result->go();
                 } else {
                     self::$out

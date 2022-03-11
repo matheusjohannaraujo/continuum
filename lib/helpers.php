@@ -83,17 +83,51 @@ function max_requests_per_minute(int $num_requests, string $name_request)
 
 /**
  * 
- * **Function -> input**
+ * **Function -> request**
  *
- * EN-US: Returns an instance of the class `Input` that is stored in the static
+ * EN-US: Returns an instance of the class `Request` that is stored in the static
  * variable `$in` of the Route class, and that contains the entry of all data in the system.
  * 
- * PT-BR: Retorna uma instância da classe `Input` que é armazenada na variável
+ * PT-BR: Retorna uma instância da classe `Request` que é armazenada na variável
  * estática `$in` da classe `Route` e que contém a entrada de todos os dados no sistema.
  * 
- * @return object Input
+ * @return object Request
  */
-function input() :\Lib\Input
+function request() :\Lib\Request
+{
+    return Route::$in;
+}
+
+/**
+ * 
+ * **Function -> response**
+ *
+ * EN-US: Returns an instance of the class `Response` that is stored in the
+ * Route class static variable `$out`, and that contains the system data output.
+ * 
+ * PT-BR: Retorna uma instância da classe `Response` que é armazenada na variável
+ * estática da classe Route `$out` e que contém a saída de dados do sistema.
+ * 
+ * @return object Response
+ */
+function response() :\Lib\Response
+{
+    return Route::$out;
+}
+
+/**
+ * 
+ * **Function -> input**
+ *
+ * EN-US: Returns an instance of the class `Request` that is stored in the static
+ * variable `$in` of the Route class, and that contains the entry of all data in the system.
+ * 
+ * PT-BR: Retorna uma instância da classe `Request` que é armazenada na variável
+ * estática `$in` da classe `Route` e que contém a entrada de todos os dados no sistema.
+ * 
+ * @return object Request
+ */
+function input() :\Lib\Request
 {
     return Route::$in;
 }
@@ -102,15 +136,15 @@ function input() :\Lib\Input
  * 
  * **Function -> output**
  *
- * EN-US: Returns an instance of the class `Output` that is stored in the
+ * EN-US: Returns an instance of the class `Response` that is stored in the
  * Route class static variable `$out`, and that contains the system data output.
  * 
- * PT-BR: Retorna uma instância da classe `Output` que é armazenada na variável
+ * PT-BR: Retorna uma instância da classe `Response` que é armazenada na variável
  * estática da classe Route `$out` e que contém a saída de dados do sistema.
  * 
- * @return object Output
+ * @return object Response
  */
-function output() :\Lib\Output
+function output() :\Lib\Response
 {
     return Route::$out;
 }

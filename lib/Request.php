@@ -13,7 +13,7 @@ namespace Lib;
 use Lib\ENV;
 use Lib\JWT;
 
-class Input
+class Request
 {
 
     private $arg = [];
@@ -37,6 +37,9 @@ class Input
             ->setPost($_POST)
             ->setFile($_FILES)
             ->setJson();
+        if (\Lib\Route::$in !== null) {
+            $this->setArg(\Lib\Route::$in->paramArg());
+        }
     }
 
     private function headerAuthorization()

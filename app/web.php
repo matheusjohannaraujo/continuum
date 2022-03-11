@@ -65,11 +65,11 @@ use Lib\Route;
 
 Route::get("/template", function () {
     /*
-        EN-US: Defines that this route must serve a maximum of three requests per minute
+        EN-US: Defines that this route must serve a maximum of five requests per minute
         -
-        PT-BR: Define que esta rota deve atender no máximo três solicitações por minuto
+        PT-BR: Define que esta rota deve atender no máximo cinco solicitações por minuto
     */
-    max_requests_per_minute(3, "template");
+    max_requests_per_minute(5, "template");
     /*
         EN-US: Perform data processing on a model and return a string
         -

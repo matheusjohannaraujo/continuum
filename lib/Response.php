@@ -14,7 +14,7 @@ use Lib\Cache;
 use Lib\DataManager;
 use Lib\AVStreamDataManager;
 
-class Output
+class Response
 {
 
     private $status = 200;
