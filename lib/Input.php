@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-09
+	Date: 2022-03-11
 */
 
 namespace Lib;
@@ -13,7 +13,7 @@ namespace Lib;
 use Lib\ENV;
 use Lib\JWT;
 
-class In
+class Input
 {
 
     private $arg = [];

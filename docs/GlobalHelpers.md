@@ -7,20 +7,20 @@
 <hr>
 
 ```text
-EN-US: Returns an instance of the class `In (INPUT)` that is stored in the static
+EN-US: Returns an instance of the class `Input` that is stored in the static
 variable `$in` of the Route class, and that contains the entry of all data in the system
 
-PT-BR: Retorna uma instância da classe `In` (INPUT) que é armazenada na variável
+PT-BR: Retorna uma instância da classe `Input` que é armazenada na variável
 estática `$in` da classe `Route` e que contém a entrada de todos os dados no sistema
 ```
 > ### `input()`
 <hr>
 
 ```text
-EN-US: Returns an instance of the class `Out (OUTPUT)` that is stored in the
+EN-US: Returns an instance of the class `Output` that is stored in the
 Route class static variable `$out`, and that contains the system data output
 
-PT-BR: Retorna uma instância da classe `Out (OUTPUT)` que é armazenada na variável
+PT-BR: Retorna uma instância da classe `Output` que é armazenada na variável
 estática da classe Route `$out` e que contém a saída de dados do sistema
 ```
 > ### `output()`

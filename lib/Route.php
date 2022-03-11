@@ -5,15 +5,16 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-09
+	Date: 2022-03-11
 */
 
 namespace Lib;
 
-use Lib\In;
+
 use Lib\URI;
-use Lib\Out;
 use Lib\CSRF;
+use Lib\Input;
+use Lib\Output;
 use Lib\Controller;
 use Lib\DataManager;
 use function Opis\Closure\{serialize as sopis, unserialize as uopis};
@@ -28,8 +29,8 @@ class Route
 
     public static function init()
     {
-        self::$in = new In;
-        self::$out = new Out;
+        self::$in = new Input;
+        self::$out = new Output;
         self::$route = [];
     }
 
@@ -354,7 +355,7 @@ class Route
                 }                
                 if ($result instanceof Route) {
                     $result->out->go();
-                } else if ($result instanceof Out) {
+                } else if ($result instanceof Output) {
                     $result->go();
                 } else {
                     self::$out

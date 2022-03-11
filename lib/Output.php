@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-08-25
+	Date: 2022-03-11
 */
 
 namespace Lib;
@@ -14,7 +14,7 @@ use Lib\Cache;
 use Lib\DataManager;
 use Lib\AVStreamDataManager;
 
-class Out
+class Output
 {
 
     private $status = 200;
