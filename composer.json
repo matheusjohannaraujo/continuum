@@ -1,7 +1,8 @@
 {
     "require": {
         "php": ">=7.2.5",
-        "opis/closure": "^3.6"
+        "opis/closure": "^3.5",
+        "laravel/serializable-closure": "^1.1"
     },
     "autoload": {
         "psr-4": {

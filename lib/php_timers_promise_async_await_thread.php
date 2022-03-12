@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-10
+	Date: 2022-03-12
 --------------------------------------------------------------------------------------------------------
 EN-US: Include at the beginning of the first file to be interpreted, do not use TICK on a WEB server
 PT-BR: Incluir no início do primeiro arquivo a ser interpretado, não use o TICK em servidor WEB
@@ -22,7 +22,25 @@ PT-BR: Incluir após chamadas programadas (agendadas)
 
 #-------------------------------------------------------------------------------------------------------
 
-use function Opis\Closure\{serialize as sopis, unserialize as uopis};
+// The `serialize_function` and `unserialize_function` functions can be used in PHP versions 7.x and 8.x
+
+function serialize_function(\Closure $callback) {
+    $ver = (float) phpversion();
+    if ($ver >= 7.4) {
+        \Laravel\SerializableClosure\SerializableClosure::setSecretKey('secret');
+        return serialize(new \Laravel\SerializableClosure\SerializableClosure($callback));
+    }
+    return \Opis\Closure\serialize($callback);
+}
+
+function unserialize_function(string $callback) {
+    $ver = (float) phpversion();
+    if ($ver >= 7.4) {
+        \Laravel\SerializableClosure\SerializableClosure::setSecretKey('secret');
+        return unserialize($callback)->getClosure();
+    }
+    return \Opis\Closure\unserialize($callback);
+}
 
 /**
  * Código construído com base nos links abaixo.
@@ -59,7 +77,7 @@ function thread_parallel(
         $thread_http = action("thread_http");
     }
     foreach ($script as $key => $value) {
-        $script[$key] = $aes->encrypt_cbc(sopis($value));
+        $script[$key] = $aes->encrypt_cbc(serialize_function($value));
     }
     if (!$wait_response && !$return_promise) { // Requisição sem espera de resposta
         foreach ($script as $key => $value) {
@@ -166,7 +184,7 @@ function rpc_thread_parallel(string $script)
         ob_start();
         $returned = null;
         try {
-            $returned = uopis($script)();
+            $returned = unserialize_function($script)();
         } catch (\Throwable $th) {
             var_dump($th);
         }
