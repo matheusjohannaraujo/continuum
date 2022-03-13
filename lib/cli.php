@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-09-07
+	Date: 2022-03-12
 */
 
 define("CLI", true);
@@ -56,7 +56,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "9d99ab58f34bfb46a476055b1c23e6ab", $baseDomain . "/");
+    fun_test_route("/", "e671bb35549bd8c18f134482c2523d03", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";
@@ -148,10 +148,10 @@ function fun_create_controller(string $nameFile, bool $require = true)
             | HTTP Verb | ${nameFile}Controller@method   | PATH ROUTE
         ------------------------------------------------------------------------------------------------
             | GET       | ${nameFile}Controller@index    | ${pathroute}/${nameFileLower}/index
-            | POST      | ${nameFile}Controller@create   | ${pathroute}/${nameFileLower}/create
             | GET       | ${nameFile}Controller@new      | ${pathroute}/${nameFileLower}/new
-            | GET       | ${nameFile}Controller@edit     | ${pathroute}/${nameFileLower}/edit/1
+            | POST      | ${nameFile}Controller@create   | ${pathroute}/${nameFileLower}/create
             | GET       | ${nameFile}Controller@show     | ${pathroute}/${nameFileLower}/show/1
+            | GET       | ${nameFile}Controller@edit     | ${pathroute}/${nameFileLower}/edit/1
             | PUT       | ${nameFile}Controller@update   | ${pathroute}/${nameFileLower}/update/1
             | DELETE    | ${nameFile}Controller@destroy  | ${pathroute}/${nameFileLower}/destroy/1
         ------------------------------------------------------------------------------------------------
@@ -167,29 +167,29 @@ function fun_create_controller(string $nameFile, bool $require = true)
         return \"${nameFile}Controller@index()\";
     }
 
-    // Create a single ${nameFileLower}
-    public function create(array \$CONFIG = [\"method\" => \"POST\", \"csrf\" => true])
-    {
-        return \"${nameFile}Controller@create()\";
-    }
-
     // Redirect page - Create a single ${nameFileLower}
     public function new(array \$CONFIG = [\"method\" => \"GET\"])
     {
         return \"${nameFile}Controller@new()\";
     }
 
-    // Redirect page - Update a single ${nameFileLower}
-    public function edit(int \$id, array \$CONFIG = [\"method\" => \"GET\"])
+    // Create a single ${nameFileLower}
+    public function create(array \$CONFIG = [\"method\" => \"POST\", \"csrf\" => true])
     {
-        return \"${nameFile}Controller@edit(\$id)\";
-    }   
+        return \"${nameFile}Controller@create()\";
+    }
 
     // Get single ${nameFileLower}
     public function show(int \$id, array \$CONFIG = [\"method\" => \"GET\"])
     {
         return \"${nameFile}Controller@show(\$id)\";
-    }   
+    }
+
+    // Redirect page - Update a single ${nameFileLower}
+    public function edit(int \$id, array \$CONFIG = [\"method\" => \"GET\"])
+    {
+        return \"${nameFile}Controller@edit(\$id)\";
+    }
 
     // Update a single ${nameFileLower}
     public function update(int \$id, array \$CONFIG = [\"method\" => \"PUT\", \"csrf\" => true])

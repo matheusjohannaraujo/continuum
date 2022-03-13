@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-11
+	Date: 2022-03-12
 */
 
 use Lib\ENV;
@@ -372,6 +372,23 @@ function csrf()
  * @return string
  */
 function action(string $path, ...$params)
+{
+    return Route::link($path, $params);
+}
+
+/**
+ * 
+ * **Function -> route**
+ *
+ * EN-US: Returns the link of a route.
+ * 
+ * PT-BR: Retorna o link de uma rota.
+ * 
+ * @param string $path
+ * @param mixed ...$params [optional]
+ * @return string
+ */
+function route(string $path, ...$params)
 {
     return Route::link($path, $params);
 }

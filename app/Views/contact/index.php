@@ -7,10 +7,10 @@ $this->section("body");
 ?>
         <ul class="nav bg-dark rounded p-2">
             <li class="nav-item">
-                <a class="nav-link text-light" href="<?= action("home"); ?>">Home</a>
+                <a class="nav-link text-light" href="<?= route("home"); ?>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="<?= action("contact.new"); ?>">New Contact</a>
+                <a class="nav-link text-light" href="<?= route("contact.new"); ?>">New Contact</a>
             </li>
         </ul>
 
@@ -41,9 +41,9 @@ $this->section("body");
                             <td><?= $contact->email; ?></td>
                             <td><?= $contact->created_at; ?></td>
                             <td><?= $contact->updated_at; ?></td>
-                            <td><a class="btn btn-primary" href="<?= action("contact.show", $contact->id); ?>">Link</a></td>
-                            <td><a class="btn btn-warning" href="<?= action("contact.edit", $contact->id); ?>">Link</a></td>
-                            <td><a class="btn btn-danger" href="<?= action("contact.destroy", $contact->id) . "/?_method=DELETE&_csrf=" . csrf(); ?>">Link</a></td>
+                            <td><a class="btn btn-primary" href="<?= route("contact.show", $contact->id); ?>">Link</a></td>
+                            <td><a class="btn btn-warning" href="<?= route("contact.edit", $contact->id); ?>">Link</a></td>
+                            <td><a class="btn btn-danger" href="<?= route("contact.destroy", $contact->id) . "/?_method=DELETE&_csrf=" . csrf(); ?>">Link</a></td>
                         </tr>
                     <?php
                 }

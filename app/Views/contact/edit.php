@@ -7,14 +7,14 @@ $this->section("body");
 ?>
         <ul class="mb-3 nav bg-dark rounded p-2">
             <li class="nav-item">
-                <a class="nav-link text-light" href="<?= action("home"); ?>">Home</a>
+                <a class="nav-link text-light" href="<?= route("home"); ?>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-light" href="<?= action("contact.index"); ?>">Contacts</a>
+                <a class="nav-link text-light" href="<?= route("contact.index"); ?>">Contacts</a>
             </li>
         </ul>
 
-        <form class="mb-3 p-3 bg-dark text-white rounded" method="POST" action="<?= action("contact.update", $contact->id); ?>">
+        <form class="mb-3 p-3 bg-dark text-white rounded" method="POST" action="<?= route("contact.update", $contact->id); ?>">
             <?= tag_method("PUT"); ?>
             <?= tag_csrf(); ?>
             <div class="form-group">

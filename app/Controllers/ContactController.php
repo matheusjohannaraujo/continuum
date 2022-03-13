@@ -41,10 +41,10 @@ class ContactController
         ------------------------------------------------------------------------------------------------
             | GET       | ContactController@index     | /contact/index
             | GET       | ContactController@index_raw | /contact/index_raw
-            | POST      | ContactController@create    | /contact/create
             | GET       | ContactController@new       | /contact/new
-            | GET       | ContactController@edit      | /contact/edit/1
+            | POST      | ContactController@create    | /contact/create
             | GET       | ContactController@show      | /contact/show/1
+            | GET       | ContactController@edit      | /contact/edit/1
             | PUT       | ContactController@update    | /contact/update/1
             | DELETE    | ContactController@destroy   | /contact/destroy/1
         ------------------------------------------------------------------------------------------------
@@ -66,6 +66,12 @@ class ContactController
         return $this->contactService->all()->toArray();
     }
 
+    // Redirect page - Create a single contact
+    public function new(array $CONFIG = ["method" => "GET"])
+    {
+        return view("contact/new");
+    }
+
     // Create a single contact
     public function create(array $CONFIG = ["method" => "POST", "csrf" => true])
     {
@@ -75,22 +81,16 @@ class ContactController
         redirect()->action("contact.index");
     }
 
-    // Redirect page - Create a single contact
-    public function new(array $CONFIG = ["method" => "GET"])
+    // Get single contact
+    public function show(int $id, array $CONFIG = ["method" => "GET"])
     {
-        return view("contact/new");
+        return $this->contactService->findId($id)->toArray();
     }
 
     // Redirect page - Update a single contact
     public function edit(int $id, array $CONFIG = ["method" => "GET"])
     {
         return view("contact/edit", ["contact" => $this->contactService->findId($id)]);
-    }   
-
-    // Get single contact
-    public function show(int $id, array $CONFIG = ["method" => "GET"])
-    {
-        return $this->contactService->findId($id)->toArray();
     }
 
     // Update a single contact

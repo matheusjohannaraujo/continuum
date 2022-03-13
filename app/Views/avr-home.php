@@ -44,12 +44,13 @@ $this->section("body");
             <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/text"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/text</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video/stream"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video/stream</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.index"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/index</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.new"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/new</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.create"); ?>"><span class="badge badge-success mr-3">POST</span> <b>/contact/create</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.edit", 1); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/edit/{id:int}</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.update", 1); ?>"><span class="badge badge-secondary mr-3">PUT</span> <b>/contact/update/{id:int}</b></a>
-            <a class="list-group-item list-group-item-action" href="<?= action("contact.destroy", 1); ?>"><span class="badge badge-danger mr-3">DELETE</span> <b>/contact/destroy/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.index"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/index</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.new"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/new</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.create"); ?>"><span class="badge badge-success mr-3">POST</span> <b>/contact/create</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.show", 1); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/show/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.edit", 1); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/edit/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.update", 1); ?>"><span class="badge badge-secondary mr-3">PUT</span> <b>/contact/update/{id:int}</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.destroy", 1); ?>"><span class="badge badge-danger mr-3">DELETE</span> <b>/contact/destroy/{id:int}</b></a>
         </div>
 
         <!-- Button trigger modal -->
