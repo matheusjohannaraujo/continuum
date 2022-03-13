@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-02-16
+	Date: 2022-03-14
 */
 
 namespace Lib;
@@ -89,11 +89,21 @@ class View
         if (!DataManager::exist($pathfile)) {
             $pathinfo = pathinfo($_FILE);
             $dirname = $pathinfo["dirname"];
-            $filename = $pathinfo["filename"];        
+            $filename = $pathinfo["filename"];
             $pathfile = realpath($this->folderView . "${dirname}/avr-${filename}.php");
-        }    
+        }
         if (DataManager::exist($pathfile) == "FILE") {
             return $pathfile;
+        }
+        $pathfileBlade = realpath($this->folderView . "${_FILE}.blade.php");
+        if (!DataManager::exist($pathfileBlade)) {
+            $pathinfo = pathinfo($_FILE);
+            $dirname = $pathinfo["dirname"];
+            $filename = $pathinfo["filename"];
+            $pathfile = realpath($this->folderView . "${dirname}/avr-${filename}.blade.php");
+        }
+        if (DataManager::exist($pathfileBlade) == "FILE") {
+            return $pathfileBlade;
         }
         return false;
     }
@@ -144,6 +154,18 @@ class View
         $_FILE = $this->locationFile($_FILE);
         if (!$_FILE) {
             return null;
+        }
+        $isBlade = strpos($_FILE, ".blade");
+        $isBlade = ($isBlade !== false ? true : false);
+        if ($isBlade) {
+            try {
+                // https://github.com/EFTEC/BladeOne
+                $blade = new \eftec\bladeone\BladeOne(DataManager::path(realpath($this->folderView)), folder_storage("cache"), \eftec\bladeone\BladeOne::MODE_AUTO);
+                $blade->pipeEnable = true;
+                return $blade->run(str_replace("/", "\\", $location), $_ARGS);
+            } catch (\Throwable $th) {
+                dumpl("BladeOne Error", $th);
+            }
         }
         $result = $this->cache("V:${location}", $_CACHE_SECONDS);
         if ($result !== null) {

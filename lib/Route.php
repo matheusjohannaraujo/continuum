@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-11
+	Date: 2022-03-14
 */
 
 namespace Lib;
@@ -675,7 +675,7 @@ class Route
             // dumpd(self::$route);
             if (!self::runRoute()) {
                 // If no route is served, it returns an html page containing the 404 error.
-                self::$out->page405();
+                self::$out->page404();
             }
         }
     }
