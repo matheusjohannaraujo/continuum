@@ -2,7 +2,7 @@
 
 > EN-US:
 
->> It is used to create screens, which can be static or dynamic. These screens can be used as `View` or `Templates`
+>> It is used to create screens, which can be static or dynamic. These screens can be used as `View` or `Template`
 
 >> Controller files must be created in the `app/Views` folder. The file name must be `thing.php`
 
@@ -16,7 +16,7 @@
 
 > PT-BR:
 
->> É utilizado para criação de telas, podendo ser estáticas ou dinâmicas. Essas telas podem ser usadas como `View` (Visão) ou `Templates` (Modelo)
+>> É utilizado para criação de telas, podendo ser estáticas ou dinâmicas. Essas telas podem ser usadas como `View` (Visão) ou `Template` (Modelo)
 
 >> Os arquivos de visão devem ser criados na pasta `app/Views`. O nome do arquivo deve ser `thing.php`
 

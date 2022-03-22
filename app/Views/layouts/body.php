@@ -7,7 +7,7 @@
                 <p class="lead text-wrap"><?= I18N_session("slogan"); ?></p>
             </div>
         </div>
-<?= $this->renderSection("body"); ?>
+<?= $this->yield("body"); ?>
     </div>
 </body>
 </html>

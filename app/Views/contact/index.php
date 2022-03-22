@@ -1,7 +1,7 @@
 <?php 
 
-$title = "Index";
-$this->layout("layouts/html5");
+$this->section("title", "Index");
+$this->extends("layouts.html5");
 $this->section("body");
 
 ?>

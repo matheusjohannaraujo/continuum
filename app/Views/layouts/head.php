@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? "layouts/head"; ?></title>
+    <title><?= $this->yield("title"); ?></title>
     <?= tag_favicon("index.jpeg", "jpeg"); ?>
     <link rel="canonical" href="<?= site_url(); ?>"/>
     <link rel="next" href="<?= site_url(); ?>">

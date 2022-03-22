@@ -10,7 +10,7 @@
 
 > Configure o banco de dados no arquivo `.env`
 
-> As dependências necessárias para o Eloquent ORM são: `illuminate/events`, `illuminate/database` and `illuminate/support`
+> As dependências necessárias para o Eloquent ORM são: `illuminate/events`, `illuminate/database` e `illuminate/support`
 
 > Para instalar as dependências através do composer, use o comando: `composer db-require`
 

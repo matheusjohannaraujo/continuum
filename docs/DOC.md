@@ -12,7 +12,7 @@
 
 >> #### Durante o desenvolvimento do projeto levei como base o Laravel, Codeigniter e ASP .NET Core
 
->> #### Na estruturação do framework, segui o modelo existente no Laravel onde toda sistema (aplicação) é construída dentro da pasta `app`. E observei a estrutura do Codeigniter para encontrar um modelo que me permitisse desenvolver um projeto enxuto, leve e simples
+>> #### Na estruturação do framework, segui o modelo existente no Laravel onde todo sistema (aplicação) é construído dentro da pasta `app`. Observei também a estrutura do framework Codeigniter, buscando encontrar um modelo que me permitisse desenvolver um projeto enxuto, leve, simples e completo
 
 >> #### No mapeamento automático dos métodos existentes no Controller utilizei como base o modo de funcionamento do ASP .NET Core
 

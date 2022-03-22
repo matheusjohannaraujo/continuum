@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-14
+	Date: 2022-03-21
 */
 
 namespace Lib;
@@ -219,13 +219,17 @@ class View
      * @param string $name
      * @return null
      */
-    public function section(string $name)
+    public function section(string $name, string $content = null)
     {
         ob_start();
         $this->sections[] = [
             "name" => $name,
             "content" => ""
         ];
+        if ($content !== null) {
+            echo $content;
+            $this->endSection();
+        }
     }
 
     /**
@@ -254,18 +258,59 @@ class View
      * 
      * @access public
      * @param string $name
+     * @param string $default
      * @return string
      */
-    public function renderSection(string $name)
+    public function renderSection(string $name, string $default = "")
     {
-        $result = "";
         foreach ($this->sections as &$section) {
             if ($section["name"] == $name) {
-                $result = &$section["content"];
+                $default = &$section["content"];
                 break;
             }
         }
-        return $result;
+        return $default;
+    }
+
+    /**
+     * 
+     * **Method -> yield**
+     *
+     * EN-US: Function that returns the result of an already rendered session.
+     * 
+     * PT-BR: Função que retorna o resultado de uma sessão já renderizada.
+     * 
+     * @access public
+     * @param string $name
+     * @param string $default
+     * @return string
+     */
+    public function yield(string $name, string $default = "")
+    {
+        return $this->renderSection($name, $default);
+    }    
+
+    /**
+     * 
+     * **Method -> dotPath**
+     *
+     * EN-US: Function that changes the character `.` to `/` in the view path.
+     * 
+     * PT-BR: Função que faz a troca do caractere `.` para `/` no caminho da view.
+     * 
+     * @access public
+     * @param string $path
+     * @return null
+     */
+    public function dotPath(string $path)
+    {
+
+        $bar = strpos($path, "/");
+        $dot = strpos($path, ".");
+        if ($bar === false && $dot !== false) {
+            $path = str_replace(".", "/", $path);
+        }
+        return $path;
     }
 
     /**
@@ -282,7 +327,24 @@ class View
      */
     public function layout(string $path)
     {
-        $this->views[] = $path;
+        $this->views[] = $this->dotPath($path);
+    }
+
+    /**
+     * 
+     * **Method -> extends**
+     *
+     * EN-US: Function that defines a layout (view) that will be processed later.
+     * 
+     * PT-BR: Função que define um layout (view) que será processado posteriormente.
+     * 
+     * @access public
+     * @param string $path
+     * @return null
+     */
+    public function extends(string $path)
+    {
+        $this->layout($path);
     }
 
 }

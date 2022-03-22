@@ -1,7 +1,7 @@
 <?php 
 
-$title = "MakeMVCSS - Matheus Johann Araújo";
-$this->layout("layouts/html5");
+$this->section("title", "MakeMVCSS - Matheus Johann Araújo");
+$this->extends("layouts.html5");
 $this->section("body");
 
 ?>

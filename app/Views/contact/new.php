@@ -1,7 +1,7 @@
 <?php 
 
-$title = "New";
-$this->layout("layouts/html5");
+$this->section("title", "New");
+$this->extends("layouts.html5");
 $this->section("body");
 
 ?>
