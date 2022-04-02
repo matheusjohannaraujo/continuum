@@ -45,6 +45,7 @@ $this->section("body");
             <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video</b></a>
             <a class="list-group-item list-group-item-action" href="<?= site_url("api/v1/video/stream"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/api/v1/video/stream</b></a>
             <a class="list-group-item list-group-item-action" href="<?= route("contact.index"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/index</b></a>
+            <a class="list-group-item list-group-item-action" href="<?= route("contact.index_raw"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/index_raw</b></a>
             <a class="list-group-item list-group-item-action" href="<?= route("contact.new"); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/new</b></a>
             <a class="list-group-item list-group-item-action" href="<?= route("contact.create"); ?>"><span class="badge badge-success mr-3">POST</span> <b>/contact/create</b></a>
             <a class="list-group-item list-group-item-action" href="<?= route("contact.show", 1); ?>"><span class="badge badge-primary mr-3">GET</span> <b>/contact/show/{id:int}</b></a>

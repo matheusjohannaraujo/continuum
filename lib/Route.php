@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-14
+	Date: 2022-04-02
 */
 
 namespace Lib;
@@ -536,8 +536,7 @@ class Route
     private static function runRoute()
     {
         $result = false;
-        $METHOD = strtoupper(self::$in->paramServer("REQUEST_METHOD"));
-        $METHOD = strtoupper(self::$in->paramReq("_method", $METHOD));
+        $METHOD = self::$in->getMethod();
         foreach (self::$route as $key => &$route) {
             if ($METHOD === $route["method"] || "ANY" === $route["method"]) {
                 $result = self::route($route);

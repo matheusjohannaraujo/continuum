@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-12
+	Date: 2022-04-02
 */
 
 define("CLI", true);
@@ -56,7 +56,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "e671bb35549bd8c18f134482c2523d03", $baseDomain . "/");
+    fun_test_route("/", "6e59d232c0e2b99953af7e07a3dcf469", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";

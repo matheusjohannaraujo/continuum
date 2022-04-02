@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "eftec/bladeone",
-            "version": "4.5",
+            "version": "4.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EFTEC/BladeOne.git",
-                "reference": "e267c948239fb61da5f692a4dd7e9411d1fa2a8f"
+                "reference": "b8eb8be9952cd0113469e2ec1e406e075ca433ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EFTEC/BladeOne/zipball/e267c948239fb61da5f692a4dd7e9411d1fa2a8f",
-                "reference": "e267c948239fb61da5f692a4dd7e9411d1fa2a8f",
+                "url": "https://api.github.com/repos/EFTEC/BladeOne/zipball/b8eb8be9952cd0113469e2ec1e406e075ca433ad",
+                "reference": "b8eb8be9952cd0113469e2ec1e406e075ca433ad",
                 "shasum": ""
             },
             "require": {
@@ -58,9 +58,9 @@
             ],
             "support": {
                 "issues": "https://github.com/EFTEC/BladeOne/issues",
-                "source": "https://github.com/EFTEC/BladeOne/tree/4.5"
+                "source": "https://github.com/EFTEC/BladeOne/tree/4.5.3"
             },
-            "time": "2022-03-11T20:50:03+00:00"
+            "time": "2022-03-28T14:33:29+00:00"
         },
         {
             "name": "laravel/serializable-closure",

@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-11
+	Date: 2022-04-02
 */
 
 namespace Lib;
@@ -26,6 +26,8 @@ class Request
     private $auth = "";
     private $jwt = [];
     private $server = [];
+    private $method = null;
+    private $keysOnly = [];
 
     public function __construct()
     {
@@ -37,6 +39,10 @@ class Request
             ->setPost($_POST)
             ->setFile($_FILES)
             ->setJson();
+        $METHOD = strtoupper($this->paramServer("REQUEST_METHOD"));
+        $METHOD = strtoupper($this->paramReq("_method", $METHOD));
+        $METHOD = strtoupper($this->paramJson("_method", $METHOD));
+        $this->setMethod($METHOD);
         if (\Lib\Route::$in !== null) {
             $this->setArg(\Lib\Route::$in->paramArg());
         }
@@ -54,6 +60,17 @@ class Request
             $headers = trim($headers);
         }
         return $headers;
+    }
+
+    private function setMethod(string &$value)
+    {
+        $this->method = $value;
+        return $this;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
     }
 
     private function setJWT()
@@ -182,8 +199,6 @@ class Request
         return $this;
     }
 
-    private $keysOnly = [];
-
     public function only(array $keys = [])
     {
         $this->keysOnly = $keys;
@@ -215,6 +230,23 @@ class Request
             return $this->$param[$key] ?? $valueDefault;
         }
         return false;
+    }
+
+    public function get($key, $valueDefault = null)
+    {
+        $array = [];
+        $array[] = $this->paramFile($key);
+        $array[] = $this->paramJson($key);
+        $array[] = $this->paramPost($key);
+        $array[] = $this->paramGet($key);
+        $array[] = $this->paramReq($key);
+        for ($i = 0; $i < count($array); $i++) { 
+            if ($array[$i] !== null) {
+                return $array[$i];
+            }
+        }
+        unset($array);
+        return $valueDefault;
     }
 
     public function paramArg($key = null, $valueDefault = null)
@@ -279,7 +311,8 @@ class Request
             "env" => &$this->env,
             "auth" => &$this->auth,
             "jwt" => object_to_array($this->jwt),
-            "server" => &$this->server
+            "server" => &$this->server,
+            "method" => &$this->method
         ];
     }
 
