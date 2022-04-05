@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-04-02
+	Date: 2022-04-04
 */
 
 namespace Lib;
@@ -221,7 +221,7 @@ class Request
                 }
                 $parameter[$key] = $this->$param[$key] ?? $valueDefault;
             }
-            $this->keysOnly = [];
+            //$this->keysOnly = [];
             return $parameter;
         } else {
             if (is_array($key)) {
@@ -232,21 +232,35 @@ class Request
         return false;
     }
 
-    public function get($key, $valueDefault = null)
+    public function get($key = null, $valueDefault = null)
     {
+        if (is_array($key)) {
+            $this->only($key);
+            $key = null;
+        }
         $array = [];
         $array[] = $this->paramFile($key);
         $array[] = $this->paramJson($key);
         $array[] = $this->paramPost($key);
         $array[] = $this->paramGet($key);
         $array[] = $this->paramReq($key);
+        $values = [];
         for ($i = 0; $i < count($array); $i++) { 
             if ($array[$i] !== null) {
-                return $array[$i];
+                if ($key !== null) {
+                    $values = $array[$i];
+                    break;
+                }
+                foreach ($array[$i] as $akey => $avalue) {
+                    $values[$akey] = $avalue;
+                }
             }
         }
         unset($array);
-        return $valueDefault;
+        if (is_array($values) && count($values) === 0) {
+            return $valueDefault;
+        }
+        return $values;
     }
 
     public function paramArg($key = null, $valueDefault = null)

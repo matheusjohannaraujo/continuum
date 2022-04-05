@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-03-12
+	Date: 2022-04-04
 */
 
 use Lib\ENV;
@@ -91,11 +91,14 @@ function max_requests_per_minute(int $num_requests, string $name_request)
  * PT-BR: Retorna uma instância da classe `Request` que é armazenada na variável
  * estática `$in` da classe `Route` e que contém a entrada de todos os dados no sistema.
  * 
- * @return object Request
+ * @return mixed Request
  */
-function request() :\Lib\Request
+function request($key = null)
 {
-    return Route::$in;
+    if ($key === null) {
+        return Route::$in;
+    }
+    return Route::$in->get($key);
 }
 
 /**
@@ -125,11 +128,14 @@ function response() :\Lib\Response
  * PT-BR: Retorna uma instância da classe `Request` que é armazenada na variável
  * estática `$in` da classe `Route` e que contém a entrada de todos os dados no sistema.
  * 
- * @return object Request
+ * @return mixed Request
  */
-function input() :\Lib\Request
+function input($key = null)
 {
-    return Route::$in;
+    if ($key === null) {
+        return Route::$in;
+    }
+    return Route::$in->get($key);
 }
 
 /**
