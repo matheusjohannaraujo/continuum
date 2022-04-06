@@ -3,10 +3,7 @@
         "php": ">=7.2.5",
         "opis/closure": "^3.5",
         "laravel/serializable-closure": "^1.1",
-        "eftec/bladeone": "^4.5",
-        "illuminate/events": "^9.6",
-        "illuminate/database": "^9.6",
-        "illuminate/support": "^9.6"
+        "eftec/bladeone": "^4.5"
     },
     "autoload": {
         "psr-4": {
@@ -24,7 +21,7 @@
     },
     "scripts": {
         "update-ignore": "composer update --ignore-platform-reqs",
-        "db-require": "composer require illuminate/events illuminate/database illuminate/support",
+        "db-require": "composer require --ignore-platform-reqs illuminate/events:\"^8.0\" illuminate/database:\"^8.0\" illuminate/support:\"^8.0\"",
         "db-remove": "composer remove illuminate/events illuminate/database illuminate/support",
         "ext-require": "composer require --ignore-platform-reqs ext-curl:* ext-fileinfo:* ext-intl:* ext-gd:* ext-openssl:* ext-ftp:* ext-pdo_sqlite:* ext-pdo_mysql:* ext-pdo_pgsql:*",
         "ext-remove": "composer remove ext-curl ext-fileinfo ext-intl ext-gd ext-openssl ext-ftp ext-pdo_sqlite ext-pdo_mysql ext-pdo_pgsql"
