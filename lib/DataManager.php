@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2021-01-01
+	Date: 2022-04-06
 */
 
 namespace Lib;
@@ -301,7 +301,7 @@ class DataManager
      */
     public static function rename(string $path, string $newPath) :bool
     {
-        if (self::exist($path) && !self::exist($newPath)) {
+        if (self::exist($path)) {
             return rename($path, $newPath);
         }
         return false;
@@ -396,7 +396,9 @@ class DataManager
      */
     public static function move(string $path, string $newPath) :bool
     {
-        if (self::copy($path, $newPath)) {
+        if (mb_strtolower($path) === mb_strtolower($newPath)) {
+            return self::rename($path, $newPath);
+        } else if (self::copy($path, $newPath)) {
             return self::delete($path);
         }
         return false;
@@ -822,9 +824,10 @@ class DataManager
      * @param string $path
      * @param bool $arrayClean [optional, default = false]
      * @param bool $recursive [optional, default = false]
+     * @param string $typeList [optional, default = "FILE FOLDER", options = "FILE FOLDER | FILE | FOLDER"]
      * @return array|null
      */
-    public static function folderScan(string $path, bool $arrayClean = false, bool $recursive = false) :?array
+    public static function folderScan(string $path, bool $arrayClean = false, bool $recursive = false, string $typeList = "FILE FOLDER") :?array
     {
         $result = [];
         $path = realpath($path);
@@ -854,7 +857,18 @@ class DataManager
                 $result[] = self::path($file);
             }
         }
-        sort($result, SORT_NATURAL);        
+        if ($typeList !== "FILE FOLDER") {
+            sort($result, SORT_NATURAL);
+            foreach ($result as $key => $value) {
+                if (self::exist($value) == "FOLDER" && $typeList == "FILE") {
+                    unset($result[$key]);
+                }
+                if (self::exist($value) == "FILE" && $typeList == "FOLDER") {
+                    unset($result[$key]);
+                }
+            }
+        }
+        sort($result, SORT_NATURAL);
         if (!$arrayClean) {
             foreach ($result as $key => $value) {
                 if (self::exist($value) == "FOLDER") {
