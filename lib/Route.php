@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-04-02
+	Date: 2022-06-04
 */
 
 namespace Lib;
@@ -300,9 +300,9 @@ class Route
             unset($route["isRoute"]);*/
             if ($isRoute) {
                 self::$in->setArg($arg);
-                $middleware = $route["middleware"][0];
-                $closure = $route["middleware"][1];
-                if (!empty($middleware)) {
+                if (is_array($route["middleware"]) && count($route["middleware"]) == 2) {
+                    $middleware = $route["middleware"][0];
+                    $closure = $route["middleware"][1];
                     if (is_callable($middleware)) {
                         if (!$middleware($route, $closure)) {
                             self::$out->pageMiddleware();
