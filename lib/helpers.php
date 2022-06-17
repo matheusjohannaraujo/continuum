@@ -5,7 +5,7 @@
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
-	Date: 2022-04-04
+	Date: 2022-06-17
 */
 
 use Lib\ENV;
@@ -909,9 +909,14 @@ function string_to_type($val)
         }
     }
     if (is_numeric($val)) {
+        $str = (string) $val;
         $int = (int) $val;
         $float = (float) $val;
-        $val = ($int == $float) ? $int : $float;
+        if ($str !== ((string)$int) && $str !== ((string)$float)) {
+            $val = $str;
+        } else {
+            $val = ($int == $float) ? $int : $float;
+        }
     }
     return $val;
 }
