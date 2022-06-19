@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2020-06-23
-*/
-
 namespace Lib;
 
 class AVStreamDataManager

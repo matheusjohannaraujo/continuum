@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2021-04-17
-*/
-
 /**
  * 
  * **Function -> var_export_format**

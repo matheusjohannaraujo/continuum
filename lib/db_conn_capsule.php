@@ -1,18 +1,12 @@
 <?php
 
 /*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2022-04-12
+    https://github.com/illuminate/database
+    https://medium.com/@kshitij206/use-eloquent-without-laravel-7e1c73d79977
+    https://laravel.com/docs/5.0/schema
+    https://www.amitmerchant.com/how-to-utilize-capsule-use-eloquent-orm-outside-laravel/
+    composer require illuminate/events illuminate/database illuminate/support
 */
-
-// https://github.com/illuminate/database
-// https://medium.com/@kshitij206/use-eloquent-without-laravel-7e1c73d79977
-// https://laravel.com/docs/5.0/schema
-// https://www.amitmerchant.com/how-to-utilize-capsule-use-eloquent-orm-outside-laravel/
-// composer require illuminate/events illuminate/database illuminate/support
 
 use Lib\ENV;
 use Lib\DataManager;

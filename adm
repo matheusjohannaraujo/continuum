@@ -1,14 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2020-08-30
-*/
-
 require_once __DIR__ . "/lib/DataManager.php";
 
 use Lib\DataManager;

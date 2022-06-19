@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2022-04-02
-*/
-
 define("CLI", true);
 
 require_once __DIR__ . "/../vendor/autoload.php";

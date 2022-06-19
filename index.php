@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2022-01-29
-*/
-
 declare(ticks=1);
 declare(strict_types=1);
 $vendor = __DIR__ . "/vendor/";

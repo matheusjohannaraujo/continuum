@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2022-03-11
-*/
-
 namespace Lib;
 
 use Lib\Cache;

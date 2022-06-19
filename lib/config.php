@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2021-03-15
-*/
-
 // Changing "php.ini" during execution
 ini_set("default_charset", "utf-8");
 ini_set("set_time_limit", "3600");

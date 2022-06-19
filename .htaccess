@@ -37,12 +37,12 @@ IndexIgnore *
     Deny from all
 </Files>
 
-<Files "LICENSE">
+<Files "adm">
     Order Deny,Allow
     Deny from all
 </Files>
 
-<Files ".env">
+<Files "LICENSE">
     Order Deny,Allow
     Deny from all
 </Files>
@@ -53,6 +53,36 @@ IndexIgnore *
 </Files>
 
 <Files "composer.lock">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files ".gitignore">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files ".env">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files ".env.example">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files *.sql>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files *.sqlite>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files *.config>
     Order Deny,Allow
     Deny from all
 </Files>

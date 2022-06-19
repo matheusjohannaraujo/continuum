@@ -1,13 +1,5 @@
 <?php
 
-/*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2022-06-04
-*/
-
 namespace Lib;
 
 use Lib\URI;
@@ -198,7 +190,7 @@ class Route
                 } else if ($pathPart["var"] === true) {
                     if ($pathPart["req"] === true) {
                         $link .= "/" . type_to_string($params[$i] ?? die("Param `" . $pathPart["name"] . "` not found"));
-                    } else if (!empty(type_to_string($params[$i]))) {
+                    } else if (isset($params[$i]) && !empty(type_to_string($params[$i]))) {
                         $link .= "/" . type_to_string($params[$i]);
                     }
                     $i++;
