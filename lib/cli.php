@@ -48,7 +48,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "6e59d232c0e2b99953af7e07a3dcf469", $baseDomain . "/");
+    fun_test_route("/", "fd76f896edc1614f2784ef7524ca9fa1", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";
@@ -66,7 +66,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video/stream");
     echo "\r\n";
-    fun_test_route("/contact", "41cdf995d47aa5229674094d39fa7788", $baseDomain . "/contact");
+    fun_test_route("/contact", "5833d761fa0e28d516d5173697409460", $baseDomain . "/contact");
 }
 
 function fun_create_app_file(string $class, string $content, string $pathFile)

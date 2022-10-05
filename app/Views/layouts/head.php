@@ -16,10 +16,22 @@
     <meta property="og:site_name" content="MakeMVCSS - Matheus Johann Araújo">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:type" content="article">
-    <?= tag_js("jquery-3.5.1.min.js"); ?>
-    <?= tag_js("popper.min.js"); ?>
+
+    <!-- Bootstrap CSS -->
     <?= tag_css("bootstrap.min.css"); ?>
-    <?= tag_js("bootstrap.min.js"); ?>
+
+    <!-- jQuery -->
+    <?= tag_js("jquery-3.6.1.min.js"); ?>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
     <?= tag_js("bootstrap.bundle.min.js"); ?>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <?= tag_js("popper.min.js"); ?>
+    <?= tag_js("bootstrap.min.js"); ?>
+    -->
+    
+    <!-- Optional JavaScript; choose one of the two! -->
     <?= tag_js("index.js"); ?>
 </head>

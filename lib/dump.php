@@ -71,3 +71,12 @@ function dumpd(...$params)
     dumpl(...$params);
     die();
 }
+
+if (!function_exists('dd')) 
+{
+    function dd(...$params)
+    {
+        dumpl(...$params);
+        die();
+    }
+} 
