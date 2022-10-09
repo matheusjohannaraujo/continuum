@@ -2,8 +2,18 @@
 
 namespace App\Controllers;
 
+use OpenApi\Annotations as OA;
 use App\Services\ContactService;
 
+define("API_HOST", site_url());
+
+/**
+ * @OA\Info(
+ *     title="Swagger UI",
+ *     version="0.1"
+ * )
+ * @OA\Server(url=API_HOST)
+ */
 class ContactController
 {
 
@@ -60,12 +70,6 @@ class ContactController
         return view("contact/index", ["contacts" => $this->contactService->all()]);
     }
 
-    // List all contact raw array
-    public function index_raw(array $CONFIG = ["method" => "GET"])
-    {
-        return $this->contactService->all()->toArray();
-    }
-
     // Redirect page - Create a single contact
     public function new(array $CONFIG = ["method" => "GET"])
     {
@@ -80,7 +84,7 @@ class ContactController
         $this->contactService->insert($name, $email);
         redirect()->action("contact.index");
     }
-
+    
     // Get single contact
     public function show(int $id, array $CONFIG = ["method" => "GET"])
     {
@@ -108,5 +112,167 @@ class ContactController
         $this->contactService->delete($id);
         redirect()->action("contact.index");
     }
+
+    /**
+     * @OA\Get(
+     *     tags={"/contact/index_api"},
+     *     path="/contact/index_api/",
+     *     summary="list contacts",
+     *     @OA\Response(
+     *         response="200",
+     *         description="The contacts",
+     *         @OA\MediaType(
+     *              mediaType="application/json"
+     *         )
+     *     )
+     * )
+     */
+    public function index_api(array $CONFIG = ["method" => "GET"])
+    {
+        return $this->contactService->all()->toArray();
+    }
+
+    /**
+     * @OA\Get(
+     *     tags={"/contact/show_api/{id}"},
+     *     path="/contact/show_api/{id}",
+     *     summary="show contact",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="Id Contact",
+     *          @OA\Schema(
+     *             type="integer"
+     *          ) 
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="The contact",
+     *         @OA\MediaType(
+     *              mediaType="application/json"
+     *         )
+     *     )
+     * )
+     */
+    public function show_api(int $id, array $CONFIG = ["method" => "GET"])
+    {
+        return $this->contactService->findId($id)->toArray();
+    }
+
+    /**
+     * @OA\Post(
+     *     tags={"/contact/create_api"},
+     *     path="/contact/create_api",
+     *     summary="create contact",
+     *     @OA\Parameter(
+     *          name="name",
+     *          in="query",
+     *          required=true,
+     *          description="Name contact",
+     *          @OA\Schema(
+     *             type="string"
+     *          ) 
+     *     ),
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="E-mail contact",
+     *          @OA\Schema(
+     *             type="string"
+     *          ) 
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="The contact",
+     *         @OA\MediaType(
+     *              mediaType="application/json"
+     *         )
+     *     )
+     * )
+     */
+    public function create_api(array $CONFIG = ["method" => "POST"])
+    {
+        $name = input_req("name");
+        $email = input_req("email");
+        return $this->contactService->insert($name, $email);
+    }
+
+    /**
+     * @OA\Put(
+     *     tags={"/contact/update_api/{id}"},
+     *     path="/contact/update_api/{id}",
+     *     summary="create contact",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="Id contact",
+     *          @OA\Schema(
+     *             type="integer"
+     *          ) 
+     *     ),
+     *     @OA\Parameter(
+     *          name="name",
+     *          in="query",
+     *          required=true,
+     *          description="Name contact",
+     *          @OA\Schema(
+     *             type="string"
+     *          ) 
+     *     ),
+     *     @OA\Parameter(
+     *          name="email",
+     *          in="query",
+     *          required=true,
+     *          description="E-mail contact",
+     *          @OA\Schema(
+     *             type="string"
+     *          ) 
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="The contact",
+     *         @OA\MediaType(
+     *              mediaType="application/json"
+     *         )
+     *     )
+     * )
+     */
+    public function update_api(int $id, array $CONFIG = ["method" => "PUT"])
+    {
+        $name = input_req("name");
+        $email = input_req("email");
+        return $this->contactService->update($id, $name, $email);
+    }
+
+    /**
+     * @OA\Delete(
+     *     tags={"/contact/destroy_api/{id}"},
+     *     path="/contact/destroy_api/{id}",
+     *     summary="delete contact",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          description="Id contact",
+     *          @OA\Schema(
+     *             type="integer"
+     *          ) 
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="The contact",
+     *         @OA\MediaType(
+     *              mediaType="application/json"
+     *         )
+     *     )
+     * )
+     */
+    public function destroy_api(int $id, array $CONFIG = ["method" => "DELETE"])
+    {
+        return $this->contactService->delete($id);
+    }    
 
 }

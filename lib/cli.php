@@ -48,7 +48,7 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "fd76f896edc1614f2784ef7524ca9fa1", $baseDomain . "/");
+    fun_test_route("/", "df6f4662087c0ef3d35cab85436a1b25", $baseDomain . "/");
     echo "\r\n";
     fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
     echo "\r\n";

@@ -247,20 +247,21 @@ class Response
         switch ($this->download) {
             case 1:
                 $this->header("Content-Disposition", 'attachment; filename="' . $filename . '"');
+                $this->header("Content-Description", $this->contentDescription);
                 break;
             case 2:
                 $this->header("Content-Disposition", 'attachment; filename="' . $filename . '"');
                 $this->mimetype = "application/octet-stream";
                 // $this->mimetype = "application/force-download";
                 // $this->mimetype = "application/download";
+                $this->header("Content-Description", $this->contentDescription);
                 break;
             default:
                 // No Download
                 $this->header("Content-Disposition", 'inline; filename="' . $filename . '"');
                 break;
         }
-        $this->header("Content-Type", $this->mimetype);
-        $this->header("Content-Description", $this->contentDescription);
+        $this->header("Content-Type", $this->mimetype);        
         $this->header("Content-Transfer-Encoding", $this->contentTransferEncoding);
         $this->header("Connection", $this->connection);
         $this->header("Expires", $this->expires);

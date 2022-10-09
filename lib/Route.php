@@ -625,6 +625,13 @@ class Route
 
     public static function on()
     {
+        if (input_env("ENV") === "development") {
+            self::get("/swagger-php-open-api", function () {
+                $openapi = \OpenApi\Generator::scan(['./app']);
+                header('Content-Type: application/json');
+                die($openapi->toJson());
+            });
+        }
         self::post("/thread_http", function() {
             $aes = new AES_256;
             $script = input_post("script", "");
@@ -634,7 +641,7 @@ class Route
             $script = $aes->encrypt_cbc($script);
             $script = base64_encode($script);
             return $script;
-        })::jwt(true);
+        })::jwt(true);        
         self::any("/page_message/{status_code:int}", function(int $status_code) {
             self::$out->page($status_code);
         });

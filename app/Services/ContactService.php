@@ -27,7 +27,11 @@ class ContactService
     public function delete(int $id)
     {
         $this->contact = $this->contact->find($id);
-        return $this->contact->delete();
+        if ($this->contact->delete()) {
+            return $this->contact->toArray();
+        } else {
+            return [];
+        }
     }  
 
     private function validateNameEmail(string $name, string $email)
@@ -53,6 +57,11 @@ class ContactService
         $this->contact->name = $name;
         $this->contact->email = $email;
         $this->contact->save();
+        if ($this->contact->save()) {
+            return $this->contact->toArray();
+        } else {
+            return [];
+        }
     }
 
     public function update(int $id, string $name, string $email)
@@ -61,7 +70,11 @@ class ContactService
         $this->contact = $this->contact->find($id);
         $this->contact->name = $name;
         $this->contact->email = $email;
-        $this->contact->save();
+        if ($this->contact->save()) {
+            return $this->contact->toArray();
+        } else {
+            return [];
+        }        
     }
 
 }

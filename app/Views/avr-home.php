@@ -58,13 +58,7 @@ $this->section("body");
             <div class="col mt-3">
                 <div class="list-group">
                     <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.index"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/index</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.index_raw"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/index_raw</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.new"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/new</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.create"); ?>"><span class="badge bg-success mr-3">POST</span> <b>/contact/create</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.show", 1); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/show/{id:int}</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.edit", 1); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/edit/{id:int}</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.update", 1); ?>"><span class="badge bg-secondary mr-3">PUT</span> <b>/contact/update/{id:int}</b></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.destroy", 1); ?>"><span class="badge bg-danger mr-3">DELETE</span> <b>/contact/destroy/{id:int}</b></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="<?= folder_public("swagger-ui/"); ?>"><span class="badge bg-dark mr-3">Swagger UI</span> <b>Contact</b></a>
                 </div>
             </div>
         </div>
