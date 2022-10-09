@@ -203,7 +203,7 @@ class ContactController
      * @OA\Put(
      *     tags={"/contact/update_api/{id}"},
      *     path="/contact/update_api/{id}",
-     *     summary="create contact",
+     *     summary="update contact",
      *     @OA\Parameter(
      *          name="id",
      *          in="path",
