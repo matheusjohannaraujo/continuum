@@ -1,10 +1,10 @@
-# [MakeMVCSS documentation in Brazilian Portuguese](./DOC.md)
+# [Continuum documentation in Brazilian Portuguese](./DOC.md)
 
-## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
+## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://continuum-framework.herokuapp.com">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
 
 > ### Summary / History:
 
->> #### MakeMVCSS is a PHP framework based on several frameworks already on the market for developing web applications that follow the MVC standard
+>> #### Continuum is a PHP framework based on several frameworks already on the market for developing web applications that follow the MVC standard
 
 >> #### When I started to develop this project, I had no idea to build something so complete and complex, but only a system that would help me to form friendly URLs to be easily interpreted by a route system. As I saw that it was possible to improve the project and leave it with more functionality, I dedicated myself to producing something that could be used in place of existing frameworks on the market
 
@@ -55,7 +55,7 @@
 
 ### [Running Commands](./RunningCommands.md)
 
-> #### In the MakeMVCSS project folder, there is a file called `adm`, with which you can execute commands that perform some actions
+> #### In the Continuum project folder, there is a file called `adm`, with which you can execute commands that perform some actions
 
 > #### Allows the generation of controllers, visualizations, services, models and other things
 

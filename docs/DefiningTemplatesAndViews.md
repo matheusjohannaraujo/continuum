@@ -43,7 +43,7 @@
 
         <div class="jumbotron jumbotron-fluid bg-dark text-white p-2 pt-3 rounded mb-3 overflow-auto">
             <div class="container">
-                <a href="https://github.com/matheusjohannaraujo/makemvcss" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">MakeMVCSS</h1></a>
+                <a href="https://github.com/matheusjohannaraujo/continuum" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">Continuum</h1></a>
                 <p class="lead text-wrap">A simple and complete PHP Framework, thought and designed for developers.</p>
             </div>
         </div>
@@ -98,7 +98,7 @@
 
         <div class="jumbotron jumbotron-fluid bg-dark text-white p-2 pt-3 rounded mb-3 overflow-auto">
             <div class="container">
-                <a href="https://github.com/matheusjohannaraujo/makemvcss" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">MakeMVCSS</h1></a>
+                <a href="https://github.com/matheusjohannaraujo/continuum" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">Continuum</h1></a>
                 <p class="lead text-wrap">A simple and complete PHP Framework, thought and designed for developers.</p>
             </div>
         </div>
@@ -156,7 +156,7 @@
 
         <div class="jumbotron jumbotron-fluid bg-dark text-white p-2 pt-3 rounded mb-3 overflow-auto">
             <div class="container">
-                <a href="https://github.com/matheusjohannaraujo/makemvcss" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">MakeMVCSS</h1></a>
+                <a href="https://github.com/matheusjohannaraujo/continuum" target="_blank"><h1 class="text-primary" style="font-weight: 300; font-size: 2.7em;">Continuum</h1></a>
                 <p class="lead text-wrap">A simple and complete PHP Framework, thought and designed for developers.</p>
             </div>
         </div>

@@ -1,10 +1,10 @@
-# [MakeMVCSS documentação em Inglês](./DOC-EU.md)
+# [Continuum documentação em Inglês](./DOC-EU.md)
 
-## <a href="https://github.com/matheusjohannaraujo/makemvcss/">MakeMVCSS</a> / <a href="https://makemvcss.herokuapp.com">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
+## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://continuum-framework.herokuapp.com">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
 
 > ### Resumo / História:
 
->> #### O MakeMVCSS é um framework PHP baseado em diversos frameworks já existentes no mercado para desenvolvimento de aplicações web que seguem o padrão MVC
+>> #### O Continuum é um framework PHP baseado em diversos frameworks já existentes no mercado para desenvolvimento de aplicações web que seguem o padrão MVC
 
 >> #### Quando comecei a desenvolver este projeto, não tinha como ideia construir algo tão completo e complexo, e sim somente um sistema que me auxiliasse a formar URLs amigáveis para serem interpretadas facilmente por um sistema de rotas. Como vi que era possível aprimorar o projeto e deixa-lo com mais funcionalidades, dediquei-me a produzir algo que pudesse ser utilizado no lugar de frameworks já existentes no mercado
 
@@ -55,7 +55,7 @@
 
 ### [Executando Comandos](./RunningCommands.md)
 
-> #### Dentro da pasta do projeto MakeMVCSS existe um arquivo chamado `adm`, com ele é possível executar comandos que realizam algumas ações
+> #### Dentro da pasta do projeto Continuum existe um arquivo chamado `adm`, com ele é possível executar comandos que realizam algumas ações
 
 > #### Permite a geração de Controladores, Visões, Serviços, Modelos e outras coisas
 

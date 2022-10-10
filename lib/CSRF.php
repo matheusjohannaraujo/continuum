@@ -9,7 +9,7 @@ class CSRF
 
     public static function create()
     {
-        session()->set("_csrf", hash("sha256", uniqid() . "_MakeMVCSS_" . uniqid()));
+        session()->set("_csrf", hash("sha256", uniqid() . "_Continuum_" . uniqid()));
     }
     
     public static function get()

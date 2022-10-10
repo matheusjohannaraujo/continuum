@@ -1,5 +1,5 @@
 /*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
+	GitHub: https://github.com/matheusjohannaraujo/continuum
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo

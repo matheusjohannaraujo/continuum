@@ -1,7 +1,7 @@
 window.onload = function() {
   //<editor-fold desc="Changeable Configuration Block">
 
-  // "http://localhost/makemvcss/swagger-php-open-api"
+  // "http://localhost/continuum/swagger-php-open-api"
   let base_url = (window.location.origin + window.location.pathname).replace("public/swagger-ui/", "") + "swagger-php-open-api";
 
   // the following lines will be replaced by docker/configurator, when it runs in a docker-container

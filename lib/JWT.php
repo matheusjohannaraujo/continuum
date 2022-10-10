@@ -1,7 +1,7 @@
 <?php
 
 /*
-	GitHub: https://github.com/matheusjohannaraujo/makemvcss
+	GitHub: https://github.com/matheusjohannaraujo/continuum
 	Country: Brasil
 	State: Pernambuco
 	Developer: Matheus Johann Araujo
@@ -55,11 +55,11 @@ class JWT
         $this->payload([
             "iss" => "localhost",
             "sub" => "JWT Credential",
-            "aud" => "http://localhost/makemvcss",
+            "aud" => "http://localhost/continuum",
             "iat" => $time,
             "exp" => $time + (60 * 30), // Meia hora de validade para o token
             "jti" => $uid,
-            "name" => "MakeMVCSS",
+            "name" => "Continuum",
         ]);
     }
 

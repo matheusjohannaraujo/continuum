@@ -547,7 +547,7 @@ function fun_update_project()
     /*if (DataManager::exist($folderActual . ".git") == "FOLDER") {        
         exit(shell_exec("cd $folderActual && git pull"));
     }*/
-    $folderUpdate = DataManager::path($folderActual . "makemvcss-master/");
+    $folderUpdate = DataManager::path($folderActual . "continuum-master/");
     echo "\r\n";
     echo cli_text_color(" Dir actual: " . $folderActual);
     echo "\r\n";
@@ -555,9 +555,9 @@ function fun_update_project()
     echo "\r\n";
     echo cli_text_color(" Download . . .", "cyan");
     echo "\r\n";
-    $link = "https://github.com/matheusjohannaraujo/makemvcss/archive/master.zip";
+    $link = "https://github.com/matheusjohannaraujo/continuum/archive/master.zip";
     $zip = file_get_contents($link);
-    $zipName = "makemvcss-master.zip";
+    $zipName = "continuum-master.zip";
     file_put_contents($folderActual . $zipName, $zip);
 
     DataManager::zipExtract($folderActual . $zipName, $folderActual);
@@ -566,7 +566,7 @@ function fun_update_project()
     DataManager::delete($folderUpdate . "app/");
     DataManager::delete($folderUpdate . "public/");
     DataManager::delete($folderUpdate . "storage/");
-    DataManager::delete($folderUpdate . "db_makemvcss.sqlite");
+    DataManager::delete($folderUpdate . "db_continuum.sqlite");
     DataManager::delete($folderUpdate . "composer.lock");
     DataManager::copy($folderActual . "app/", $folderUpdate . "app/");
     DataManager::copy($folderActual . "public/", $folderUpdate . "public/");
@@ -593,16 +593,16 @@ function fun_list_commands()
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $version_actual = input_env("VERSION", "very old");
     $env = new ENV;    
-    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/makemvcss/master/.env.example");
+    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/continuum/master/.env.example");
     $version_latest = $env->get("VERSION", "not found");
     echo "
  ###################################################################################################################
  #
- # " . cli_text_color("MakeMVCSS - A simple and complete PHP framework, thought and designed by Matheus Johann Araújo", "blue") . "
+ # " . cli_text_color("Continuum - A simple and complete PHP framework, thought and designed by Matheus Johann Araújo", "blue") . "
  #
  # -----------------------------------------------------------------------------------------------------------------  
  #
- # The local version of the MakeMVCSS framework is " . cli_text_color("`$version_actual`", "red") . " and the remote version is " . cli_text_color("`$version_latest`") . "
+ # The local version of the Continuum framework is " . cli_text_color("`$version_actual`", "red") . " and the remote version is " . cli_text_color("`$version_latest`") . "
  #
  # Version: " . cli_text_color("`$version_actual`", "red") . " -> " . cli_text_color("`$version_latest`") . "
  #

@@ -17,7 +17,7 @@ $this->section("body");
                 A simple and complete PHP framework, thought and designed by Matheus Johann Araújo
             </div>
             <div class="text-center mx-auto" style="max-width: 300px;">
-                <a target="_blank" href="https://github.com/matheusjohannaraujo/makemvcss" class="btn btn-primary mt-5 p-3 pt-2 pb-2 w-100" style="font-size: 1.7em;">
+                <a target="_blank" href="https://github.com/matheusjohannaraujo/continuum" class="btn btn-primary mt-5 p-3 pt-2 pb-2 w-100" style="font-size: 1.7em;">
                     DOCUMENTATION
                 </a>
             </div>
@@ -103,9 +103,9 @@ $this->section("body");
                                 <?= tag_img("index.jpeg", ["class" => "card-img-top", "id" => "autor", "title" => "Continuum author: Matheus Johann Araújo", "alt" => "Continuum author: Matheus Johann Araújo"]); ?>
                                 <div class="card-body">
                                     <h5 class="card-title">Hello, my name is Matheus Johann Araújo</h5>
-                                    <p class="card-text text-justify"><i>The <b><a href="https://github.com/matheusjohannaraujo/makemvcss" target="_blank">Continuum</a></b> is a PHP framework based on several frameworks already on the market for developing web applications that follow the MVC standard</i></p>
+                                    <p class="card-text text-justify"><i>The <b><a href="https://github.com/matheusjohannaraujo/continuum" target="_blank">Continuum</a></b> is a PHP framework based on several frameworks already on the market for developing web applications that follow the MVC standard</i></p>
                                     <div>
-                                        <a href="https://github.com/matheusjohannaraujo/makemvcss" target="_blank" class="btn btn-primary">GitHub</a>
+                                        <a href="https://github.com/matheusjohannaraujo/continuum" target="_blank" class="btn btn-primary">GitHub</a>
                                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                             Read more/less
                                         </button>

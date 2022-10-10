@@ -1,12 +1,12 @@
 ### Running Commands
 
-> EN-US: Inside the `MakeMVCSS` project folder there is a file called `adm`, with which it is possible to execute commands that perform some actions
+> EN-US: Inside the `Continuum` project folder there is a file called `adm`, with which it is possible to execute commands that perform some actions
 
 > EN-US: The `adm` file allows you to generate Controllers, Views, Services, Models, Helpers and many other things
 
 ### Executando Comandos
 
-> PT-BR: Dentro da pasta do projeto `MakeMVCSS` existe um arquivo chamado `adm`, com o qual é possível executar comandos que realizam algumas ações
+> PT-BR: Dentro da pasta do projeto `Continuum` existe um arquivo chamado `adm`, com o qual é possível executar comandos que realizam algumas ações
 
 > PT-BR: O arquivo `adm` permite a gerar Controladores, Visões, Serviços, Modelos, Ajudantes e muitas outras coisas
 

@@ -1,8 +1,8 @@
 ### Global Helpers | Ajudantes Globais
 
-> *EN-US: The file in `lib/helpers.php` contains the implementation of global helpers (functions), which can be used anywhere in the MakeMVCSS framework*
+> *EN-US: The file in `lib/helpers.php` contains the implementation of global helpers (functions), which can be used anywhere in the Continuum framework*
 
-> *PT-BR: O arquivo em `lib/helpers.php` contém a implementação de ajudantes (funções) globais, que podem ser utilizadas em qualquer lugar do framework MakeMVCSS*
+> *PT-BR: O arquivo em `lib/helpers.php` contém a implementação de ajudantes (funções) globais, que podem ser utilizadas em qualquer lugar do framework Continuum*
 
 <hr>
 

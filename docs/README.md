@@ -1,15 +1,15 @@
 
-# [Make M V C S S](https://github.com/matheusjohannaraujo/makemvcss)
+# [Continuum](https://github.com/matheusjohannaraujo/continuum)
 
-> [`M - Model`](./SchemasAndModels.md)
+> [`Model`](./SchemasAndModels.md)
 
-> [`V - View`](./DefiningTemplatesAndViews.md)
+> [`View`](./DefiningTemplatesAndViews.md)
 
-> [`C - Controller`](./DefiningControllers.md)
+> [`Controller`](./DefiningControllers.md)
 
-> [`S - Service`](./DefiningServices.md)
+> [`Service`](./DefiningServices.md)
 
-> [`S - Schema`](./SchemasAndModels.md)
+> [`Schema`](./SchemasAndModels.md)
 
 ## [Documentation in English](./DOC-EU.md)
 
@@ -20,6 +20,6 @@ const DEVELOPER_INFO = [
     "autor" => "Matheus Johann Araujo",
     "country" => "Brasil",
     "state" => "Pernambuco",
-    "date" => "2022-10-09"
+    "date" => "2022-10-10"
 ];
 ```
