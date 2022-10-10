@@ -53,7 +53,7 @@ $this->section("body");
         </div>
         <?php
             } else {
-                echo "<div class=\"mt-3 alert alert-warning fw-bold\" role=\"alert\">Contacts not found.</div>";
+                echo "<div class=\"mt-3 alert alert-info fw-bold\" role=\"alert\">Contacts not found.</div>";
             }
         ?>
 

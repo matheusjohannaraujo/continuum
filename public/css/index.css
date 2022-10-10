@@ -1,0 +1,26 @@
+
+.text-primary {
+    color: #052c65 !important;
+}
+
+.bg-primary, .btn-primary {
+    transition: 0.5s;
+    background: #052c65 !important;
+}
+
+.btn-primary:hover {
+    transition: 0.125s;
+    color: #052c65 !important;
+    background: #fff !important;
+}
+
+.btn-outline-primary {
+    transition: 0.5s;
+    border: 1px #052c65 solid !important;
+}
+
+.btn-outline-primary:hover {
+    transition: 0.125s;
+    color: #fff !important;
+    background: #052c65 !important;
+}
