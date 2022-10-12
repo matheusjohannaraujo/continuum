@@ -77,7 +77,7 @@ Route::get("/template", function () {
     */
     $template = view("string_template", [
         "size" => 9,
-        "name" => "Matheus Johann Araujo",
+        "name" => "Counter",
     ]);
     return $template;
 });
@@ -91,27 +91,9 @@ Route::get("/json", function () {
     return [
         "user" => [
             "name" => "Matheus Johann Araujo",
-            "age" => 22
+            "age" => 24
         ]
     ];
-});
-
-Route::any("/auth", function () {
-    /*
-        EN-US: Deliver the JWT code (JSON Web Token)
-        -
-        PT-BR: Entrega um código JWT (JSON Web Token)
-    */
-    return input_auth();
-});
-
-Route::any("/jwt", function () {
-    /*
-        EN-US: Delivers an instance of the JWT class with authorization (JSON Web Token code)
-        -
-        PT-BR: Entrega uma instância da classe JWT com autorização (código JSON Web Token)
-    */
-    return input_jwt();
 });
 
 Route::get("/math/add/{nums:array}", function (array $nums) {

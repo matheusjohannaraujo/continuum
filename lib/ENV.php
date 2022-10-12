@@ -39,6 +39,17 @@ class ENV
                     dumpd("The `.env` and `.env.example` files were not found.");
                 }
                 DataManager::copy($path_env_example, ".env") or dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
+                if (DataManager::exist($path_env) == "FILE") {
+                    $env = new \Lib\ENV;
+                    $array = $env->read();
+                    if ($env->get("AES_256_SECRET") == "password12345") {
+                        $array["AES_256_SECRET"] = hash_generate(uniqid());
+                    }
+                    if ($env->get("JWT_SECRET") == "password12345") {
+                        $array["JWT_SECRET"] = hash_generate(uniqid());
+                    }
+                    $env->write($array);
+                }
             }
         } else {
             $this->path_env = $path_env;
@@ -73,7 +84,7 @@ class ENV
         }
         $str = "";
         foreach ($array as $key => $value) {
-            $str .= trim($key) . "=" . trim($value) . "\r\n";
+            $str .= trim($key) . "=" . trim(type_to_string($value)) . "\r\n";
             unset($array[$key]);
         }
         unset($array);

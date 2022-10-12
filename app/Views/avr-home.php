@@ -1,6 +1,6 @@
 <?php
 
-$this->section("title", "Continuum by Matheus Johann Araújo");
+$this->section("title", "Continuum Framework");
 $this->extends("layouts.html5");
 $this->section("body");
 
@@ -60,14 +60,11 @@ $this->section("body");
             </div>        
 
             <span class="list-group-item bg-primary text-white fw-bold text-center rounded">EXAMPLE OF ROUTES - WITH HTTP METHOD</span>
-            <div class="row mb-3">            
+            <div class="row mb-3">     
                 <div class="col mt-3">
-                    <div class="list-group">                    
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("template"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/template</b></a>
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("json"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/json</b></a>
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("auth"); ?>"><span class="badge bg-info mr-3">ANY</span><b>/auth</b></a>
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("jwt"); ?>"><span class="badge bg-info mr-3">ANY</span> <b>/jwt</b></a>
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("math/add/3/5"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/math/add/3/5</b></a>
+                    <div class="list-group">
+                        <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.index"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/index</b></a>
+                        <a class="list-group-item list-group-item-action bg-light" href="<?= folder_public("swagger-ui/"); ?>"><span class="badge bg-dark mr-3">Swagger UI</span> <b>Contact</b></a>
                     </div>
                 </div>
                 <div class="col mt-3">
@@ -76,11 +73,12 @@ $this->section("body");
                         <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("api/v1/video"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/api/v1/video</b></a>
                         <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("api/v1/video/stream"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/api/v1/video/stream</b></a>
                     </div>
-                </div>
+                </div>       
                 <div class="col mt-3">
-                    <div class="list-group">
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= route("contact.index"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/contact/index</b></a>
-                        <a class="list-group-item list-group-item-action bg-light" href="<?= folder_public("swagger-ui"); ?>"><span class="badge bg-dark mr-3">Swagger UI</span> <b>Contact</b></a>
+                    <div class="list-group">                    
+                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("template"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/template</b></a>
+                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("json"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/json</b></a>
+                        <a class="list-group-item list-group-item-action bg-light" href="<?= site_url("math/add/3/5"); ?>"><span class="badge bg-primary mr-3">GET</span> <b>/math/add/3/5</b></a>
                     </div>
                 </div>
             </div>

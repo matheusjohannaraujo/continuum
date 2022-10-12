@@ -1,10 +1,3 @@
-/*
-	GitHub: https://github.com/matheusjohannaraujo/continuum
-	Country: Brasil
-	State: Pernambuco
-	Developer: Matheus Johann Araujo
-	Date: 2020-11-06
-*/
 
 window.addEventListener("load", function(event) {
     show_info_framework = document.querySelector("#show_info_framework")    

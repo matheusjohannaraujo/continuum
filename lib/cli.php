@@ -44,29 +44,25 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/storage/text.txt", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . "/storage/text.txt");
     echo "\r\n";
-    fun_test_route("/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/js/index.js");
+    fun_test_route("/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "/js/index.js");
     echo "\r\n";
-    fun_test_route("/public/js/index.js", "1f28a6e549918674d6dc814c2cc87480", $baseDomain . "/public/js/index.js");
+    fun_test_route("/public/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "/public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "df6f4662087c0ef3d35cab85436a1b25", $baseDomain . "/");
+    fun_test_route("/", "c8476ec3552cd538e7c42782d8b07266", $baseDomain . "/");
     echo "\r\n";
-    fun_test_route("/template", "a617a1a108e1501398baec11cdcfc947", $baseDomain . "/template");
+    fun_test_route("/template", "351b6d7f3959b074b4be3bead0cbff6e", $baseDomain . "/template");
     echo "\r\n";
-    fun_test_route("/json", "c372e4a0e7030dcc334c53dbe74e95f7", $baseDomain . "/json");
-    echo "\r\n";
-    fun_test_route("/auth", "c7b55c93fbffa43912d8c0a46bf72ee1", $baseDomain . "/auth");
-    echo "\r\n";
-    fun_test_route("/jwt", "4ac340b1ea55ad5426f0fd9335b98bd1", $baseDomain . "/jwt");
+    fun_test_route("/json", "48897a19a821580ff2d187c7d3af552f", $baseDomain . "/json");
     echo "\r\n";
     fun_test_route("/math/add/3/5", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "/math/add/3/5");
     echo "\r\n";
-    fun_test_route("/api/v1/text", "52c761fef871620b5f6c537552671825", $baseDomain . "/api/v1/text");
+    fun_test_route("/api/v1/text", "75e8c9b8c1a48bdb1fb5f72ca5ffa882", $baseDomain . "/api/v1/text");
     echo "\r\n";
     fun_test_route("/api/v1/video", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video");
     echo "\r\n";
     fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video/stream");
     echo "\r\n";
-    fun_test_route("/contact", "5833d761fa0e28d516d5173697409460", $baseDomain . "/contact");
+    fun_test_route("/contact", "a70f578c9f72b415d6a4366e30cfb36a", $baseDomain . "/contact");
 }
 
 function fun_create_app_file(string $class, string $content, string $pathFile)
@@ -566,7 +562,7 @@ function fun_update_project()
     DataManager::delete($folderUpdate . "app/");
     DataManager::delete($folderUpdate . "public/");
     DataManager::delete($folderUpdate . "storage/");
-    DataManager::delete($folderUpdate . "db_continuum.sqlite");
+    DataManager::delete($folderUpdate . "database.sqlite");
     DataManager::delete($folderUpdate . "composer.lock");
     DataManager::copy($folderActual . "app/", $folderUpdate . "app/");
     DataManager::copy($folderActual . "public/", $folderUpdate . "public/");

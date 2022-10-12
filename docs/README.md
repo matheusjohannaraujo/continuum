@@ -1,5 +1,5 @@
 
-# [Continuum](https://github.com/matheusjohannaraujo/continuum)
+# [Continuum Framework](https://github.com/matheusjohannaraujo/continuum)
 
 > [`Model`](./SchemasAndModels.md)
 
@@ -20,6 +20,6 @@ const DEVELOPER_INFO = [
     "autor" => "Matheus Johann Araujo",
     "country" => "Brasil",
     "state" => "Pernambuco",
-    "date" => "2022-10-10"
+    "date" => "2022-10-16"
 ];
 ```

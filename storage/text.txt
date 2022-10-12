@@ -1,5 +1,5 @@
-Matheus
+A simple and complete PHP framework,
 
-Johann
+thought and designed by
 
-Araújo
+Matheus Johann Araújo

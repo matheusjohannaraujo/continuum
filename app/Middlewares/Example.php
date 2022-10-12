@@ -6,7 +6,7 @@ class Example {
 
     public static function handle($route, \Closure $next) :bool
     {
-        dumpl("handle", $route);
+        dumpl("App\Middlewares\Example::handle", $route);
         return $next(rand(0, 1));
     }
 

@@ -5,15 +5,15 @@
     <?= tag_favicon("favicon.jpg", "jpg"); ?>
     <link rel="canonical" href="<?= site_url(); ?>"/>
     <link rel="next" href="<?= site_url(); ?>">
-    <meta name="description" content="Continuum - Matheus Johann Araújo">
-    <meta name="keywords" content="Continuum - Matheus Johann Araújo. Continuum. Matheus Johann Araújo. Matheus. Johann. Araújo. Matheus Johann. Matheus Araújo">
+    <meta name="description" content="Continuum Framework">
+    <meta name="keywords" content="Continuum Framework. Continuum. Framework. Continuum Framework - Matheus Johann Araújo. Continuum Framework Matheus. Continuum Framework Johann. Matheus Johann Araújo. Matheus Johann. Matheus Araújo. Matheus. Johann. Araújo.">
     <meta name="robots" content="<?= site_url(); ?>">
     <meta name="author" content="Matheus Johann Araújo"/>
-    <meta property="og:title" content="Continuum - Matheus Johann Araújo">
-    <meta property="og:description" content="Continuum - Matheus Johann Araújo">
+    <meta property="og:title" content="Continuum Framework">
+    <meta property="og:description" content="Continuum Framework">
     <meta property="og:image" content="<?= folder_public("img/favicon.jpg"); ?>"/>
     <meta property="og:url" content="<?= site_url(); ?>">
-    <meta property="og:site_name" content="Continuum - Matheus Johann Araújo">
+    <meta property="og:site_name" content="Continuum Framework">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:type" content="article">
 

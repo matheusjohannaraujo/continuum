@@ -24,3 +24,19 @@
     color: #fff !important;
     background: #052c65 !important;
 }
+
+.table thead tr th:first-child {
+    border-top-left-radius: 3px;
+}
+
+.table thead tr th:last-child  {
+    border-top-right-radius: 3px;
+}
+
+.table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 3px;
+}
+
+.table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 3px;
+}
