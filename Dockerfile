@@ -13,3 +13,5 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN rm composer-setup.php
 
 RUN composer update
+
+RUN chmod -R 0777 storage/

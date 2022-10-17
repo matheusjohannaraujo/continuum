@@ -8,10 +8,10 @@ services:
       - mysql
     ports:
       - 80:80
-#    volumes:
+    volumes:
+      - ./storage/:/var/www/html/storage/
 #      - ./www:/var/www/html
 #      - ./env:/var/www/html/.env
-#      - ./storage/:/var/www/html/storage/
   mysql:
     image: mysql:5.7
     restart: always
