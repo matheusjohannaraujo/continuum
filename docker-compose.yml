@@ -1,0 +1,47 @@
+version: '3.3'
+services:
+  web:
+#    image: fehren/php-apache:8.0.23
+    build: .
+    restart: always
+    links:
+      - mysql
+    ports:
+      - 80:80
+#    volumes:
+#      - ./www:/var/www/html
+#      - ./env:/var/www/html/.env
+#      - ./storage/:/var/www/html/storage/
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=database_example
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2
+    restart: always
+    links:
+      - mysql
+    ports:
+      - 81:80
+    environment:
+      - PMA_ARBITRARY=1
+  adminer:
+    image: adminer:4.8.1
+    restart: always
+    links:
+      - mysql
+    ports:
+      - 82:8080
+    volumes:
+      - /etc/localtime:/etc/localtime
+
+#networks:
+#  default:
+#    external: true
+#    name: default-network
