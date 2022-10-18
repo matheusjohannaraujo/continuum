@@ -7,9 +7,24 @@
 * * With "composer", run the following command
 * * * **```composer update --ignore-platform-reqs```**
 * 
-* * Installers for Windows - Apache, PHP, MySQL and Composer
-* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Download: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
-* * * <a href="https://getcomposer.org/Composer-Setup.exe">Download: Composer-Setup.exe</a>
+* * Install Docker
+* * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
+* * * **```sh get-docker.sh```**
+* 
+* * Running the install through Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
+* * * **```docker-compose down --remove-orphans```**
+* * * **```docker-compose up -d --build```**
+* * * **```docker exec -it continuum-web-1 bash```**
+* 
+* * Example of configuration web container Docker
+* * * **```ln -s /opt/lampp/bin/php /usr/bin/```**
+* * * **```ln -s /opt/lampp/bin/mysql /usr/bin/```**
+* * * **```cd /opt/lampp/htdocs```**
+* * * **```php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"```**
+* * * **```php composer-setup.php```**
+* * * **```mv composer.phar /usr/local/bin/composer```**
+* * * **```rm composer-setup.php```**
+* * * **```composer update```**
 * 
 * * Installers for Linux Debian - Apache, PHP, MySQL and Composer
 * * * **```sudo apt update```**
@@ -22,6 +37,10 @@
 * * * **```composer config -g repo.packagist composer https://packagist.org```**
 * * * **```composer config -g github-protocols https ssh```**
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">It is necessary to have enabled the reading of htaccess files</a>
+* 
+* * Installers for Windows - Apache, PHP, MySQL and Composer
+* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Download: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
+* * * <a href="https://getcomposer.org/Composer-Setup.exe">Download: Composer-Setup.exe</a>
 
 ### [Back to the previous page](./DOC-EU.md)
 
@@ -36,9 +55,24 @@
 * * Com "composer", execute o seguinte comando
 * * * **```composer update --ignore-platform-reqs```**
 * 
-* * Instaladores para Windows - Apache, PHP, MySQL e Composer
-* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Baixar: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
-* * * <a href="https://getcomposer.org/Composer-Setup.exe">Baixar: Composer-Setup.exe</a>
+* * Instalar Docker
+* * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
+* * * **```sh get-docker.sh```**
+* 
+* * Executando a instalação pelo Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
+* * * **```docker-compose down --remove-orphans```**
+* * * **```docker-compose up -d --build```**
+* * * **```docker exec -it continuum-web-1 bash```**
+* 
+* * Exemplo de configuração do Docker container web
+* * * **```ln -s /opt/lampp/bin/php /usr/bin/```**
+* * * **```ln -s /opt/lampp/bin/mysql /usr/bin/```**
+* * * **```cd /opt/lampp/htdocs```**
+* * * **```php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"```**
+* * * **```php composer-setup.php```**
+* * * **```mv composer.phar /usr/local/bin/composer```**
+* * * **```rm composer-setup.php```**
+* * * **```composer update```**
 * 
 * * Instaladores para Linux Debian - Apache, PHP, MySQL e Composer
 * * * **```sudo apt update```**
@@ -51,5 +85,9 @@
 * * * **```composer config -g repo.packagist composer https://packagist.org```**
 * * * **```composer config -g github-protocols https ssh```**
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">É necessário ter habilitado a leitura dos arquivos htaccess</a>
+* 
+* * Instaladores para Windows - Apache, PHP, MySQL e Composer
+* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Baixar: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
+* * * <a href="https://getcomposer.org/Composer-Setup.exe">Baixar: Composer-Setup.exe</a>
 
 ### [Voltar para página anterior](./DOC.md)
