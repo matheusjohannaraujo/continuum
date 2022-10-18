@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   web:
-#    image: fehren/php-apache:8.0.23
+#    image: tomsik68/xampp:8
     build: .
     restart: always
     links:
@@ -9,9 +9,8 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./storage/:/var/www/html/storage/
-#      - ./www:/var/www/html
-#      - ./env:/var/www/html/.env
+      - ./storage/:/opt/lampp/htdocs/storage/
+#      - ./www:/opt/lampp/htdocs
   mysql:
     image: mysql:5.7
     restart: always
@@ -31,6 +30,9 @@ services:
       - 81:80
     environment:
       - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
   adminer:
     image: adminer:4.8.1
     restart: always
@@ -38,6 +40,8 @@ services:
       - mysql
     ports:
       - 82:8080
+    environment:
+      - ADMINER_DEFAULT_SERVER=mysql
     volumes:
       - /etc/localtime:/etc/localtime
 

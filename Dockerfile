@@ -1,8 +1,12 @@
-FROM fehren/php-apache:8.0.23
+FROM tomsik68/xampp:8
 
-WORKDIR /var/www/html
+WORKDIR /opt/lampp/htdocs
 
 COPY ./www .
+
+RUN ln -s /opt/lampp/bin/php /usr/bin
+
+RUN ln -s /opt/lampp/bin/mysql /usr/bin
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 
@@ -15,3 +19,17 @@ RUN rm composer-setup.php
 RUN composer update
 
 RUN chmod -R 0777 storage/
+
+RUN chmod -R 0777 /opt/lampp/htdocs/
+
+RUN apt update && apt install htop -y
+
+RUN echo "/opt/lampp/lampp startapache" > /startup.sh
+
+RUN echo "/usr/bin/supervisord -n" >> /startup.sh
+
+RUN chmod +x /startup.sh
+
+RUN /opt/lampp/lampp stop
+
+RUN /opt/lampp/lampp startapache
