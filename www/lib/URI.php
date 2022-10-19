@@ -29,7 +29,7 @@ class URI
                 break;
         }
         if (self::$protocol === null) {
-            if (strpos(strtolower($_SERVER['SERVER_PROTOCOL']), 'https') === false) {
+            if (strpos(strtolower($_SERVER['SERVER_PROTOCOL'] ?? ''), 'https') === false) {
                 self::$protocol = 'http://';
             } else {
                 self::$protocol = 'https://';
@@ -40,7 +40,7 @@ class URI
 
     public static function Host()
     {
-        self::$host = $_SERVER['HTTP_HOST'];
+        self::$host = $_SERVER['HTTP_HOST'] ?? '';
         return self::$host;
     }
 
