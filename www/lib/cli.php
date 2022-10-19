@@ -585,6 +585,7 @@ function fun_list_commands()
     $folderHelperName = input_env("NAME_FOLDER_HELPERS");
     $folderSchemaName = input_env("NAME_FOLDER_SCHEMAS");
     $folderServiceName = input_env("NAME_FOLDER_SERVICES");
+    $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $version_actual = input_env("VERSION", "very old");
@@ -615,6 +616,8 @@ function fun_list_commands()
  php adm server          | php adm s:80       | Start a web server on port 80
  -------------------------------------------------------------------------------------------------------------------
  php adm controller Test | php adm c Test     | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
+ -------------------------------------------------------------------------------------------------------------------
+ php adm command Test    | php adm cmd Test   | Run the command file inside the folder \"app/${folderCommandName}/Test.php\"
  -------------------------------------------------------------------------------------------------------------------
  php adm middleware Test | php adm mi Test    | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
  -------------------------------------------------------------------------------------------------------------------
@@ -674,6 +677,29 @@ function fun_no_cache()
     echo cli_text_color("\r\n Clean!\r\n");
 }
 
+function fun_run_command(string $nameFile, $params = false)
+{
+    if ($params === false) {
+        $params = [];
+    } else if (!is_array($params)) {
+        $params = [$params];
+    }
+    require_once __DIR__ . "/config.php";
+    $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
+    $file = DataManager::path(__BASE_DIR__ . "/app/${folderCommandName}/${nameFile}.php");
+    if (DataManager::exist($file) == 'FILE') {
+        (function() use ($file, $params) {
+            try {
+                require_once $file;
+            } catch (\Throwable $th) {
+                dumpd($th);
+            }
+        })();
+    } else {
+        echo PHP_EOL, "Script not found: ", $file, PHP_EOL;
+    }
+}
+
 function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
 {
     switch ($cmd) {
@@ -704,6 +730,10 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
         case "database":
         case "d":
             fun_apply_database($nameFile);
+            break;
+        case "command":
+        case "cmd":
+            fun_run_command($nameFile, $require);
             break;
     }
 }

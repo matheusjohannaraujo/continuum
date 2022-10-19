@@ -21,8 +21,8 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 \Lib\Meter::start();
 
-session();
+!defined('CLI') ? session() : null;
 
-\Lib\Route::init();
+!defined('CLI') ? \Lib\Route::init() : null;
 
 require_once __DIR__ . "/db_conn_capsule.php";
