@@ -684,19 +684,21 @@ function fun_run_command(string $nameFile, $params = false)
     } else if (!is_array($params)) {
         $params = [$params];
     }
-    require_once __DIR__ . "/config.php";
     $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
-    $file = DataManager::path(__BASE_DIR__ . "/app/${folderCommandName}/${nameFile}.php");
+    $file = DataManager::path(__BASE_DIR__ . "/app/${folderCommandName}/${nameFile}.php");    
     if (DataManager::exist($file) == 'FILE') {
         (function() use ($file, $params) {
             try {
+                require_once realpath(__DIR__ . "/../vendor/autoload.php");
+                require_once realpath(__DIR__ . "/config.php");
                 require_once $file;
+                die;
             } catch (\Throwable $th) {
                 dumpd($th);
             }
         })();
     } else {
-        echo PHP_EOL, "Script not found: ", $file, PHP_EOL;
+        echo PHP_EOL, "Command file not found: ", $file, PHP_EOL;
     }
 }
 
