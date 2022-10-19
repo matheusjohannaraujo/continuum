@@ -589,8 +589,8 @@ function fun_list_commands()
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $version_actual = input_env("VERSION", "very old");
-    $env = new ENV;    
-    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/continuum/master/.env.example");
+    $env = new ENV;
+    $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/continuum/master/www/.env.example");
     $version_latest = $env->get("VERSION", "not found");
     echo "
  ###################################################################################################################
