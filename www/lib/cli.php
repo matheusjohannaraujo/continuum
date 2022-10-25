@@ -702,8 +702,29 @@ function fun_run_command(string $nameFile, $params = false)
     }
 }
 
+function confirmation_y_or_n()
+{
+    echo cli_text_color("\r\n####################################################", "yellow");
+    echo cli_text_color("\r\n# Confirm with ", "yellow");
+    echo cli_text_color("`Y`");
+    echo cli_text_color(" to continue (default is ", "yellow");
+    echo cli_text_color("`N`", "blue");
+    echo cli_text_color("): ", "yellow");
+    $y_or_n = mb_strtoupper(readline());
+    if ($y_or_n !== "Y") {
+        echo cli_text_color("# ", "yellow");
+        echo cli_text_color("Operation cancelled.", "blue");
+        die(cli_text_color("\r\n####################################################\r\n", "yellow"));
+    } else {
+        echo cli_text_color("# ", "yellow");
+        echo cli_text_color("Operation confirmed.");
+        echo cli_text_color("\r\n####################################################\r\n", "yellow");
+    }
+}
+
 function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
 {
+    confirmation_y_or_n();
     switch ($cmd) {
         case "controller":
         case "c":
@@ -742,6 +763,7 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
 
 function fun_switch_other_options(string $cmd)
 {
+    confirmation_y_or_n();
     $attr = 80;
     if (preg_match("/:/", $cmd)) {
         $arr = explode(':', $cmd);
