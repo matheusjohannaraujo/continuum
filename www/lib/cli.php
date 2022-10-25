@@ -702,23 +702,39 @@ function fun_run_command(string $nameFile, $params = false)
     }
 }
 
+if(!function_exists("readline")) {
+    function readline($prompt = null) {
+        if($prompt){
+            echo $prompt;
+        }
+        $fp = fopen("php://stdin","r");
+        $line = rtrim(fgets($fp, 1024));
+        return $line;
+    }
+}
+
 function confirmation_y_or_n()
 {
-    echo cli_text_color("\r\n####################################################", "yellow");
-    echo cli_text_color("\r\n# Confirm with ", "yellow");
+    echo "\r\n####################################################";
+    echo "\r\n# Confirm with ";
+    echo cli_text_color("`YES`");
+    echo " or ";
     echo cli_text_color("`Y`");
-    echo cli_text_color(" to continue (default is ", "yellow");
-    echo cli_text_color("`N`", "blue");
-    echo cli_text_color("): ", "yellow");
+    echo " to continue (default is ";
+    echo cli_text_color("`NOT`", "cyan");
+    echo " or ";
+    echo cli_text_color("`N`", "cyan");
+    echo "): ";
     $y_or_n = mb_strtoupper(readline());
-    if ($y_or_n !== "Y") {
-        echo cli_text_color("# ", "yellow");
-        echo cli_text_color("Operation cancelled.", "blue");
-        die(cli_text_color("\r\n####################################################\r\n", "yellow"));
+    if ($y_or_n !== "Y" && $y_or_n !== "YES") {
+        echo "# ";
+        echo cli_text_color("Operation cancelled.", "cyan");
+        echo "\r\n####################################################\r\n";
+        die();
     } else {
-        echo cli_text_color("# ", "yellow");
+        echo "# ";
         echo cli_text_color("Operation confirmed.");
-        echo cli_text_color("\r\n####################################################\r\n", "yellow");
+        echo "\r\n####################################################\r\n";
     }
 }
 
