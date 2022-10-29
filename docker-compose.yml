@@ -8,16 +8,16 @@ services:
       - mysql
     ports:
       - 80:80
-    volumes:
-      - ./storage/:/opt/lampp/htdocs/storage/
+#    volumes:
 #      - ./www:/opt/lampp/htdocs
+#      - ./storage:/opt/lampp/htdocs/storage
   mysql:
     image: mysql:5.7
     restart: always
     ports:
       - "3306:3306"
     volumes:
-      - ./data:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=database_example

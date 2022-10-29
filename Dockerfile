@@ -16,13 +16,19 @@ RUN mv composer.phar /usr/local/bin/composer
 
 RUN rm composer-setup.php
 
-RUN composer update
-
 RUN chmod -R 0777 storage/
 
 RUN chmod -R 0777 /opt/lampp/htdocs/
 
-RUN apt update && apt install htop -y
+RUN composer update
+
+RUN touch .env
+
+RUN chmod 0777 .env
+
+RUN cat .env.example > .env
+
+RUN echo "APP_URL=http://localhost/" >> .env
 
 RUN echo "/opt/lampp/lampp startapache" > /startup.sh
 
@@ -33,3 +39,5 @@ RUN chmod +x /startup.sh
 RUN /opt/lampp/lampp stop
 
 RUN /opt/lampp/lampp startapache
+
+RUN apt update && apt install htop -y

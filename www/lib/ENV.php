@@ -48,6 +48,9 @@ class ENV
                     if ($env->get("JWT_SECRET") == "password12345") {
                         $array["JWT_SECRET"] = hash_generate(uniqid());
                     }
+                    if (empty($env->get("APP_URL"))) {
+                        $array["APP_URL"] = !empty(site_url()) ? site_url() : "http://localhost/";
+                    }
                     $env->write($array);
                 }
             }

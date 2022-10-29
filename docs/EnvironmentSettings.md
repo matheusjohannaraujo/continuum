@@ -13,13 +13,13 @@
 # EN-US: Application base URL address
 # PT-BR: Endereço de URL base do aplicativo
 # -----------------------------------------------------------------------------------------------------
-# APP_URL=http://localhost/continuum/
+# APP_URL=http://localhost/continuum/www/
 
 # -----------------------------------------------------------------------------------------------------
 # EN-US: Current version number of the Continuum framework
 # PT-BR: Número da versão atual do framework Continuum
 # -----------------------------------------------------------------------------------------------------
-VERSION=4.5.3
+VERSION=4.5.4
 
 # -----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database

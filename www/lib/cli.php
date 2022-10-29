@@ -617,7 +617,7 @@ function fun_list_commands()
  -------------------------------------------------------------------------------------------------------------------
  php adm controller Test | php adm c Test     | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
  -------------------------------------------------------------------------------------------------------------------
- php adm command Test    | php adm cmd Test   | Run the command file inside the folder \"app/${folderCommandName}/Test.php\"
+ php adm command test    | php adm cmd test   | Run the command file inside the folder \"app/${folderCommandName}/test.php\"
  -------------------------------------------------------------------------------------------------------------------
  php adm middleware Test | php adm mi Test    | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
  -------------------------------------------------------------------------------------------------------------------
@@ -692,6 +692,12 @@ function fun_run_command(string $nameFile, $params = false)
                 require_once realpath(__DIR__ . "/../vendor/autoload.php");
                 require_once realpath(__DIR__ . "/config.php");
                 require_once $file;
+                $count = workWait(function() { usleep(1); });
+                echo PHP_EOL, "Meter: ";
+                dumpl(\Lib\Meter::stop());
+                if ($count > 0) {
+                    echo PHP_EOL, "workRun has been run ${count} times";
+                }
                 die;
             } catch (\Throwable $th) {
                 dumpd($th);
