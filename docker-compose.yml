@@ -8,9 +8,17 @@ services:
       - mysql
     ports:
       - 80:80
-#    volumes:
+    volumes:
+      - ./www/app:/opt/lampp/htdocs/app
+      - ./www/lib:/opt/lampp/htdocs/lib
+      - ./www/public:/opt/lampp/htdocs/public
+      - ./www/storage:/opt/lampp/htdocs/storage
+      - ./www/adm:/opt/lampp/htdocs/adm
+      - ./www/.htaccess:/opt/lampp/htdocs/.htaccess
+      - ./www/composer.json:/opt/lampp/htdocs/composer.json
+      - ./www/composer.lock:/opt/lampp/htdocs/composer.lock
+      - ./www/index.php:/opt/lampp/htdocs/index.php
 #      - ./www:/opt/lampp/htdocs
-#      - ./storage:/opt/lampp/htdocs/storage
   mysql:
     image: mysql:5.7
     restart: always
