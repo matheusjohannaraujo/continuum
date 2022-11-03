@@ -696,7 +696,7 @@ function fun_run_command(string $nameFile, $params = false)
                 echo PHP_EOL, "Meter: ";
                 dumpl(\Lib\Meter::stop());
                 if ($count > 0) {
-                    echo PHP_EOL, "workRun has been run ${count} times";
+                    echo PHP_EOL, "workRun has been run ${count} times", PHP_EOL;
                 }
                 die;
             } catch (\Throwable $th) {
