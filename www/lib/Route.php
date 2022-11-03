@@ -341,7 +341,8 @@ class Route
                     } else {
                         $result = view($action, self::$in);
                     }
-                }                
+                }
+                workWait(function() { usleep(1); });
                 if ($result instanceof Route) {
                     $result->out->go();
                 } else if ($result instanceof Response) {
