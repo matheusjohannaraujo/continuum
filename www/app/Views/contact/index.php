@@ -21,6 +21,7 @@ $this->section("body");
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">UUID</th>
                             <th scope="col">Name</th>
                             <th scope="col">E-mail</th>
                             <th scope="col">Created At</th>
@@ -36,13 +37,14 @@ $this->section("body");
                         ?>
                             <tr>
                                 <th scope="row"><?= $contact->id; ?></th>
+                                <td><?= $contact->uuid; ?></td>
                                 <td><?= $contact->name; ?></td>
                                 <td><?= $contact->email; ?></td>
                                 <td><?= $contact->created_at; ?></td>
                                 <td><?= $contact->updated_at; ?></td>
-                                <td><a class="btn btn-primary" href="<?= route("contact.show", $contact->id); ?>">Link</a></td>
-                                <td><a class="btn btn-secondary" href="<?= route("contact.edit", $contact->id); ?>">Link</a></td>
-                                <td><a class="btn btn-danger" href="<?= route("contact.destroy", $contact->id) . "/?_method=DELETE&_csrf=" . csrf(); ?>">Link</a></td>
+                                <td><a class="btn btn-primary" href="<?= route("contact.show", $contact->uuid); ?>">Link</a></td>
+                                <td><a class="btn btn-secondary" href="<?= route("contact.edit", $contact->uuid); ?>">Link</a></td>
+                                <td><a class="btn btn-danger" href="<?= route("contact.destroy", $contact->uuid) . "/?_method=DELETE&_csrf=" . csrf(); ?>">Link</a></td>
                             </tr>
                         <?php
                     }

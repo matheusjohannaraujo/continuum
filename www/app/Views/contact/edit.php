@@ -14,12 +14,16 @@ $this->section("body");
             </li>
         </ul>
 
-        <form class="mb-3 p-3 bg-light border rounded" method="POST" action="<?= route("contact.update", $contact->id); ?>">
+        <form class="mb-3 p-3 bg-light border rounded" method="POST" action="<?= route("contact.update", $contact->uuid); ?>">
             <?= tag_method("PUT"); ?>
             <?= tag_csrf(); ?>
             <div class="form-group mb-3">
                 <label class="form-label">Id:</label>
                 <input class="form-control" type="number" name="id" placeholder="Id" readonly required value="<?= old("id", $contact->id); ?>">
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">UUID:</label>
+                <input class="form-control" type="text" name="uuid" placeholder="UUID" readonly required value="<?= old("uuid", $contact->uuid); ?>">
             </div>
             <div class="form-group mb-3">
                 <label class="form-label" for="input-name">Name:</label>

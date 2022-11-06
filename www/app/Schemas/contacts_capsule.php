@@ -8,6 +8,8 @@ Capsule::schema()->create('contacts', function ($table) {
 
     $table->increments('id');
 
+    $table->string('uuid')->unique();
+
     $table->string('name');
 
     $table->string('email')->unique();

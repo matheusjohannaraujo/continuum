@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Contact;
+use Ramsey\Uuid\Uuid;
 
 class ContactService
 {
@@ -19,14 +20,14 @@ class ContactService
         return $this->contact::orderBy('id', 'ASC')->get();
     }
 
-    public function findId(int $id)
+    public function findId(string $id)
     {
-        return $this->contact->find($id);
+        return $this->contact->where("id", $id)->orWhere("uuid", $id)->first();
     }
 
-    public function delete(int $id)
+    public function delete(string $id)
     {
-        $this->contact = $this->contact->find($id);
+        $this->contact = $this->findId($id);
         if ($this->contact->delete()) {
             return $this->contact->toArray();
         } else {
@@ -54,6 +55,7 @@ class ContactService
     public function insert(string $name, string $email)
     {
         $this->validateNameEmail($name, $email);
+        $this->contact->uuid = Uuid::uuid4();
         $this->contact->name = $name;
         $this->contact->email = $email;
         $this->contact->save();
@@ -64,10 +66,10 @@ class ContactService
         }
     }
 
-    public function update(int $id, string $name, string $email)
+    public function update(string $id, string $name, string $email)
     {
         $this->validateNameEmail($name, $email);
-        $this->contact = $this->contact->find($id);
+        $this->contact = $this->findId($id);
         $this->contact->name = $name;
         $this->contact->email = $email;
         if ($this->contact->save()) {

@@ -7,7 +7,8 @@
         "zircote/swagger-php": "^4.4",
         "illuminate/events": "^8.0",
         "illuminate/database": "^8.0",
-        "illuminate/support": "^8.0"
+        "illuminate/support": "^8.0",
+        "ramsey/uuid": "^4.6"
     },
     "autoload": {
         "psr-4": {

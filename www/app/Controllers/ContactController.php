@@ -86,19 +86,19 @@ class ContactController
     }
     
     // Get single contact
-    public function show(int $id, array $CONFIG = ["method" => "GET"])
+    public function show(string $id, array $CONFIG = ["method" => "GET"])
     {
         return $this->contactService->findId($id)->toArray();
     }
 
     // Redirect page - Update a single contact
-    public function edit(int $id, array $CONFIG = ["method" => "GET"])
+    public function edit(string $id, array $CONFIG = ["method" => "GET"])
     {
         return view("contact/edit", ["contact" => $this->contactService->findId($id)]);
     }
 
     // Update a single contact
-    public function update(int $id, array $CONFIG = ["method" => "PUT", "csrf" => true])
+    public function update(string $id, array $CONFIG = ["method" => "PUT", "csrf" => true])
     {
         $name = input_req("name");
         $email = input_req("email");
@@ -107,7 +107,7 @@ class ContactController
     }
 
     // Destroy a single contact
-    public function destroy(int $id, array $CONFIG = ["method" => "DELETE", "csrf" => true])
+    public function destroy(string $id, array $CONFIG = ["method" => "DELETE", "csrf" => true])
     {
         $this->contactService->delete($id);
         redirect()->action("contact.index");
@@ -143,7 +143,7 @@ class ContactController
      *          required=true,
      *          description="Id Contact",
      *          @OA\Schema(
-     *             type="integer"
+     *             type="string"
      *          ) 
      *     ),
      *     @OA\Response(
@@ -155,7 +155,7 @@ class ContactController
      *     )
      * )
      */
-    public function show_api(int $id, array $CONFIG = ["method" => "GET"])
+    public function show_api(string $id, array $CONFIG = ["method" => "GET"])
     {
         return $this->contactService->findId($id)->toArray();
     }
@@ -210,7 +210,7 @@ class ContactController
      *          required=true,
      *          description="Id contact",
      *          @OA\Schema(
-     *             type="integer"
+     *             type="string"
      *          ) 
      *     ),
      *     @OA\Parameter(
@@ -240,7 +240,7 @@ class ContactController
      *     )
      * )
      */
-    public function update_api(int $id, array $CONFIG = ["method" => "PUT"])
+    public function update_api(string $id, array $CONFIG = ["method" => "PUT"])
     {
         $name = input_req("name");
         $email = input_req("email");
@@ -258,7 +258,7 @@ class ContactController
      *          required=true,
      *          description="Id contact",
      *          @OA\Schema(
-     *             type="integer"
+     *             type="string"
      *          ) 
      *     ),
      *     @OA\Response(
@@ -270,7 +270,7 @@ class ContactController
      *     )
      * )
      */
-    public function destroy_api(int $id, array $CONFIG = ["method" => "DELETE"])
+    public function destroy_api(string $id, array $CONFIG = ["method" => "DELETE"])
     {
         return $this->contactService->delete($id);
     }    

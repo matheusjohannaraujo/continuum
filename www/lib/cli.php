@@ -38,31 +38,32 @@ function fun_test_route(string $name, string $test_md5, string $uri)
 
 function fun_test_routes()
 {
-    $baseDomain = "http://localhost/" . pathinfo(__BASE_DIR__)["basename"];
+    $baseDomain = site_url();
     echo "\r\n";
-    fun_test_route("/.env", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . "/.env");
+    fun_test_route("/.env", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . ".env");
     echo "\r\n";
-    fun_test_route("/storage/text.txt", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . "/storage/text.txt");
+    fun_test_route("/storage/text.txt", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . "storage/text.txt");
     echo "\r\n";
-    fun_test_route("/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "/js/index.js");
+    fun_test_route("/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "js/index.js");
     echo "\r\n";
-    fun_test_route("/public/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "/public/js/index.js");
+    fun_test_route("/public/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "c8476ec3552cd538e7c42782d8b07266", $baseDomain . "/");
+    fun_test_route("/", "9d07452d7546c50c1e7148f9768755e1", $baseDomain);
     echo "\r\n";
-    fun_test_route("/template", "351b6d7f3959b074b4be3bead0cbff6e", $baseDomain . "/template");
+    fun_test_route("/template", "3f8becb706c82ee299cdc91619c4700d", $baseDomain . "template");
     echo "\r\n";
-    fun_test_route("/json", "48897a19a821580ff2d187c7d3af552f", $baseDomain . "/json");
+    fun_test_route("/json", "48897a19a821580ff2d187c7d3af552f", $baseDomain . "json");
     echo "\r\n";
-    fun_test_route("/math/add/3/5", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "/math/add/3/5");
+    fun_test_route("/math/add/3/5", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "math/add/3/5");
     echo "\r\n";
-    fun_test_route("/api/v1/text", "75e8c9b8c1a48bdb1fb5f72ca5ffa882", $baseDomain . "/api/v1/text");
+    fun_test_route("/api/v1/text", "75e8c9b8c1a48bdb1fb5f72ca5ffa882", $baseDomain . "api/v1/text");
     echo "\r\n";
-    fun_test_route("/api/v1/video", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video");
+    fun_test_route("/api/v1/video", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "api/v1/video");
     echo "\r\n";
-    fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "/api/v1/video/stream");
+    fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "api/v1/video/stream");
     echo "\r\n";
-    fun_test_route("/contact", "a70f578c9f72b415d6a4366e30cfb36a", $baseDomain . "/contact");
+    fun_test_route("/contact", "d31ac1c5f7c3abafb1b31640854db673", $baseDomain . "contact");
+    echo "\r\n";
 }
 
 function fun_create_app_file(string $class, string $content, string $pathFile)
