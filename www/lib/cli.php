@@ -544,7 +544,7 @@ function fun_update_project()
     /*if (DataManager::exist($folderActual . ".git") == "FOLDER") {        
         exit(shell_exec("cd $folderActual && git pull"));
     }*/
-    $folderUpdate = DataManager::path($folderActual . "continuum-master/");
+    $folderUpdate = DataManager::path($folderActual . "continuum-master/www/");
     echo "\r\n";
     echo cli_text_color(" Dir actual: " . $folderActual);
     echo "\r\n";
@@ -572,9 +572,11 @@ function fun_update_project()
     DataManager::copy($folderActual . ".gitignore", $folderUpdate . ".gitignore_old");
     DataManager::copy($folderActual . "composer.json", $folderUpdate . "composer_old.json");
 
-    $folderUpdateFinal = $folderActual . "../" . pathinfo($folderActual)["basename"] . "_" . date("Y.m.d_H.i.s") . "/";
+    $folderUpdateFinal = $folderActual . "../" . pathinfo($folderActual)["basename"] . "_" . date("Y_m_d_H_i_s") . "/";
 
     DataManager::move($folderUpdate, $folderUpdateFinal);
+
+    DataManager::delete(DataManager::path($folderActual . "continuum-master/"));
 
     echo cli_text_color(" Dir updated: " . $folderUpdateFinal);
 }
