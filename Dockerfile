@@ -20,7 +20,7 @@ RUN chmod -R 0777 storage/
 
 RUN chmod -R 0777 /opt/lampp/htdocs/
 
-RUN composer update
+RUN composer update -n
 
 RUN touch .env
 
