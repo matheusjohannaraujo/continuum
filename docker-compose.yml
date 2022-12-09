@@ -16,7 +16,6 @@ services:
       - ./www/adm:/opt/lampp/htdocs/adm
       - ./www/.htaccess:/opt/lampp/htdocs/.htaccess
       - ./www/composer.json:/opt/lampp/htdocs/composer.json
-      - ./www/composer.lock:/opt/lampp/htdocs/composer.lock
       - ./www/index.php:/opt/lampp/htdocs/index.php
 #      - ./www:/opt/lampp/htdocs
   mysql:
