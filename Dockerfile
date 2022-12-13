@@ -28,7 +28,7 @@ RUN chmod 0777 .env
 
 RUN cat .env.example > .env
 
-RUN echo "APP_URL=http://localhost/" >> .env
+# RUN echo "APP_URL=http://localhost/" >> .env
 
 RUN echo "/opt/lampp/lampp startapache" > /startup.sh
 
