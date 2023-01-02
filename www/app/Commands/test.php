@@ -13,5 +13,3 @@ echo PHP_EOL;
 echo "Params:", PHP_EOL;
 
 print_r($params);
-
-
