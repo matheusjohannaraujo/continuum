@@ -16,7 +16,7 @@
 
 > ##### PT-BR: Lista todos os comandos
 
->> **```php adm help```** , **```php adm h```**
+>> **```php adm help```**
 
 <hr>
 
@@ -24,7 +24,7 @@
 
 > ##### PT-BR: Limpa o projeto, deixando apenas as configurações padrão
 
->> **```php adm clean```** , **```php adm c```**
+>> **```php adm clean```**
 
 <hr>
 
@@ -32,7 +32,7 @@
 
 > ##### PT-BR: Inicia um servidor web na porta 80
 
->> **```php adm server```** , **```php adm s:80```**
+>> **```php adm server```** , **```php adm server:80```**
 
 <hr>
 
@@ -40,7 +40,7 @@
 
 > ##### PT-BR: Cria um arquivo controlador dentro da pasta "app/Controllers/TestController.php"
 
->> **```php adm controller Test```** , **```php adm c Test```**
+>> **```php adm controller Test```**
 
 <hr>
 
@@ -48,7 +48,7 @@
 
 > ##### PT-BR: Cria um arquivo dentro da pasta "app/Models/Test.php" e outro em "app/Schemas/tests_capsule.php"
 
->> **```php adm model Test```** , **```php adm m Test```**
+>> **```php adm model Test```**
 
 <hr>
 
@@ -56,7 +56,7 @@
 
 > ##### PT-BT: Executa o arquivo de esquema (tabela) "app/Schemas/tests_capsule.php"
 
->> **```php adm database Test```** , **```php adm d Test```**
+>> **```php adm database Test```**
 
 <hr>
 
@@ -64,7 +64,7 @@
 
 > ##### PT-BR: Executa todos os arquivos de esquema (tabelas) no diretório "app/Schemas"
 
->> **```php adm database --all```** , **```php adm d -a```**
+>> **```php adm database --all```**
 
 <hr>
 
@@ -72,7 +72,7 @@
 
 > ##### PT-BR: Cria um arquivo de serviço dentro da pasta "app/Services/TestService.php"
 
->> **```php adm service Test```** , **```php adm s Test```**
+>> **```php adm service Test```**
 
 <hr>
 
@@ -80,7 +80,7 @@
 
 > ##### PT-BR: Cria um arquivo de ajuda dentro da pasta "app/Helpers/test.php"
 
->> **```php adm helper test```** , **```php adm h test```**
+>> **```php adm helper test```**
 
 <hr>
 
@@ -88,7 +88,7 @@
 
 > ##### PT-BR: Cria um arquivo de visão dentro da pasta "app/Views/test.php"
 
->> **```php adm view test```** , **```php adm v test```**
+>> **```php adm view test```**
 
 <hr>
 
@@ -96,7 +96,7 @@
 
 > ##### PT-BR: Atualiza o core framework
 
->> **```php adm update```** , **```php adm u```**
+>> **```php adm update```**
 
 <hr>
 
@@ -104,7 +104,7 @@
 
 > ##### PT-BR: Testa as rotas padrão
 
->> **```php adm test```** , **```php adm t```**
+>> **```php adm test```**
 
 <hr>
 
@@ -112,7 +112,7 @@
 
 > ##### PT-BR: Compacta os arquivos e pastas da pasta `vendor`
 
->> **```php adm zip```** , **```php adm z```**
+>> **```php adm zip```**
 
 <hr>
 
@@ -120,7 +120,7 @@
 
 > ##### PT-BR: Descompacta os arquivos zip da pasta `vendor`
 
->> **```php adm unzip```** , **```php adm uz```**
+>> **```php adm unzip```**
 
 <hr>
 
@@ -128,7 +128,7 @@
 
 > ##### PT-BR: Limpa a pasta localizada em `storage/cache/`
 
->> **```php adm nocache```** , **```php adm nc```**
+>> **```php adm nocache```**
 
 <hr>
 
@@ -136,19 +136,19 @@
 
 > ##### PT-BR: Lista as rotas existentes e lista filtrando pelo verbo do http
 
->> **```php adm route```** , **```php adm r```**
+>> **```php adm route```**
 
->> **```php adm route:get```** , **```php adm r:get```**
+>> **```php adm route:get```**
 
->> **```php adm route:post```** , **```php adm r:post```**
+>> **```php adm route:post```**
 
->> **```php adm route:put```** , **```php adm r:put```**
+>> **```php adm route:put```**
 
->> **```php adm route:patch```** , **```php adm r:patch```**
+>> **```php adm route:patch```**
 
->> **```php adm route:options```** , **```php adm r:options```**
+>> **```php adm route:options```**
 
->> **```php adm route:delete```** , **```php adm r:delete```**
+>> **```php adm route:delete```**
 
 <hr>
 

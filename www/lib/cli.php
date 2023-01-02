@@ -434,6 +434,7 @@ function fun_clean_simple_mvcs()
     $folderModelName = input_env("NAME_FOLDER_MODELS");
     $folderHelperName = input_env("NAME_FOLDER_HELPERS");
     $folderSchemaName = input_env("NAME_FOLDER_SCHEMAS");
+    $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
     $folderServiceName = input_env("NAME_FOLDER_SERVICES");
     $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
@@ -449,6 +450,8 @@ function fun_clean_simple_mvcs()
     fun_folder_denied($basedir . "${folderMiddlewareName}/");
     DataManager::folderCreate($basedir . "${folderModelName}");
     fun_folder_denied($basedir . "${folderModelName}/");
+    DataManager::folderCreate($basedir . "${folderCommandName}");
+    fun_folder_denied($basedir . "${folderCommandName}/");
     DataManager::folderCreate($basedir . "${folderServiceName}");
     fun_folder_denied($basedir . "${folderServiceName}/");
     DataManager::folderCreate($basedir . "${folderViewName}");
@@ -596,11 +599,11 @@ function fun_list_commands()
     $env->read("https://raw.githubusercontent.com/matheusjohannaraujo/continuum/master/www/.env.example");
     $version_latest = $env->get("VERSION", "not found");
     echo "
- ###################################################################################################################
+ ###################################################################################################
  #
  # " . cli_text_color("Continuum - A simple and complete PHP framework, thought and designed by Matheus Johann Araújo", "blue") . "
  #
- # -----------------------------------------------------------------------------------------------------------------  
+ # -------------------------------------------------------------------------------------------------
  #
  # The local version of the Continuum framework is " . cli_text_color("`$version_actual`", "red") . " and the remote version is " . cli_text_color("`$version_latest`") . "
  #
@@ -608,59 +611,59 @@ function fun_list_commands()
  #
  # To update the core of the framework, use the command " . cli_text_color("`php adm update`", "yellow") . "
  #
- ###################################################################################################################
+ ###################################################################################################
  " . cli_text_color("
- COMMAND COMPLETE        | COMMAND MINIFIED   | DESCRIPTION", "purple") . "
- -------------------------------------------------------------------------------------------------------------------
- php adm help            | php adm h          | List all commands
- -------------------------------------------------------------------------------------------------------------------
- php adm clean           | php adm c          | Clears the project, leaving only the default settings
- -------------------------------------------------------------------------------------------------------------------
- php adm server          | php adm s:80       | Start a web server on port 80
- -------------------------------------------------------------------------------------------------------------------
- php adm controller Test | php adm c Test     | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm command test    | php adm cmd test   | Run the command file inside the folder \"app/${folderCommandName}/test.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm middleware Test | php adm mi Test    | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm model Test      | php adm m Test     | Creates a file inside the folder \"app/${folderModelName}/Test.php\"
-                                              | and another one in \"app/${folderSchemaName}/tests_capsule.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm database Test   | php adm d Test     | Run the Schema file (Table) \"app/${folderSchemaName}/tests_capsule.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm database --all  | php adm d -a       | Run all schema files (tables) in the \"app/${folderSchemaName}\" folder
- -------------------------------------------------------------------------------------------------------------------
- php adm service Test    | php adm s Test     | Creates a file inside the folder \"app/${folderServiceName}/TestService.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm helper test     | php adm h test     | Creates a file inside the folder \"app/${folderHelperName}/test.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm view test       | php adm v test     | Creates a file inside the folder \"app/${folderViewName}/test.php\"
- -------------------------------------------------------------------------------------------------------------------
- php adm update          | php adm u          | Updates the core framework
- -------------------------------------------------------------------------------------------------------------------
- php adm test            | php adm t          | Testing the default routes
- -------------------------------------------------------------------------------------------------------------------
- php adm zip             | php adm z          | Zipping files and folders from the `vendor` folder
- -------------------------------------------------------------------------------------------------------------------
- php adm unzip           | php adm uz         | Unzipping the zip files from the `vendor` folder
- -------------------------------------------------------------------------------------------------------------------
- php adm nocache         | php adm nc         | Clears the folder located in `storage/cache/`
- -------------------------------------------------------------------------------------------------------------------
- php adm route           | php adm r          | Listing existing routes and listing existing routes by http verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:get       | php adm r:get      | Lists existing routes by the http GET verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:post      | php adm r:post     | Lists existing routes by the http POST verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:put       | php adm r:put      | Lists existing routes by the http PUT verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:patch     | php adm r:patch    | Lists existing routes by the http PATCH verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:options   | php adm r:options  | Lists existing routes by the http OPTIONS verb
- -------------------------------------------------------------------------------------------------------------------
- php adm route:delete    | php adm r:delete   | Lists existing routes by the http DELETE verb  
-";
+ COMMAND COMPLETE        | DESCRIPTION", "purple") . "
+ ---------------------------------------------------------------------------------------------------
+ php adm help            | List all commands
+ ---------------------------------------------------------------------------------------------------
+ php adm clean           | Clears the project, leaving only the default settings
+ ---------------------------------------------------------------------------------------------------
+ php adm server          | Start a web server on port 80
+ ---------------------------------------------------------------------------------------------------
+ php adm controller Test | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm command test    | Run the command file inside the folder \"app/${folderCommandName}/test.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm middleware Test | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm model Test      | Creates a file inside the folder \"app/${folderModelName}/Test.php\"
+                           and another one in \"app/${folderSchemaName}/tests_capsule.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm database Test   | Run the Schema file (Table) \"app/${folderSchemaName}/tests_capsule.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm database --all  | Run all schema files (tables) in the \"app/${folderSchemaName}\" folder
+ ---------------------------------------------------------------------------------------------------
+ php adm service Test    | Creates a file inside the folder \"app/${folderServiceName}/TestService.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm helper test     | Creates a file inside the folder \"app/${folderHelperName}/test.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm view test       | Creates a file inside the folder \"app/${folderViewName}/test.php\"
+ ---------------------------------------------------------------------------------------------------
+ php adm update          | Updates the core framework
+ ---------------------------------------------------------------------------------------------------
+ php adm test            | Testing the default routes
+ ---------------------------------------------------------------------------------------------------
+ php adm zip             | Zipping files and folders from the `vendor` folder
+ ---------------------------------------------------------------------------------------------------
+ php adm unzip           | Unzipping the zip files from the `vendor` folder
+ ---------------------------------------------------------------------------------------------------
+ php adm nocache         | Clears the folder located in `storage/cache/`
+ ---------------------------------------------------------------------------------------------------
+ php adm route           | Listing existing routes and listing existing routes by http verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:get       | Lists existing routes by the http GET verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:post      | Lists existing routes by the http POST verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:put       | Lists existing routes by the http PUT verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:patch     | Lists existing routes by the http PATCH verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:options   | Lists existing routes by the http OPTIONS verb
+ ---------------------------------------------------------------------------------------------------
+ php adm route:delete    | Lists existing routes by the http DELETE verb  
+", PHP_EOL;
 }
 
 function fun_apply_database(string $nameFile)
@@ -752,35 +755,27 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
     confirmation_y_or_n();
     switch ($cmd) {
         case "controller":
-        case "c":
             fun_create_controller($nameFile, !$require);
             break;
         case "middleware":
-        case "mi":
             fun_create_middleware($nameFile, !$require);
             break;
         case "service":
-        case "s":
             fun_create_service($nameFile, $require);
             break;
         case "model":
-        case "m":
             fun_create_model($nameFile, $require);
             break;
         case "helper":
-        case "h":
             fun_create_helper($nameFile, $require);
             break;
         case "view":
-        case "v":
             fun_create_view($nameFile);
             break;
         case "database":
-        case "d":
             fun_apply_database($nameFile);
             break;
         case "command":
-        case "cmd":
             fun_run_command($nameFile, $require);
             break;
     }
@@ -799,34 +794,27 @@ function fun_switch_other_options(string $cmd)
     }
     switch ($cmd) {
         case "server":
-        case "s":
             fun_init_server($attr);
             break;
         case "test":
-        case "t":
             fun_test_routes();
             break;
         case "route";
-        case "r":
             if ($attr == 80) {
                 $attr = "";
             }
             fun_routes($attr);
             break;
         case "clean":
-        case "c":
             fun_clean_simple_mvcs();
             break;
         case "help":
-        case "h":
             fun_list_commands();
             break;
         case "update":
-        case "u":
             fun_update_project();
             break;
         case "nocache":
-        case "nc":
             fun_no_cache();
             break;
     }

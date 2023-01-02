@@ -93,10 +93,10 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
             $folderSchemaName = $env->get("NAME_FOLDER_SCHEMAS");
             $nameFile = strtolower($nameFile);
             $base = __DIR__ . "/../app/$folderSchemaName/";
-            if ($nameFile == "-c" || $nameFile == "--config") {
+            if ($nameFile == "--config") {
                 $nameFile = "config";
             }
-            if ($nameFile == "-a" || $nameFile == "--all") {
+            if ($nameFile == "--all") {
                 $schemas = DataManager::folderScan(realpath($base));
                 foreach ($schemas as $key => $schema) {
                     $index = strpos($schema["name"], "s_capsule.php");
