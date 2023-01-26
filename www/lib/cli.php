@@ -725,19 +725,24 @@ if(!function_exists("readline")) {
     }
 }
 
-function confirmation_y_or_n()
+function confirmation_y_or_n(bool $auto_confirm = false)
 {
-    echo "\r\n####################################################";
-    echo "\r\n# Confirm with ";
-    echo cli_text_color("`YES`");
-    echo " or ";
-    echo cli_text_color("`Y`");
-    echo " to continue (default is ";
-    echo cli_text_color("`NOT`", "cyan");
-    echo " or ";
-    echo cli_text_color("`N`", "cyan");
-    echo "): ";
-    $y_or_n = mb_strtoupper(readline());
+    $y_or_n = "N";
+    if (!$auto_confirm) {
+        echo "\r\n####################################################";
+        echo "\r\n# Confirm with ";
+        echo cli_text_color("`YES`");
+        echo " or ";
+        echo cli_text_color("`Y`");
+        echo " to continue (default is ";
+        echo cli_text_color("`NOT`", "cyan");
+        echo " or ";
+        echo cli_text_color("`N`", "cyan");
+        echo "): ";
+        $y_or_n = mb_strtoupper(readline());
+    } else {
+        $y_or_n = "Y";
+    }
     if ($y_or_n !== "Y" && $y_or_n !== "YES") {
         echo "# ";
         echo cli_text_color("Operation cancelled.", "cyan");
@@ -752,7 +757,16 @@ function confirmation_y_or_n()
 
 function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
 {
-    confirmation_y_or_n();
+    $auto_confirm = false;
+    if (
+        (is_string($require) && $require !== "--yes" && $require !== "-y") ||
+        (is_array($require) && !in_array("--yes", $require) && !in_array("-y", $require))
+    ) {
+        $auto_confirm = false;
+    } else {
+        $auto_confirm = true;
+    }
+    confirmation_y_or_n($auto_confirm);
     switch ($cmd) {
         case "controller":
             fun_create_controller($nameFile, !$require);
