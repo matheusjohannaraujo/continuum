@@ -11,7 +11,7 @@ $BASE_DIR = realpath(__DIR__ . "/../");
 define("__BASE_DIR__", $BASE_DIR);
 
 function fun_routes(string $method = "")
-{	
+{
     $routes = file_get_contents(input_env("APP_URL") . "routes/all/json/$method");
     $routes = (array) json_decode($routes, true);
     foreach ($routes as $key => $route) {
