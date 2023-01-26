@@ -1245,3 +1245,22 @@ function callClassMethod(array $returnVerifyClassMethod, array $argsMethod = [],
         return ($class)::$method(...$argsMethod);
     }
 }
+
+function command_exec(string $nameFile, array $params = [])
+{
+    $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
+    $baseDir = realpath(__DIR__ . "/../");
+    $file = DataManager::path($baseDir . "/app/${folderCommandName}/${nameFile}.php");
+    if (DataManager::exist($file) == 'FILE') {
+        (function() use ($file, $params) {
+            try {
+                require_once $file;
+                workWait(function() { usleep(1); });                
+            } catch (\Throwable $th) {
+                dumpl($th);
+            }
+        })();
+    } else {
+        echo PHP_EOL, "Command file not found: ", $file, PHP_EOL;
+    }
+}
