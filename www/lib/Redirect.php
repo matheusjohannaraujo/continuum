@@ -26,6 +26,14 @@ class Redirect
     }
 
     /*
+        Redireciona a página usando uma rota existente
+    */
+    public function route(string $path, ...$params)
+    {
+        $this->action($path, ...$params);
+    }
+
+    /*
         Volta para a página anterior
     */
     public function back()

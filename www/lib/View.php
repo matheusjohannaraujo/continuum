@@ -145,7 +145,7 @@ class View
         $location = $_FILE;
         $_FILE = $this->locationFile($_FILE);
         if (!$_FILE) {
-            return null;
+            throw new \Exception("File view (" . $location . ") not found.");
         }
         $isBlade = strpos($_FILE, ".blade");
         $isBlade = ($isBlade !== false ? true : false);

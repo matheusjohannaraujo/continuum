@@ -14,7 +14,9 @@
 * * Running the install through Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
 * * * **```docker-compose down --remove-orphans```**
 * * * **```docker-compose up -d --build```**
+* * * **```docker-compose ps```**
 * * * **```docker exec -it continuum-web-1 bash```**
+* * * **```composer update```**
 * 
 * * Example of configuration web container Docker
 * * * **```ln -s /opt/lampp/bin/php /usr/bin/```**

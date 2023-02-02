@@ -26,7 +26,7 @@ function fun_routes(string $method = "")
             "\r\n CACHE: " . ($route["cache"] > 0 ? $route["cache"] . "s" : ($route["cache"] == 0 ? "infinite" : "disabled")) . "\r\n",
         "yellow", "black");
     }
-    echo "---------------------------------------------------------------------";
+    echo "---------------------------------------------------------------------", PHP_EOL;
 }
 
 function fun_test_route(string $name, string $test_md5, string $uri)
