@@ -1,6 +1,9 @@
 FROM tomsik68/xampp:8
 
-RUN apt update && apt install htop -y
+RUN apt update && apt install htop cron -y
+
+RUN ln -fs /usr/share/zoneinfo/America/Recife /etc/localtime && \
+dpkg-reconfigure -f noninteractive tzdata
 
 WORKDIR /opt/lampp/htdocs
 

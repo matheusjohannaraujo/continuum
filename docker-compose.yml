@@ -19,7 +19,7 @@ services:
 #      - ./www/index.php:/opt/lampp/htdocs/index.php
       - ./www:/opt/lampp/htdocs
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0.32
     restart: always
     ports:
       - "3306:3306"
@@ -29,7 +29,7 @@ services:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=database_example
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2
+    image: phpmyadmin/phpmyadmin:5.2.1
     restart: always
     links:
       - mysql
