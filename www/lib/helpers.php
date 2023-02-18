@@ -9,6 +9,36 @@ use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
 
+function log_exception($e) {
+    // Obtem a mensagem da exceção e outras informações relevantes
+    $message = $e->getMessage();
+    $file = $e->getFile();
+    $line = $e->getLine();
+    $trace = $e->getTraceAsString();
+    $dateTime = date('Y-m-d H:i:s');
+    // Monta a mensagem de log
+    $logMessage = "[$dateTime] Error: $message in $file line $line\n";
+    $logMessage .= "Trace: $trace\n";
+    return $logMessage;
+}
+
+function create_log($data, string $name = null)
+{
+    $logMessage = log_exception($data);
+    if (is_object($data)) {
+        $data = object_to_array($data);
+    }
+    if (is_array($data) || !is_string($data)) {
+        $data = json_encode($data);
+    }
+    $logMessage .= "StackTraceComplete: " . $data . "\r\n";
+    if ($name !== null) {
+        $logMessage .= "Marker: $name\r\n";
+    }
+    $file = folder_storage("log.txt");
+    return DataManager::fileAppend($file, $logMessage . "\r\n");
+}
+
 /**
  * 
  * **Function -> helper**
@@ -1257,6 +1287,7 @@ function command_exec(string $nameFile, array $params = [])
                 require_once $file;
                 workWait(function() { usleep(1); });                
             } catch (\Throwable $th) {
+                create_log($th);
                 dumpl($th);
             }
         })();

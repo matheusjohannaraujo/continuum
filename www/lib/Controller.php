@@ -140,7 +140,7 @@ class Controller {
                             "optional" => $param->isOptional(),                            
                             "value" => $param->isOptional() ? ($param->isDefaultValueAvailable() ? $param->getDefaultValue() : "") : ""
                         ];
-                    } catch (\Throwable $e) { /* dumpd($e); */ }
+                    } catch (\Throwable $e) { create_log($e); /* dumpd($e); */ }
                 }
                 unset($methods[$index]);
             }
