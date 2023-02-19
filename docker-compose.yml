@@ -18,8 +18,10 @@ services:
 #      - ./www/composer.json:/opt/lampp/htdocs/composer.json
 #      - ./www/index.php:/opt/lampp/htdocs/index.php
       - ./www:/opt/lampp/htdocs
+
   mysql:
     image: mysql:8.0.32
+    hostname: mysql
     restart: always
     ports:
       - "3306:3306"
@@ -28,6 +30,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=database_example
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     restart: always
@@ -40,6 +43,7 @@ services:
       - PMA_HOST=mysql
       - PMA_USER=root
       - PMA_PASSWORD=password
+
   adminer:
     image: adminer:4.8.1
     restart: always
@@ -51,6 +55,34 @@ services:
       - ADMINER_DEFAULT_SERVER=mysql
     volumes:
       - /etc/localtime:/etc/localtime
+
+# https://hub.docker.com/r/bitnami/redis/
+  redis:
+    image: bitnami/redis:7.0.8
+    hostname: redis
+    restart: always
+#    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis/redis-persistence:/bitnami/redis/data
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_PORT_NUMBER=6379
+#      - REDIS_PASSWORD=password123
+#      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+#      - REDIS_IO_THREADS=4
+#      - REDIS_IO_THREADS_DO_READS=true
+#      - REDIS_AOF_ENABLED=no
+
+# https://hub.docker.com/r/rediscommander/redis-commander
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - REDIS_HOSTS=local:redis:6379
 
 #networks:
 #  default:
