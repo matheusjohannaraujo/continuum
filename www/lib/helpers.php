@@ -64,7 +64,7 @@ function predis_set(string $key, $value, int $time = 0)
             return $client->setex($key, $time, $value);//seg
             //return $client->psetex($key, $time, $value);//ms
         } else {
-            return $client->set($key, $time);
+            return $client->set($key, $value);
         }
     }
     return false;
