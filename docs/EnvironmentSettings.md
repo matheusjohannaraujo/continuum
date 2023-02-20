@@ -19,7 +19,7 @@
 # EN-US: Current version number of the Continuum framework
 # PT-BR: Número da versão atual do framework Continuum
 # -----------------------------------------------------------------------------------------------------
-VERSION=4.5.8
+VERSION=4.5.9
 
 # -----------------------------------------------------------------------------------------------------
 # EN-US: Defines the timezone (GMT) to be used by the PHP application and Database
@@ -65,6 +65,7 @@ NAME_FOLDER_VIEWS=Views
 NAME_FOLDER_MODELS=Models
 NAME_FOLDER_HELPERS=Helpers
 NAME_FOLDER_SCHEMAS=Schemas
+NAME_FOLDER_COMMANDS=Commands
 NAME_FOLDER_SERVICES=Services
 NAME_FOLDER_CONTROLLERS=Controllers
 NAME_FOLDER_MIDDLEWARES=Middlewares
@@ -92,6 +93,13 @@ AES_256_SECRET=password12345
 # PT-BR: Senha utilizada para assinar token JSON Web Token
 # -----------------------------------------------------------------------------------------------------
 JWT_SECRET=password12345
+
+# -----------------------------------------------------------------------------------------------------
+# EN-US: Configuration for Redis
+# PT-BR: Configuração para Redis
+# -----------------------------------------------------------------------------------------------------
+REDIS_HOST=redis
+REDIS_PORT=6379
 
 # -----------------------------------------------------------------------------------------------------
 # EN-US: Configuration for Microsoft SQL Server
@@ -134,7 +142,7 @@ JWT_SECRET=password12345
 # PT-BR: Configuração para SQLite
 # -----------------------------------------------------------------------------------------------------
 DB_CONNECTION=sqlite
-DB_DATABASE=database
+DB_DATABASE=storage/database
 ```
 
 ### [Back to the previous page](./DOC-EU.md) | [Voltar para página anterior](./DOC.md)

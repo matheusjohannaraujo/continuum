@@ -1,6 +1,7 @@
 <?php
 
 // Changing "php.ini" during execution
+
 ini_set("default_charset", "utf-8");
 ini_set("set_time_limit", "3600");
 ini_set("max_execution_time", "3600");
@@ -18,6 +19,23 @@ date_default_timezone_set(input_env("TIMEZONE"));
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+
+$client = null;
+try {
+    $env = new \Lib\ENV;
+    $env->read();
+    $redis_host = $env->get("REDIS_HOST");
+    $redis_port = $env->get("REDIS_PORT");
+    $client = new Predis\Client([
+        'scheme' => 'tcp',
+        'host' => $redis_host,
+        'port' => $redis_port,
+    ]);
+} catch (\Throwable $th) {
+    //throw $th;
+    $client = null;
+}
+$GLOBALS["redis_conn"] = $client;
 
 \Lib\Meter::start();
 

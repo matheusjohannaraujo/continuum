@@ -8,7 +8,8 @@
         "illuminate/events": "^8.0",
         "illuminate/database": "^8.0",
         "illuminate/support": "^8.0",
-        "ramsey/uuid": "^4.2"
+        "ramsey/uuid": "^4.2",
+        "predis/predis": "^2.1"
     },
     "autoload": {
         "psr-4": {
