@@ -100,6 +100,8 @@ JWT_SECRET=password12345
 # -----------------------------------------------------------------------------------------------------
 REDIS_HOST=redis
 REDIS_PORT=6379
+REDIS_PASSWORD=password
+# REDIS_USERNAME=
 
 # -----------------------------------------------------------------------------------------------------
 # EN-US: Configuration for Microsoft SQL Server

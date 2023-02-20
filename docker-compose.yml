@@ -43,6 +43,8 @@ services:
       - PMA_HOST=mysql
       - PMA_USER=root
       - PMA_PASSWORD=password
+    depends_on:
+      - mysql
 
   adminer:
     image: adminer:4.8.1
@@ -55,6 +57,8 @@ services:
       - ADMINER_DEFAULT_SERVER=mysql
     volumes:
       - /etc/localtime:/etc/localtime
+    depends_on:
+      - mysql
 
 # https://hub.docker.com/r/bitnami/redis/
   redis:
@@ -67,22 +71,45 @@ services:
     volumes:
       - ./data/redis/redis-persistence:/bitnami/redis/data
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+#      - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PORT_NUMBER=6379
-#      - REDIS_PASSWORD=password123
+      - REDIS_PASSWORD=password
+#      - REDIS_USERNAME=root
 #      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
 #      - REDIS_IO_THREADS=4
 #      - REDIS_IO_THREADS_DO_READS=true
 #      - REDIS_AOF_ENABLED=no
 
 # https://hub.docker.com/r/rediscommander/redis-commander
+# https://github.com/joeferner/redis-commander
   redis-commander:
     image: rediscommander/redis-commander:latest
     restart: always
     ports:
       - 8081:8081
     environment:
-      - REDIS_HOSTS=local:redis:6379
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password
+#      - REDIS_USERNAME=root
+    depends_on:
+      - redis
+
+# https://medium.com/xp-inc/rabbitmq-com-docker-conhecendo-o-admin-cc81f3f6ac3b
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 25676:25676
+    volumes:
+      - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
+      - ./data/rabbitmq/rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
 
 #networks:
 #  default:

@@ -20,22 +20,26 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$client = null;
+$redis_conn = null;
 try {
     $env = new \Lib\ENV;
     $env->read();
     $redis_host = $env->get("REDIS_HOST");
     $redis_port = $env->get("REDIS_PORT");
-    $client = new Predis\Client([
+    $redis_username = $env->get("REDIS_USERNAME");
+    $redis_password = $env->get("REDIS_PASSWORD");
+    $redis_conn = new Predis\Client([
         'scheme' => 'tcp',
         'host' => $redis_host,
         'port' => $redis_port,
+        'username' => $redis_username,
+        'password' => $redis_password
     ]);
 } catch (\Throwable $th) {
-    //throw $th;
-    $client = null;
+    create_log($th);
+    $redis_conn = null;
 }
-$GLOBALS["redis_conn"] = $client;
+$GLOBALS["redis_conn"] = $redis_conn;
 
 \Lib\Meter::start();
 
