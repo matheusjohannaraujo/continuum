@@ -91,7 +91,9 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=password
-#      - REDIS_USERNAME=root
+#      - REDIS_USERNAME=user
+      - HTTP_USER=user
+      - HTTP_PASSWORD=password
     depends_on:
       - redis
 
@@ -105,7 +107,7 @@ services:
       - 15672:15672
 #      - 25676:25676
     volumes:
-      - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
+#      - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
       - ./data/rabbitmq/rabbitmq_data:/var/lib/rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=user
