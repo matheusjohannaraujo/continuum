@@ -97,13 +97,13 @@ services:
 
 # https://medium.com/xp-inc/rabbitmq-com-docker-conhecendo-o-admin-cc81f3f6ac3b
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:3.11-management
     hostname: rabbitmq
     restart: always
     ports:
       - 5672:5672
       - 15672:15672
-      - 25676:25676
+#      - 25676:25676
     volumes:
       - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
       - ./data/rabbitmq/rabbitmq_data:/var/lib/rabbitmq

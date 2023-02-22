@@ -2,6 +2,8 @@
 
 // Changing "php.ini" during execution
 
+use Lib\SimpleRedis;
+
 ini_set("default_charset", "utf-8");
 ini_set("set_time_limit", "3600");
 ini_set("max_execution_time", "3600");
@@ -20,26 +22,31 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-$redis_conn = null;
 try {
     $env = new \Lib\ENV;
     $env->read();
     $redis_host = $env->get("REDIS_HOST");
-    $redis_port = $env->get("REDIS_PORT");
+    $redis_port = $env->get("REDIS_PORT");    
     $redis_username = $env->get("REDIS_USERNAME");
     $redis_password = $env->get("REDIS_PASSWORD");
-    $redis_conn = new Predis\Client([
-        'scheme' => 'tcp',
-        'host' => $redis_host,
-        'port' => $redis_port,
-        'username' => $redis_username,
-        'password' => $redis_password
-    ]);
+    $redis_scheme = $env->get("REDIS_SCHEME");
+    $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT");
+    \Lib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
 } catch (\Throwable $th) {
     create_log($th);
-    $redis_conn = null;
 }
-$GLOBALS["redis_conn"] = $redis_conn;
+
+try {
+    $env = new \Lib\ENV;
+    $env->read();
+    $rabbitmq_host = $env->get("RABBITMQ_HOST");
+    $rabbitmq_port = $env->get("RABBITMQ_PORT");
+    $rabbitmq_username = $env->get("RABBITMQ_USERNAME");
+    $rabbitmq_password = $env->get("RABBITMQ_PASSWORD");
+    \Lib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
+} catch (\Throwable $th) {
+    create_log($th);
+}
 
 \Lib\Meter::start();
 

@@ -39,44 +39,18 @@ function create_log($data, string $name = null)
     return DataManager::fileAppend($file, $logMessage . "\r\n");
 }
 
-function predis_conn()
+function simple_redis()
 {
-    if (isset($GLOBALS["redis_conn"])) {
-        return $GLOBALS["redis_conn"];
-    }
-    return null;
+    $sr = new \Lib\SimpleRedis;
+    $sr->open();
+    return $sr;
 }
 
-function predis_get(string $key)
+function simple_rabbitmq()
 {
-    $client = predis_conn();
-    if ($client !== null) {
-        return $client->get($key);
-    }
-    return null;
-}
-
-function predis_set(string $key, $value, int $time = 0)
-{
-    $client = predis_conn();
-    if ($client !== null) {
-        if ($time > 0) {
-            return $client->setex($key, $time, $value);//seg
-            //return $client->psetex($key, $time, $value);//ms
-        } else {
-            return $client->set($key, $value);
-        }
-    }
-    return false;
-}
-
-function predis_del(string $key)
-{
-    $client = predis_conn();
-    if ($client !== null) {
-        return $client->del($key);
-    }
-    return null;
+    $srmq = new \Lib\SimpleRabbitMQ;
+    $srmq->open();
+    return $srmq;
 }
 
 /**
