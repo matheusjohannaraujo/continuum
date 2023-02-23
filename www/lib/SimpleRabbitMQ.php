@@ -156,7 +156,7 @@ class SimpleRabbitMQ {
         if (!$no_ack) {
             $channel = &$this->channel;
             $cb = function ($msg) use ($callback, $channel) {
-                if ($callback($msg) === true) {
+                if ($callback($msg, $channel) === true) {
                     $channel->basic_ack($msg->delivery_info['delivery_tag']);
                 }            
             };
