@@ -33,7 +33,7 @@ try {
     $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT");
     \Lib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
 } catch (\Throwable $th) {
-    create_log($th);
+    log_create($th);
 }
 
 try {
@@ -45,7 +45,7 @@ try {
     $rabbitmq_password = $env->get("RABBITMQ_PASSWORD");
     \Lib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
 } catch (\Throwable $th) {
-    create_log($th);
+    log_create($th);
 }
 
 \Lib\Meter::start();

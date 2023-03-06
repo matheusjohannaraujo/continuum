@@ -156,7 +156,7 @@ class View
                 $blade->pipeEnable = true;
                 return $blade->run(str_replace("/", "\\", $location), $_ARGS);
             } catch (\Throwable $th) {
-                create_log($th);
+                log_create($th);
                 dumpl("BladeOne Error", $th);
             }
         }
@@ -189,7 +189,7 @@ class View
                 $this->views = array_values($this->views);
             }
         } catch (\Throwable $e) {
-            create_log($e);
+            log_create($e);
             ob_get_clean();
             ob_start();
             dumpl(["message" => $e->getMessage(), "line" => $e->getLine(), "file" => $e->getFile()]);

@@ -186,7 +186,7 @@ function rpc_thread_parallel(string $script)
         try {
             $returned = unserialize_function($script)();
         } catch (\Throwable $th) {
-            create_log($th);
+            log_create($th);
             var_dump($th);
         }
         $printed = ob_get_clean();

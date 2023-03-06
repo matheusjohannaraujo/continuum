@@ -706,7 +706,7 @@ function fun_run_command(string $nameFile, $params = false)
                 }
                 die;
             } catch (\Throwable $th) {
-                create_log($th);
+                log_create($th);
                 dumpd($th);
             }
         })();

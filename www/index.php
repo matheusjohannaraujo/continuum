@@ -45,7 +45,7 @@ if (file_exists($autoload)) {
 		require_once __DIR__ . "/lib/config.php";
 		require_once __DIR__ . "/app/web.php";
 	} catch (\Throwable $th) {
-		create_log($th);
+		log_create($th);
 		throw $th;
 	}
 } else {

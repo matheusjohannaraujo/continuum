@@ -9,29 +9,32 @@ use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
 
-function log_exception($e) {
-    // Obtem a mensagem da exceção e outras informações relevantes
-    $message = $e->getMessage();
-    $file = $e->getFile();
-    $line = $e->getLine();
-    $trace = $e->getTraceAsString();
-    $dateTime = date('Y-m-d H:i:s');
-    // Monta a mensagem de log
-    $logMessage = "[$dateTime] Error: $message in $file line $line\n";
-    $logMessage .= "Trace: $trace\n";
+function log_exception($e, string $dateTime) {    
+    $logMessage = "";
+    if ($e instanceof \Throwable || $e instanceof \Exception) {
+        // Obtem a mensagem da exceção e outras informações relevantes
+        $message = $e->getMessage();
+        $file = $e->getFile();
+        $line = $e->getLine();
+        $trace = $e->getTraceAsString();        
+        // Monta a mensagem de log
+        $logMessage = "[$dateTime] Error: $message in $file line $line\n";
+        $logMessage .= "Trace: $trace\n";
+    }
     return $logMessage;
 }
 
-function create_log($data, string $name = null)
+function log_create($data, string $name = null)
 {
-    $logMessage = log_exception($data);
+    $dateTime = date('Y-m-d H:i:s');
+    $logMessage = log_exception($data, $dateTime);
     if (is_object($data)) {
         $data = object_to_array($data);
     }
     if (is_array($data) || !is_string($data)) {
         $data = json_encode($data);
     }
-    $logMessage .= "StackTraceComplete: " . $data . "\r\n";
+    $logMessage .= "[$dateTime] Data: " . $data . "\r\n";
     if ($name !== null) {
         $logMessage .= "Marker: $name\r\n";
     }
@@ -1301,7 +1304,7 @@ function command_exec(string $nameFile, array $params = [])
                 require_once $file;
                 workWait(function() { usleep(1); });                
             } catch (\Throwable $th) {
-                create_log($th);
+                log_create($th);
                 dumpl($th);
             }
         })();
