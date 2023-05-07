@@ -507,6 +507,8 @@ Route::on();
     fun_folder_denied($basedir);
     DataManager::folderCreate($basedir . "cache/");
     fun_folder_denied($basedir . "cache/");
+    DataManager::folderCreate($basedir . "logs/");
+    fun_folder_denied($basedir . "logs/");
 
     $basedir = __BASE_DIR__ . "/vendor/";
     DataManager::folderCreate($basedir);

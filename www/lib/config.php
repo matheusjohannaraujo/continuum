@@ -5,10 +5,10 @@
 use Lib\SimpleRedis;
 
 ini_set("default_charset", "utf-8");
-ini_set("set_time_limit", "3600");
-ini_set("max_execution_time", "3600");
-ini_set("default_socket_timeout", "3600");
-ini_set("max_input_time", "3600");
+ini_set("set_time_limit", "36000");
+ini_set("max_execution_time", "36000");
+ini_set("default_socket_timeout", "36000");
+ini_set("max_input_time", "36000");
 ini_set("max_input_vars", "6000");
 ini_set("memory_limit", "6144M");
 ini_set("post_max_size", "6144M");
