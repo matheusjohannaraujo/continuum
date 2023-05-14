@@ -7,6 +7,7 @@ use Lib\DataManager;
 class Meter
 {
 
+    private static $timestampStart = null;
     private static $time = 0;
     private static $memory_g_u = 0;
     private static $memory_g_p_u = 0;
@@ -20,6 +21,7 @@ class Meter
 
     public static function start()
     {
+        self::$timestampStart = (new \DateTime())->format("Y-m-d H:i:s.u");
         self::$time = self::getTime();
         self::$memory_g_u = memory_get_usage(true);
         self::$memory_g_p_u = memory_get_peak_usage(true);
@@ -31,11 +33,15 @@ class Meter
         $finalTime = $timeStop - self::$time;
         $finalMemory_g_u = memory_get_usage(true) - self::$memory_g_u;
         $finalMemory_g_p_u = memory_get_peak_usage(true) - self::$memory_g_p_u;
+        $timestampStart = self::$timestampStart;
+        $timestampStop = (new \DateTime())->format("Y-m-d H:i:s.u");
         $result = [
             "time" => [
                 "diff" => number_format($finalTime, 6) . " ms",
                 "start" => number_format(self::$time, 6) . " ms",
                 "stop" => number_format($timeStop, 6) . " ms",
+                "timestampStart" => $timestampStart,
+                "timestampStop" => $timestampStop
             ],
             "memory" => [
                 "media" => DataManager::size(($finalMemory_g_p_u + $finalMemory_g_u) / 4),
