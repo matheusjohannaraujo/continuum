@@ -35,13 +35,17 @@ class Meter
         $finalMemory_g_p_u = memory_get_peak_usage(true) - self::$memory_g_p_u;
         $timestampStart = self::$timestampStart;
         $timestampStop = (new \DateTime())->format("Y-m-d H:i:s.u");
+        $start = \DateTime::createFromFormat('Y-m-d H:i:s.u', $timestampStart);
+        $stop = \DateTime::createFromFormat('Y-m-d H:i:s.u', $timestampStop);
+        $timestampDiff = ($start->diff($stop))->format('%y years, %m months, %d days, %h hours, %i minutes, %s seconds and %f milliseconds');
         $result = [
             "time" => [
-                "diff" => number_format($finalTime, 6) . " ms",
                 "start" => number_format(self::$time, 6) . " ms",
                 "stop" => number_format($timeStop, 6) . " ms",
+                "diff" => number_format($finalTime, 6) . " ms",
                 "timestampStart" => $timestampStart,
-                "timestampStop" => $timestampStop
+                "timestampStop" => $timestampStop,
+                "timestampDiff" => $timestampDiff
             ],
             "memory" => [
                 "media" => DataManager::size(($finalMemory_g_p_u + $finalMemory_g_u) / 4),
