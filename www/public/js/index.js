@@ -44,5 +44,5 @@ window.addEventListener("load", function(event) {
             autor.style.marginLeft = `${marginLeft}px`
             autor.style.borderRadius = `${borderRadius}px`
         }, 20)
-    }, 2500)
+    }, (60000 * 5))
 })
