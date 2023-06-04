@@ -1,1 +1,1 @@
-*/1 * * * * cd /opt/lampp/htdocs/ && /usr/bin/php adm command job --yes > /opt/lampp/htdocs/storage/logs/job.txt
+*/1 * * * * cd /opt/lampp/htdocs/ && /usr/bin/php adm command job --yes > /opt/lampp/htdocs/storage/logs/job.log

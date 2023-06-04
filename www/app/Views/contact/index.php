@@ -42,9 +42,9 @@ $this->section("body");
                                 <td><?= $contact->email; ?></td>
                                 <td><?= $contact->created_at; ?></td>
                                 <td><?= $contact->updated_at; ?></td>
-                                <td><a class="btn btn-primary" href="<?= route("contact.show", $contact->uuid); ?>">Link</a></td>
-                                <td><a class="btn btn-secondary" href="<?= route("contact.edit", $contact->uuid); ?>">Link</a></td>
-                                <td><a class="btn btn-danger" href="<?= route("contact.destroy", $contact->uuid) . "/?_method=DELETE&_csrf=" . csrf(); ?>">Link</a></td>
+                                <td><a href="<?= route("contact.show", $contact->uuid); ?>"><i class="fa-solid fa-link text-info"></i></a></td>
+                                <td><a href="<?= route("contact.edit", $contact->uuid); ?>"><i class="fa-solid fa-pen text-primary"></i></a></td>
+                                <td><a href="<?= route("contact.destroy", $contact->uuid) . "/?_method=DELETE&_csrf=" . csrf(); ?>"><i class="fa-solid fa-trash-can text-danger"></i></a></td>
                             </tr>
                         <?php
                     }

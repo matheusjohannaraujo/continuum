@@ -32,6 +32,9 @@
     <?= tag_js("bootstrap.min.js"); ?>
     -->
     
+    <link rel="stylesheet" href="<?= folder_public("fontawesome-free-6.4.0-web/css/all.css"); ?>">
+    <script type="text/javascript" src="<?= folder_public("fontawesome-free-6.4.0-web/js/all.js"); ?>"></script>
+
     <?= tag_css("index.css"); ?>
-    <?= tag_js("index.js"); ?>    
+    <?= tag_js("index.js"); ?>
 </head>

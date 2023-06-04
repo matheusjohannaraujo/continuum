@@ -2,7 +2,7 @@ FROM tomsik68/xampp:8
 
 WORKDIR /opt/lampp/htdocs
 
-RUN apt update && apt install htop cron -y && \
+RUN apt update && apt install -y supervisor cron htop && \
     ln -fs /usr/share/zoneinfo/America/Recife /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
     chmod -R 0777 /opt/lampp/htdocs/ && \
@@ -20,6 +20,8 @@ COPY ./www .
 COPY ./task /opt/lampp/htdocs/task
 
 COPY ./startup.sh /startup.sh
+
+ADD supervisord.conf /etc/supervisor/conf.d/
 
 RUN touch .env && \
     chmod 0777 .env && \
