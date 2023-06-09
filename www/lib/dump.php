@@ -45,7 +45,7 @@ function dumpl(...$params)
         echo !defined('CLI') ? "\r\n<hr/>\r\n" : "";
     }    
     foreach ($params as $key => $value) {
-        echo !defined('CLI') ? "<pre style=\"${style}\">\r\n" : "";
+        echo !defined('CLI') ? "<pre style=\"" . $style . "\">\r\n" : "";
         echo var_export_format($value);
         echo !defined('CLI') ? "\r\n</pre>\r\n<hr/>\r\n" : "";
         unset($params[$key]);

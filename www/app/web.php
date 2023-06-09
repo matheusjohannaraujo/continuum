@@ -182,7 +182,7 @@ Route::get("/async", function () {
             echo $await = rand(2, $max_await);
             sleep($await);
         })->then(function($val) use ($i) {
-            dumpl("The async ${i} function took ${val} seconds to run");
+            dumpl("The async " . $i . "function took " . $val . " seconds to run");
         });
     }
 

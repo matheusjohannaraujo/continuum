@@ -77,9 +77,9 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
             if (DataManager::exist($path) == "FILE") {
                 $path = realpath($path);
                 require_once $path;
-                echo "\r\nSchema Apply Success: app/${folderSchemaName}/" . pathinfo($path)['basename'] . "\r\n";
+                echo "\r\nSchema Apply Success: app/" . $folderSchemaName . "/" . pathinfo($path)['basename'] . "\r\n";
             } else {
-                echo "\r\nSchema Apply Error: app/${folderSchemaName}/" . pathinfo($path)['basename'] . "\r\n";
+                echo "\r\nSchema Apply Error: app/" . $folderSchemaName . "/" . pathinfo($path)['basename'] . "\r\n";
             }
         }
         
@@ -105,7 +105,7 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
                     }                
                 }
             } else {
-                $path = "${base}${nameFile}s_capsule.php";
+                $path = $base . $nameFile . "s_capsule.php";
                 path_schema_apply($path);
             }
         }

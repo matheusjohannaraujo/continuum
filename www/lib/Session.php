@@ -2,6 +2,7 @@
 
 namespace Lib;
 
+#[\AllowDynamicProperties]
 class Session
 {
 
@@ -255,14 +256,14 @@ class Session
     {
         $session = session();
         foreach ($input as $key => &$value) {
-            $session->set_flash("\$${key}", $value);
+            $session->set_flash("\$" . $key, $value);
         }        
     }
 
     public function get_input(string $key, $defaultValue = null)
     {
         $session = session();
-        $input = $session->get_flash("\$${key}");
+        $input = $session->get_flash("\$" . $key);
         return $input ?? $defaultValue;
     }
 

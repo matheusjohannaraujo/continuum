@@ -70,7 +70,7 @@ function simple_rabbitmq()
 function helper(string $file)
 {
     $folder_helper = __DIR__ . "/../app/" . input_env("NAME_FOLDER_HELPERS") . "/";
-    $path = realpath(DataManager::path($folder_helper . "${file}.php"));
+    $path = realpath(DataManager::path($folder_helper . $file . ".php"));
     if (DataManager::exist($path) == "FILE") {
         require_once $path;
         return true;
@@ -98,7 +98,7 @@ function helper(string $file)
  */
 function max_requests_per_minute(int $num_requests, string $name_request)
 {
-    $name = "max_requests_per_minute:${name_request}";
+    $name = "max_requests_per_minute:" . $name_request;
     $cache = new \Lib\Cache;
     $time = 60;// 1 minute
     if ($cache->exist($name, $time)) {
@@ -706,7 +706,7 @@ function tag_img(string $file, array $attr = [])
     foreach ($attr as $key => $value) {
         $attrs .= "$key=\"$value\" ";
     }
-    return "<img ${attrs}src=\"" . URI::img($file) . "\">\r\n";
+    return "<img " . $attrs . "src=\"" . URI::img($file) . "\">\r\n";
 }
 
 // Retorna uma tag `p` que contém uma mensagem que foi salva em `$_SESSION["__flash__"]`
@@ -734,7 +734,7 @@ function tag_message(string $key_info, array $attr = [], string $tag = "p")
     if ($message === null || empty($message)) {
         return "";
     }
-    return "<$tag ${attrs}>$message</$tag>\r\n";
+    return "<" . $tag . " " . $attrs . ">" . $message . "</" . $tag . ">\r\n";
 }
 
 /**
@@ -758,7 +758,7 @@ function tag_a(string $name, string $path, array $attr = [], ...$params)
     foreach ($attr as $key => $value) {
         $attrs .= "$key=\"$value\" ";
     }
-    return "<a href=\"$link\" ${attrs}>$name</a>\r\n";
+    return "<a href=\"" . $link . "\" " . $attrs . ">" . $name . "</a>\r\n";
 }
 
 // STOP TAGS -------------------------------------------------------------------------------
@@ -1297,7 +1297,7 @@ function command_exec(string $nameFile, array $params = [])
 {
     $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
     $baseDir = realpath(__DIR__ . "/../");
-    $file = DataManager::path($baseDir . "/app/${folderCommandName}/${nameFile}.php");
+    $file = DataManager::path($baseDir . "/app/" . $folderCommandName . "/" . $nameFile . ".php");
     if (DataManager::exist($file) == 'FILE') {
         (function() use ($file, $params) {
             try {

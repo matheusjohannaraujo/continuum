@@ -77,22 +77,22 @@ class View
      */
     public function locationFile(string $_FILE)
     {
-        $pathfile = realpath($this->folderView . "${_FILE}.php");
+        $pathfile = realpath($this->folderView . $_FILE . ".php");
         if (!DataManager::exist($pathfile)) {
             $pathinfo = pathinfo($_FILE);
             $dirname = $pathinfo["dirname"];
             $filename = $pathinfo["filename"];
-            $pathfile = realpath($this->folderView . "${dirname}/avr-${filename}.php");
+            $pathfile = realpath($this->folderView . $dirname . "/avr-" . $filename . ".php");
         }
         if (DataManager::exist($pathfile) == "FILE") {
             return $pathfile;
         }
-        $pathfileBlade = realpath($this->folderView . "${_FILE}.blade.php");
+        $pathfileBlade = realpath($this->folderView . $_FILE . ".blade.php");
         if (!DataManager::exist($pathfileBlade)) {
             $pathinfo = pathinfo($_FILE);
             $dirname = $pathinfo["dirname"];
             $filename = $pathinfo["filename"];
-            $pathfile = realpath($this->folderView . "${dirname}/avr-${filename}.blade.php");
+            $pathfile = realpath($this->folderView . $dirname . "/avr-" . $filename . ".blade.php");
         }
         if (DataManager::exist($pathfileBlade) == "FILE") {
             return $pathfileBlade;
@@ -160,7 +160,7 @@ class View
                 dumpl("BladeOne Error", $th);
             }
         }
-        $result = $this->cache("V:${location}", $_CACHE_SECONDS);
+        $result = $this->cache("V:" . $location, $_CACHE_SECONDS);
         if ($result !== null) {
             return $result;
         }

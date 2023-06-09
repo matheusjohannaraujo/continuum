@@ -268,9 +268,9 @@ class Route
     private static function classControllerToControllerName(string $class)
     {
         $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
-        $index = strpos($class, "${folderControllerName}\\");
+        $index = strpos($class, $folderControllerName . "\\");
         if ($index !== false) {
-            $class = substr($class, $index + strlen("${folderControllerName}\\"));                                
+            $class = substr($class, $index + strlen($folderControllerName . "\\"));                                
         }
         $class = strtolower($class);
         $class = str_replace(["controller", "@", "\\"], ["", ".", "."], $class);
@@ -312,7 +312,7 @@ class Route
                     self::$out->pageJWT();
                 }
                 $result = "";
-                self::$out->cache("R:${path}", $cache_seconds);
+                self::$out->cache("R:" . $path, $cache_seconds);
                 if (is_callable($action)) {
                     $result = $action(...array_values(self::$in->paramArg()));
                 } else {
@@ -322,7 +322,7 @@ class Route
                         $Controller = $ControllerMethod[0];
                         if (!class_exists($Controller)) {
                             $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
-                            $Controller = "\app\\${folderControllerName}\\" . $Controller;
+                            $Controller = "\app\\" . $folderControllerName . "\\" . $Controller;
                         }
                         $Method = $ControllerMethod[1];
                         if (class_exists($Controller) && method_exists($Controller, $Method)) {
@@ -563,13 +563,13 @@ class Route
     private static function getAllAutoViewRoutes()
     {
         $folderViewName = input_env("NAME_FOLDER_VIEWS");
-        $folderView = DataManager::folderScan(realpath(__DIR__ . "/../app/${folderViewName}/"), false, true);
+        $folderView = DataManager::folderScan(realpath(__DIR__ . "/../app/" . $folderViewName . "/"), false, true);
         $result = [];
         foreach ($folderView as $key => $path) {
             if ($path["type"] == "FILE" && strpos($path["name"], "avr-") !== false) {
-                $indexAppView = strpos($path["path"], "/app/${folderViewName}/");
+                $indexAppView = strpos($path["path"], "/app/" . $folderViewName . "/");
                 if ($indexAppView !== false) {
-                    $path["route_path"] = substr($path["path"], $indexAppView + strlen("/app/${folderViewName}/") - 1);
+                    $path["route_path"] = substr($path["path"], $indexAppView + strlen("/app/" . $folderViewName . "/") - 1);
                 } else {
                     $path["route_path"] = "/" . $path["name"];                
                 }

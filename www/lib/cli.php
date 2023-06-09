@@ -44,25 +44,25 @@ function fun_test_routes()
     echo "\r\n";
     fun_test_route("/storage/text.txt", "d41d8cd98f00b204e9800998ecf8427e", $baseDomain . "storage/text.txt");
     echo "\r\n";
-    fun_test_route("/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "js/index.js");
+    fun_test_route("/js/index.js", "915297b92934e95ef77325d4841a3f57", $baseDomain . "js/index.js");
     echo "\r\n";
-    fun_test_route("/public/js/index.js", "6c137fc4b54929449be0902a208c84ac", $baseDomain . "public/js/index.js");
+    fun_test_route("/public/js/index.js", "915297b92934e95ef77325d4841a3f57", $baseDomain . "public/js/index.js");
     echo "\r\n";
-    fun_test_route("/", "9d07452d7546c50c1e7148f9768755e1", $baseDomain);
+    fun_test_route("/", "8b0b53995bab5622f02b763c85e7bca3", $baseDomain);
     echo "\r\n";
-    fun_test_route("/template", "3f8becb706c82ee299cdc91619c4700d", $baseDomain . "template");
+    fun_test_route("/template", "cb6769f7fb9d9091ebd43720dabd0b85", $baseDomain . "template");
     echo "\r\n";
     fun_test_route("/json", "48897a19a821580ff2d187c7d3af552f", $baseDomain . "json");
     echo "\r\n";
     fun_test_route("/math/add/3/5", "f07ec6620f6e1893f5babbd51829ba7d", $baseDomain . "math/add/3/5");
     echo "\r\n";
-    fun_test_route("/api/v1/text", "75e8c9b8c1a48bdb1fb5f72ca5ffa882", $baseDomain . "api/v1/text");
+    fun_test_route("/api/v1/text", "9beb155ca0136b0531344de318c37d17", $baseDomain . "api/v1/text");
     echo "\r\n";
     fun_test_route("/api/v1/video", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "api/v1/video");
     echo "\r\n";
     fun_test_route("/api/v1/video/stream", "aa08e10eb9b3c8424429cf15fe8e2fe6", $baseDomain . "api/v1/video/stream");
     echo "\r\n";
-    fun_test_route("/contact", "d31ac1c5f7c3abafb1b31640854db673", $baseDomain . "contact");
+    fun_test_route("/contact", "6e0e76ca3251c6a87b83f82d2912d76b", $baseDomain . "contact");
     echo "\r\n";
 }
 
@@ -91,21 +91,21 @@ function fun_create_controller(string $nameFile, bool $require = true)
         $namespace = "\\" . str_replace("/", "\\", $dirname);
         $pathroute = strtolower("/" . str_replace("\\", "/", $dirname));
     }
-    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/${folderControllerName}/${dirname}/");
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderControllerName. "/" . $dirname . "/");
     if (!DataManager::exist($dircontroller)) {
         DataManager::folderCreate($dircontroller);
     }
-    $class = "${filename}Controller";
-    $pathFile = "${folderControllerName}/${dirname}/${class}.php";
+    $class = $filename . "Controller";
+    $pathFile = $folderControllerName . "/" . $dirname . "/" . $class . ".php";
     $methods = "";
     if ($require) {
         $nameFileLower = strtolower($filename);
-        if (DataManager::exist(__BASE_DIR__ . "/app/${folderServiceName}/${filename}Service.php") == "FILE") {
-            $require = "\r\nuse App\\${folderServiceName}\\${filename}Service;\r\n";
-            $methods = "private \$${nameFileLower}Service;
+        if (DataManager::exist(__BASE_DIR__ . "/app/" . $folderServiceName . "/" . $filename . "Service.php") == "FILE") {
+            $require = "\r\nuse App\\" . $folderServiceName . "\\" . $filename . "Service;\r\n";
+            $methods = "private \$" . $nameFileLower . "Service;
             
     public function __construct(){
-        \$this->${nameFileLower}Service = new ${filename}Service;
+        \$this->" . $nameFileLower . "Service = new " . $filename . "Service;
     }\r\n
     ";
         } else {
@@ -130,19 +130,19 @@ function fun_create_controller(string $nameFile, bool $require = true)
         ------------------------------------------------------------------------------------------------
         Examples of use the routes:
 
-            Controller = ${nameFile}Controller
+            Controller = " . $nameFile . "Controller
             Method = action
-            Call = ${nameFile}Controller@action(...params)
+            Call = " . $nameFile . "Controller@action(...params)
         ------------------------------------------------------------------------------------------------
-            | HTTP Verb | ${nameFile}Controller@method   | PATH ROUTE
+            | HTTP Verb | " . $nameFile . "Controller@method   | PATH ROUTE
         ------------------------------------------------------------------------------------------------
-            | GET       | ${nameFile}Controller@index    | ${pathroute}/${nameFileLower}/index
-            | GET       | ${nameFile}Controller@new      | ${pathroute}/${nameFileLower}/new
-            | POST      | ${nameFile}Controller@create   | ${pathroute}/${nameFileLower}/create
-            | GET       | ${nameFile}Controller@show     | ${pathroute}/${nameFileLower}/show/1
-            | GET       | ${nameFile}Controller@edit     | ${pathroute}/${nameFileLower}/edit/1
-            | PUT       | ${nameFile}Controller@update   | ${pathroute}/${nameFileLower}/update/1
-            | DELETE    | ${nameFile}Controller@destroy  | ${pathroute}/${nameFileLower}/destroy/1
+            | GET       | " . $nameFile . "Controller@index    | " . $pathroute . "/" . $nameFileLower . "/index
+            | GET       | " . $nameFile . "Controller@new      | " . $pathroute . "/" . $nameFileLower . "/new
+            | POST      | " . $nameFile . "Controller@create   | " . $pathroute . "/" . $nameFileLower . "/create
+            | GET       | " . $nameFile . "Controller@show     | " . $pathroute . "/" . $nameFileLower . "/show/1
+            | GET       | " . $nameFile . "Controller@edit     | " . $pathroute . "/" . $nameFileLower . "/edit/1
+            | PUT       | " . $nameFile . "Controller@update   | " . $pathroute . "/" . $nameFileLower . "/update/1
+            | DELETE    | " . $nameFile . "Controller@destroy  | " . $pathroute . "/" . $nameFileLower . "/destroy/1
         ------------------------------------------------------------------------------------------------
             
     */
@@ -150,55 +150,55 @@ function fun_create_controller(string $nameFile, bool $require = true)
     // This variable informs that the public methods of this controller must be automatically mapped in routes
     private \$generateRoutes;   
 
-    // List all ${nameFileLower}
+    // List all " . $nameFileLower . "
     public function index(array \$CONFIG = [\"method\" => \"GET\"])
     {
-        return \"${nameFile}Controller@index()\";
+        return \"" . $nameFile . "Controller@index()\";
     }
 
-    // Redirect page - Create a single ${nameFileLower}
+    // Redirect page - Create a single " . $nameFileLower . "
     public function new(array \$CONFIG = [\"method\" => \"GET\"])
     {
-        return \"${nameFile}Controller@new()\";
+        return \"" . $nameFile . "Controller@new()\";
     }
 
-    // Create a single ${nameFileLower}
+    // Create a single " . $nameFileLower . "
     public function create(array \$CONFIG = [\"method\" => \"POST\", \"csrf\" => true])
     {
-        return \"${nameFile}Controller@create()\";
+        return \"" . $nameFile . "Controller@create()\";
     }
 
-    // Get single ${nameFileLower}
+    // Get single " . $nameFileLower . "
     public function show(int \$id, array \$CONFIG = [\"method\" => \"GET\"])
     {
-        return \"${nameFile}Controller@show(\$id)\";
+        return \"" . $nameFile . "Controller@show(\$id)\";
     }
 
-    // Redirect page - Update a single ${nameFileLower}
+    // Redirect page - Update a single " . $nameFileLower . "
     public function edit(int \$id, array \$CONFIG = [\"method\" => \"GET\"])
     {
-        return \"${nameFile}Controller@edit(\$id)\";
+        return \"" . $nameFile . "Controller@edit(\$id)\";
     }
 
-    // Update a single ${nameFileLower}
+    // Update a single " . $nameFileLower . "
     public function update(int \$id, array \$CONFIG = [\"method\" => \"PUT\", \"csrf\" => true])
     {
-        return \"${nameFile}Controller@update(\$id)\";
+        return \"" . $nameFile . "Controller@update(\$id)\";
     }
 
-    // Destroy a single ${nameFileLower}
+    // Destroy a single " . $nameFileLower . "
     public function destroy(int \$id, array \$CONFIG = [\"method\" => \"DELETE\", \"csrf\" => true])
     {
-        return \"${nameFile}Controller@destroy(\$id)\";
+        return \"" . $nameFile . "Controller@destroy(\$id)\";
     }";
     } else {
         $require = "";
     }
     $content = "<?php
 
-namespace App\\${folderControllerName}${namespace};
+namespace App\\" . $folderControllerName . $namespace . ";
 $require
-class ${filename}Controller
+class " . $filename . "Controller
 {
 
     $methods
@@ -214,22 +214,22 @@ function fun_create_service(string $nameFile, bool $require = false)
 {
     $folderModelName = input_env("NAME_FOLDER_MODELS");
     $folderServiceName = input_env("NAME_FOLDER_SERVICES");
-    $class = "${nameFile}Service";
-    $pathFile = "/${folderServiceName}/${class}.php";
+    $class = $nameFile . "Service";
+    $pathFile = "/" . $folderServiceName . "/" . $class . ".php";
     $constructor = "";
     if ($require) {
-        $require = "\r\nuse App\\${folderModelName}\\${nameFile};\r\n";
+        $require = "\r\nuse App\\" . $folderModelName . "\\" . $nameFile . ";\r\n";
         $instance = strtolower($nameFile);
-        $constructor = "\r\n    private \$$instance;\r\n
+        $constructor = "\r\n    private \$ . " . $instance . ";\r\n
     public function __construct()
     {
-        \$this->$instance = new $nameFile();
-        \$this->${instance}->create();
+        \$this->" . $instance . " = new " . $nameFile . "();
+        \$this->" . $instance . "->create();
     }\r\n";
     }
     $content = "<?php
 
-namespace App\\${folderServiceName};
+namespace App\\" . $folderServiceName . ";
 $require        
 class $class
 {
@@ -244,12 +244,12 @@ function fun_create_helper(string $nameFile, $require = false)
     $folderHelperName = input_env("NAME_FOLDER_HELPERS");
     $pathinfo = pathinfo($nameFile);
     $dirname = $pathinfo['dirname'];
-    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/${folderHelperName}/${dirname}/");
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderHelperName . "/" . $dirname . "/");
     if (!DataManager::exist($dircontroller)) {
         DataManager::folderCreate($dircontroller);
     }
-    $class = "${nameFile}";
-    $pathFile = "/${folderHelperName}/${class}.php";
+    $class = $nameFile;
+    $pathFile = "/" . $folderHelperName . "/" . $class . ".php";
     $content = "<?php
 
 " . ($require ? "namespace $nameFile;\r\n\r\n" : "");
@@ -261,17 +261,17 @@ function fun_create_middleware(string $nameFile, $require = false)
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $pathinfo = pathinfo($nameFile);
     $dirname = $pathinfo['dirname'];
-    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/${folderMiddlewareName}/${dirname}/");
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderMiddlewareName . "/" . $dirname . "/");
     if (!DataManager::exist($dircontroller)) {
         DataManager::folderCreate($dircontroller);
     }
-    $class = "${nameFile}";
-    $pathFile = "/${folderMiddlewareName}/${class}.php";
+    $class = $nameFile;
+    $pathFile = "/" . $folderMiddlewareName . "/" . $class . ".php";
     $content = "<?php
 
-namespace App\\${folderMiddlewareName};
+namespace App\\" . $folderMiddlewareName . ";
 
-class ${nameFile} {
+class " . $nameFile . " {
 
     public static function handle(\$route, \Closure \$next) :bool
     {
@@ -315,16 +315,16 @@ function fun_create_model(string $nameFile, $require = false)
     }
     // dumpd($require, $columns, $typesAndColumns);
     $folderModelName = input_env("NAME_FOLDER_MODELS");
-    $class = "${nameFile}";
-    $pathFile = "/${folderModelName}/${class}.php";
+    $class = $nameFile;
+    $pathFile = "/" . $folderModelName . "/" . $class . ".php";
     $table = strtolower($class) . "s";
     $content = "<?php
 
-namespace App\\${folderModelName};
+namespace App\\" . $folderModelName . ";
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class ${class} extends Eloquent
+class " . $class . " extends Eloquent
 {
 
     protected \$table = '$table';
@@ -339,14 +339,14 @@ $columns
     echo "\r\n";
     $class = $table;
     $folderSchemaName = input_env("NAME_FOLDER_SCHEMAS");
-    $pathFile = "/${folderSchemaName}/${class}_capsule.php";
+    $pathFile = "/" . $folderSchemaName . "/" . $class . "_capsule.php";
     $content = "<?php
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-Capsule::schema()->dropIfExists('${class}');
+Capsule::schema()->dropIfExists('" . $class . "');
 
-Capsule::schema()->create('${class}', function (\$table) {
+Capsule::schema()->create('" . $class . "', function (\$table) {
 
     \$table->increments('id');
 
@@ -364,21 +364,21 @@ function fun_create_view(string $nameFile)
     $folderViewName = input_env("NAME_FOLDER_VIEWS");
     $pathinfo = pathinfo($nameFile);
     $dirname = $pathinfo['dirname'];
-    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/${folderViewName}/${dirname}/");
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderViewName . "/" . $dirname . "/");
     if (!DataManager::exist($dircontroller)) {
         DataManager::folderCreate($dircontroller);
     }
-    $class = "${nameFile}";
-    $pathFile = "/${folderViewName}/${class}.php";
+    $class = $nameFile;
+    $pathFile = "/" . $folderViewName . "/" . $class . ".php";
     $content = "<!DOCTYPE html>
 <html lang=\"pt-BR\">
 <head>
     <meta charset=\"UTF-8\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>${nameFile}</title>
+    <title>" . $nameFile . "</title>
 </head>
 <body>
-    <h1>Welcome to page ${nameFile}</h1>
+    <h1>Welcome to page " . $nameFile . "</h1>
     <?php dumpl(\$_ARGS); ?>
 </body>
 </html>
@@ -440,22 +440,22 @@ function fun_clean_simple_mvcs()
     $folderMiddlewareName = input_env("NAME_FOLDER_MIDDLEWARES");
     $basedir = __BASE_DIR__ . "/app/";
     DataManager::delete($basedir);
-    DataManager::folderCreate($basedir . "${folderSchemaName}");
-    fun_folder_denied($basedir . "${folderSchemaName}/");
-    DataManager::folderCreate($basedir . "${folderHelperName}");
-    fun_folder_denied($basedir . "${folderHelperName}/");
-    DataManager::folderCreate($basedir . "${folderControllerName}");
-    fun_folder_denied($basedir . "${folderControllerName}/");
-    DataManager::folderCreate($basedir . "${folderMiddlewareName}");
-    fun_folder_denied($basedir . "${folderMiddlewareName}/");
-    DataManager::folderCreate($basedir . "${folderModelName}");
-    fun_folder_denied($basedir . "${folderModelName}/");
-    DataManager::folderCreate($basedir . "${folderCommandName}");
-    fun_folder_denied($basedir . "${folderCommandName}/");
-    DataManager::folderCreate($basedir . "${folderServiceName}");
-    fun_folder_denied($basedir . "${folderServiceName}/");
-    DataManager::folderCreate($basedir . "${folderViewName}");
-    fun_folder_denied($basedir . "${folderViewName}/");
+    DataManager::folderCreate($basedir . $folderSchemaName);
+    fun_folder_denied($basedir . $folderSchemaName);
+    DataManager::folderCreate($basedir . $folderHelperName);
+    fun_folder_denied($basedir . $folderHelperName);
+    DataManager::folderCreate($basedir . $folderControllerName);
+    fun_folder_denied($basedir . $folderControllerName);
+    DataManager::folderCreate($basedir . $folderMiddlewareName);
+    fun_folder_denied($basedir . $folderMiddlewareName . "/");
+    DataManager::folderCreate($basedir . $folderModelName);
+    fun_folder_denied($basedir . $folderModelName . "/");
+    DataManager::folderCreate($basedir . $folderCommandName);
+    fun_folder_denied($basedir . $folderCommandName . "/");
+    DataManager::folderCreate($basedir . $folderServiceName);
+    fun_folder_denied($basedir . $folderServiceName . "/");
+    DataManager::folderCreate($basedir . $folderViewName);
+    fun_folder_denied($basedir . $folderViewName . "/");
     DataManager::fileWrite($basedir . "common.php", "<?php\r\n
 const __I18N__ = [
     \"hello\" => [
@@ -464,7 +464,7 @@ const __I18N__ = [
     ]
 ];
 ");
-    DataManager::fileWrite($basedir . "${folderViewName}/page_message.php", "<!DOCTYPE html>
+    DataManager::fileWrite($basedir . $folderViewName . "/page_message.php", "<!DOCTYPE html>
 <html lang='pt-BR'>
 <head>
     <meta charset='UTF-8'>
@@ -623,24 +623,24 @@ function fun_list_commands()
  ---------------------------------------------------------------------------------------------------
  php adm server          | Start a web server on port 80
  ---------------------------------------------------------------------------------------------------
- php adm controller Test | Creates a file inside the folder \"app/${folderControllerName}/TestController.php\"
+ php adm controller Test | Creates a file inside the folder \"app/" . $folderControllerName . "/TestController.php\"
  ---------------------------------------------------------------------------------------------------
- php adm command test    | Run the command file inside the folder \"app/${folderCommandName}/test.php\"
+ php adm command test    | Run the command file inside the folder \"app/" . $folderCommandName . "/test.php\"
  ---------------------------------------------------------------------------------------------------
- php adm middleware Test | Creates a file inside the folder \"app/${folderMiddlewareName}/Test.php\"
+ php adm middleware Test | Creates a file inside the folder \"app/" . $folderMiddlewareName . "/Test.php\"
  ---------------------------------------------------------------------------------------------------
- php adm model Test      | Creates a file inside the folder \"app/${folderModelName}/Test.php\"
-                           and another one in \"app/${folderSchemaName}/tests_capsule.php\"
+ php adm model Test      | Creates a file inside the folder \"app/" . $folderModelName . "/Test.php\"
+                           and another one in \"app/" . $folderSchemaName . "/tests_capsule.php\"
  ---------------------------------------------------------------------------------------------------
- php adm database Test   | Run the Schema file (Table) \"app/${folderSchemaName}/tests_capsule.php\"
+ php adm database Test   | Run the Schema file (Table) \"app/" . $folderSchemaName . "/tests_capsule.php\"
  ---------------------------------------------------------------------------------------------------
- php adm database --all  | Run all schema files (tables) in the \"app/${folderSchemaName}\" folder
+ php adm database --all  | Run all schema files (tables) in the \"app/" . $folderSchemaName . "\" folder
  ---------------------------------------------------------------------------------------------------
- php adm service Test    | Creates a file inside the folder \"app/${folderServiceName}/TestService.php\"
+ php adm service Test    | Creates a file inside the folder \"app/" . $folderServiceName . "/TestService.php\"
  ---------------------------------------------------------------------------------------------------
- php adm helper test     | Creates a file inside the folder \"app/${folderHelperName}/test.php\"
+ php adm helper test     | Creates a file inside the folder \"app/" . $folderHelperName . "/test.php\"
  ---------------------------------------------------------------------------------------------------
- php adm view test       | Creates a file inside the folder \"app/${folderViewName}/test.php\"
+ php adm view test       | Creates a file inside the folder \"app/" . $folderViewName . "/test.php\"
  ---------------------------------------------------------------------------------------------------
  php adm update          | Updates the core framework
  ---------------------------------------------------------------------------------------------------
@@ -693,7 +693,7 @@ function fun_run_command(string $nameFile, $params = false)
         $params = [$params];
     }
     $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
-    $file = DataManager::path(__BASE_DIR__ . "/app/${folderCommandName}/${nameFile}.php");    
+    $file = DataManager::path(__BASE_DIR__ . "/app/" . $folderCommandName . "/" . $nameFile . ".php");
     if (DataManager::exist($file) == 'FILE') {
         (function() use ($file, $params) {
             try {
@@ -704,7 +704,7 @@ function fun_run_command(string $nameFile, $params = false)
                 echo PHP_EOL, "Meter: ";
                 dumpl(\Lib\Meter::stop());
                 if ($count > 0) {
-                    echo PHP_EOL, "workRun has been run ${count} times", PHP_EOL;
+                    echo PHP_EOL, "workRun has been run " . $count . " times", PHP_EOL;
                 }
                 die;
             } catch (\Throwable $th) {
@@ -897,5 +897,5 @@ function cli_text_color(string $text, string $color = "green", string $backgroun
             $color = 37;
     }
     $bold = (int) $bold;
-    return "\e[${bold};${background};${color}m${text}\e[0m";
+    return "\e[" . $bold . ";" . $background . ";" . $color . "m" . $text . "\e[0m";
 }
