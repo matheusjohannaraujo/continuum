@@ -543,7 +543,7 @@ use Lib\Route;
 
 Route::get(\"/\", function() {
     return \"<h1>Hello World</h1>\";
-});
+})::name(\"home\");
 
 Route::on();
 ");
