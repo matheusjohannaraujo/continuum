@@ -645,7 +645,7 @@ class Route
             $script = base64_encode($script);
             return $script;
         })::jwt(true);        
-        self::any("/page_message/{status_code:int}", function(int $status_code) {
+        self::any("/page/error/{status_code:int}", function(int $status_code) {
             self::$out->page($status_code);
         });
         if (!self::runRoute()) {

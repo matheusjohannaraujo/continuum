@@ -322,10 +322,12 @@ class Response
                 "message" => "Sorry, an error has occured, Requested page not found!"
             ]);
         } else {
-            $this->content(view("page_message", [
-                "title" => "404 - NOT FOUND",
-                "body" => "<h1>STATUS CODE: 404 - NOT FOUND</h1>
-                <marquee behavior=\"alternate\"><h1>Sorry, an error has occured, Requested page not found!</h1></marquee>",
+            $this->content(view("page_error", [
+                "title" => "Error 404 - Not Found",
+                "h1" => "Error 404",
+                "p" => "Sorry, an error has occured, Requested page not found!",
+                "a_href" => route("home"),
+                "a_text" => "Return to home page",
             ]));
         }
         $this
@@ -342,10 +344,12 @@ class Response
                 "message" => "Sorry, an error has occured, Requested page not found!"
             ]);
         } else {
-            $link = action("message-status-code", 404);
-            $this->content(view("page_message", [
-                "title" => "405 - METHOD NOT ALLOWED",
-                "body" => "<h1>STATUS CODE: 405 - METHOD NOT ALLOWED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred, the method entered was not found!</h1></marquee>"
+            $this->content(view("page_error", [
+                "title" => "Error 405 - Method Not Allowed",
+                "h1" => "Error 405",
+                "p" => "Sorry, but an error has occurred. The requested method is not allowed. Please check the type of request being made and ensure that it corresponds to the allowed methods.",
+                "a_href" => route("home"),
+                "a_text" => "Return to home page",
             ]));
         }
         $this
@@ -362,9 +366,12 @@ class Response
                 "message" => "Sorry, an error occurred. The CSRF Token informed is not valid!"
             ]);
         } else {
-            $this->content(view("page_message", [
-                "title" => "403 - CSRF FORBIDDEN",
-                "body" => "<h1>STATUS CODE: 403 - CSRF FORBIDDEN</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The CSRF Token informed is not valid!</h1></marquee>"
+            $this->content(view("page_error", [
+                "title" => "Error 403 - CSRF Forbidden",
+                "h1" => "Error 405",
+                "p" => "Sorry, an error occurred. The CSRF Token informed is not valid!",
+                "a_href" => route("home"),
+                "a_text" => "Return to home page",
             ]));
         }
         $this
@@ -381,9 +388,12 @@ class Response
                 "message" => "Sorry, an error occurred. The JWT Token informed is not valid!"
             ]);
         } else {
-            $this->content(view("page_message", [
-                "title" => "401 - JWT UNAUTHORIZED",
-                "body" => "<h1>STATUS CODE: 401 - JWT UNAUTHORIZED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. The JWT Token informed is not valid!</h1></marquee>"
+            $this->content(view("page_error", [
+                "title" => "Error 401 - JWT Unauthorized",
+                "h1" => "Error 401",
+                "p" => "Sorry, an error occurred. The JWT Token informed is not valid!",
+                "a_href" => route("home"),
+                "a_text" => "Return to home page",
             ]));
         }
         $this
@@ -400,9 +410,12 @@ class Response
                 "message" => "Sorry, an error occurred. Middleware failed or rejected the request!"
             ]);
         } else {
-            $this->content(view("page_message", [
-                "title" => "401 - MIDDLEWARE UNAUTHORIZED",
-                "body" => "<h1>STATUS CODE: 401 - MIDDLEWARE UNAUTHORIZED</h1><marquee behavior=\"alternate\"><h1>Sorry, an error occurred. Middleware failed or rejected the request!</h1></marquee>"
+            $this->content(view("page_error", [
+                "title" => "Error 401 - Middleware Unauthorized",
+                "h1" => "Error 401",
+                "p" => "Sorry, an error occurred. Middleware failed or rejected the request!",
+                "a_href" => route("home"),
+                "a_text" => "Return to home page",
             ]));
         }
         $this
