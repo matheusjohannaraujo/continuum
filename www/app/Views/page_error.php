@@ -26,7 +26,7 @@
 
     h1 {
       font-size: 3rem;
-      color: #333;
+      color: #007bff;
       margin-bottom: 10px;
     }
 
@@ -37,7 +37,7 @@
     }
 
     .btn {
-      background-color: #333;
+      background-color: #007bff;
       color: #fff;
       display: inline-block;
       padding: 12px 24px;
@@ -47,7 +47,7 @@
     }
 
     .btn:hover {
-      background-color: #555;
+      background-color: #0069d9;
     }
 
     @media (max-width: 425px) {

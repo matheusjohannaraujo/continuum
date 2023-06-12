@@ -319,13 +319,13 @@ class Response
             $this->content([
                 "error" => "NOT FOUND",
                 "status" => 404,
-                "message" => "Sorry, an error has occured, Requested page not found!"
+                "message" => "Sorry, an error has occured, requested page not found!"
             ]);
         } else {
             $this->content(view("page_error", [
                 "title" => "Error 404 - Not Found",
                 "h1" => "Error 404",
-                "p" => "Sorry, an error has occured, Requested page not found!",
+                "p" => "Sorry, an error has occured, requested page not found!",
                 "a_href" => route("home"),
                 "a_text" => "Return to home page",
             ]));
@@ -341,7 +341,7 @@ class Response
             $this->content([
                 "error" => "METHOD NOT ALLOWED",
                 "status" => 405,
-                "message" => "Sorry, an error has occured, Requested page not found!"
+                "message" => "Sorry, but an error has occurred. The requested method is not allowed. Please check the type of request being made and ensure that it corresponds to the allowed methods."
             ]);
         } else {
             $this->content(view("page_error", [
@@ -368,7 +368,7 @@ class Response
         } else {
             $this->content(view("page_error", [
                 "title" => "Error 403 - CSRF Forbidden",
-                "h1" => "Error 405",
+                "h1" => "Error 403",
                 "p" => "Sorry, an error occurred. The CSRF Token informed is not valid!",
                 "a_href" => route("home"),
                 "a_text" => "Return to home page",
