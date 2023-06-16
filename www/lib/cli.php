@@ -441,11 +441,11 @@ function fun_clean_simple_mvcs()
     $basedir = __BASE_DIR__ . "/app/";
     DataManager::delete($basedir);
     DataManager::folderCreate($basedir . $folderSchemaName);
-    fun_folder_denied($basedir . $folderSchemaName);
+    fun_folder_denied($basedir . $folderSchemaName . "/");
     DataManager::folderCreate($basedir . $folderHelperName);
-    fun_folder_denied($basedir . $folderHelperName);
+    fun_folder_denied($basedir . $folderHelperName . "/");
     DataManager::folderCreate($basedir . $folderControllerName);
-    fun_folder_denied($basedir . $folderControllerName);
+    fun_folder_denied($basedir . $folderControllerName . "/");
     DataManager::folderCreate($basedir . $folderMiddlewareName);
     fun_folder_denied($basedir . $folderMiddlewareName . "/");
     DataManager::folderCreate($basedir . $folderModelName);
