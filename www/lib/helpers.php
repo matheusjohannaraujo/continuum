@@ -38,7 +38,7 @@ function log_create($data, string $name = null)
     if ($name !== null) {
         $logMessage .= "Marker: $name\r\n";
     }
-    $file = folder_storage("logs/log.txt");
+    $file = folder_storage("logs/dump.log");
     return DataManager::fileAppend($file, $logMessage . "\r\n");
 }
 
