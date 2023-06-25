@@ -12,6 +12,7 @@
         "ramsey/uuid": "^4.2",
         "predis/predis": "^2.1",
         "php-amqplib/php-amqplib": "^2.8",
+        "enqueue/amqp-lib": "^0.10",
         "league/csv": "^9.0",
         "clemdesign/php-mask": "^1.0"
     },
