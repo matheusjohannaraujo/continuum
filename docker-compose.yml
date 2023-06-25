@@ -94,7 +94,7 @@ services:
 
 # https://medium.com/xp-inc/rabbitmq-com-docker-conhecendo-o-admin-cc81f3f6ac3b
   rabbitmq:
-    image: rabbitmq:3.11-management
+    image: rabbitmq:3.12-management
     hostname: rabbitmq
     restart: always
     ports:
