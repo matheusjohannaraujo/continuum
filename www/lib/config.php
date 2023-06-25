@@ -2,8 +2,6 @@
 
 // Changing "php.ini" during execution
 
-use Lib\SimpleRedis;
-
 ini_set("default_charset", "utf-8");
 ini_set("set_time_limit", "36000");
 ini_set("max_execution_time", "36000");
