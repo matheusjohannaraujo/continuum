@@ -1,25 +1,58 @@
-FROM tomsik68/xampp:8
+FROM php:8.2.4-apache
 
-WORKDIR /opt/lampp/htdocs
+# Set working directory
+WORKDIR /var/www//html/
 
-RUN apt update && apt install -y supervisor cron htop && \
+# Set args
+ARG user=continuum
+ARG uid=1000
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libpq-dev \
+    libbz2-dev \
+    zip \
+    unzip \
+    htop \
+    supervisor \
+    cron && \
     ln -fs /usr/share/zoneinfo/America/Recife /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    chmod -R 0777 /opt/lampp/htdocs/ && \
-    ln -s /opt/lampp/bin/php /usr/bin && \
-    ln -s /opt/lampp/bin/mysql /usr/bin && \
-    ln -s /opt/lampp/bin/pecl /usr/bin && \
-    ln -s /opt/lampp/bin/pear /usr/bin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets bz2 intl mysqli pdo pdo_pgsql iconv session opcache && \
+    a2enmod rewrite
+
+# Install redis
+RUN pecl install -o -f redis-5.3.7 \
+    && pecl install -o -f xdebug-3.2.1 \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis xdebug
+
+# Install Composer
+RUN chmod -R 0777 /var/www/html/ && \
     php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php && \
     mv composer.phar /usr/local/bin/composer && \
-    rm composer-setup.php
+    rm composer-setup.php && \
+    composer config -g repo.packagist composer https://packagist.org
+
+# Create system user to run Composer and Artisan Commands
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
+
+# Copy custom configurations PHP
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 
 COPY ./www .
-
-COPY ./task /opt/lampp/htdocs/task
-
-COPY ./startup.sh /startup.sh
 
 ADD supervisord.conf /etc/supervisor/conf.d/
 
@@ -27,9 +60,7 @@ RUN touch .env && \
     chmod 0777 .env && \
     cat .env.example > .env && \
     echo "APP_URL=http://localhost/" >> .env && \
-    chmod 0777 /opt/lampp/htdocs/task && \
-    chmod +x /startup.sh && \
-    chmod -R 0777 storage/ && \
     composer update -n && \
-    /opt/lampp/lampp stop && \
-    /opt/lampp/lampp startapache
+    chmod -R 0777 storage/
+
+USER $user
