@@ -6,8 +6,11 @@ class Example {
 
     public static function handle($route, \Closure $next) :bool
     {
-        dumpl("App\Middlewares\Example::handle", $route);
-        return $next(rand(0, 1));
+        $bool = (bool) rand(0, 1);
+        if (!$bool) {
+            dumpl("App\Middlewares\Example::handle", $route);
+        }
+        return $next($bool);
     }
 
 }
