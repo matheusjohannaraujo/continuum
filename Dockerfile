@@ -1,6 +1,6 @@
-FROM php:8.2.8-apache
+#FROM php:8.2.8-apache
 #FROM php:8.1.21-apache
-#FROM php:8.0.29-apache
+FROM php:8.0.29-apache
 #FROM php:7.4.33-apache
 #FROM php:7.3.33-apache
 #FROM php:7.2.34-apache
@@ -39,9 +39,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets bz2 i
 
 # Install redis
 RUN pecl install -o -f redis-5.3.7 \
-    && pecl install -o -f xdebug-3.2.1 \
+#    && pecl install -o -f xdebug-3.2.1 \
     &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis xdebug
+    &&  docker-php-ext-enable redis
+# xdebug
 
 # Install Composer
 RUN chmod -R 0777 /var/www/html/ && \
@@ -56,12 +57,7 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-# Copy custom configurations PHP
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
-
 COPY ./www .
-
-ADD supervisord.conf /etc/supervisor/conf.d/
 
 RUN touch .env && \
     chmod 0777 .env && \
@@ -69,5 +65,10 @@ RUN touch .env && \
     echo "APP_URL=http://localhost/" >> .env && \
     composer update -n && \
     chmod -R 0777 storage/
+
+# Copy custom configurations PHP
+COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+
+ADD supervisord.conf /etc/supervisor/conf.d/
 
 USER $user
