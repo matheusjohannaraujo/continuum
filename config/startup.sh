@@ -1,9 +1,8 @@
 #!/bin/bash
-/opt/lampp/lampp startapache
 /usr/sbin/cron -L 8 &
 
-if [ -f /opt/lampp/htdocs/task ]; then
-   tasks=$(cat /opt/lampp/htdocs/task);
+if [ -f /var/www/html/task.cron ]; then
+   tasks=$(cat /var/www/html/task.cron);
    if [ ! -z "$tasks" ]; then
       echo "$tasks" | /usr/bin/crontab -
    else

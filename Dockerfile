@@ -1,6 +1,6 @@
-#FROM php:8.2.8-apache
+FROM php:8.2.8-apache
 #FROM php:8.1.21-apache
-FROM php:8.0.29-apache
+#FROM php:8.0.29-apache
 #FROM php:7.4.33-apache
 #FROM php:7.3.33-apache
 #FROM php:7.2.34-apache
@@ -59,16 +59,22 @@ RUN mkdir -p /home/$user/.composer && \
 
 COPY ./www .
 
+COPY ./config/php.ini /usr/local/etc/php/conf.d/custom.ini
+
+COPY ./config/task.cron /var/www/html/task.cron
+
+ADD ./config/supervisord.conf /etc/supervisor/conf.d/
+
+COPY ./config/startup.sh /var/www/html/startup.sh
+
 RUN touch .env && \
     chmod 0777 .env && \
     cat .env.example > .env && \
     echo "APP_URL=http://localhost/" >> .env && \
     composer update -n && \
-    chmod -R 0777 storage/
+    chmod -R 0777 /var/www/html/ && \
+    chmod +x /var/www/html/startup.sh
 
-# Copy custom configurations PHP
-COPY php.ini /usr/local/etc/php/conf.d/custom.ini
+#USER $user
 
-ADD supervisord.conf /etc/supervisor/conf.d/
-
-USER $user
+CMD ["/var/www/html/startup.sh"]
