@@ -1,7 +1,11 @@
-FROM php:8.2.4-apache
+FROM php:8.2.8-apache
+#FROM php:8.1.21-apache
+#FROM php:8.0.29-apache
+#FROM php:7.4.33-apache
+#FROM php:7.3.33-apache
 
 # Set working directory
-WORKDIR /var/www//html/
+WORKDIR /var/www/html/
 
 # Set args
 ARG user=continuum

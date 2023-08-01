@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   web:
-#    image: tomsik68/xampp:8
+#    image: php:8.2.4-apache
     build: .
     restart: always
     links:
@@ -9,10 +9,10 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./www/app:/opt/lampp/htdocs/app
-      - ./www/public:/opt/lampp/htdocs/public
-      - ./www/storage:/opt/lampp/htdocs/storage
-      - ./www/composer.json:/opt/lampp/htdocs/composer.json
+      - ./www/app:/var/www/html/app
+      - ./www/public:/var/www/html/public
+      - ./www/storage:/var/www/html/storage
+      - ./www/composer.json:/var/www/html/composer.json
 
   mysql:
     image: mysql:8.0.32
