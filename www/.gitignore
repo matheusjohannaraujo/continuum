@@ -1,2 +1,6 @@
 vendor/
 storage/cache/
+storage/logs/apache.log
+storage/logs/job.log
+storage/logs/sthread.log
+storage/logs/mthread.log

@@ -2,7 +2,7 @@
 
 * EN-US: **Information about the settings that must exist for the project to work correctly**
 * 
-* * Requires the minimum version of PHP 7.2.5
+* * Requires the minimum version of PHP 7.3
 * * You need to have the "composer" installed
 * * With "composer", run the following command
 * * * **```composer update --ignore-platform-reqs```**
