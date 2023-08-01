@@ -8,6 +8,7 @@ class AVStreamDataManager
     private $buffer = 1024;
     private $start = 0;
     private $end = 0;
+    private $size = 0;
     private $mimetype = "video/mp4";
     private $filename = "video";
     private $extension = ".mp4";
