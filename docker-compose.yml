@@ -86,8 +86,8 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=password
 #      - REDIS_USERNAME=user
-      - HTTP_USER=user
-      - HTTP_PASSWORD=password
+#      - HTTP_USER=user
+#      - HTTP_PASSWORD=password
     depends_on:
       - redis
 
