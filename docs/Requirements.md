@@ -2,7 +2,7 @@
 
 * EN-US: **Information about the settings that must exist for the project to work correctly**
 * 
-* * Requires the minimum version of PHP 7.2.5
+* * Requires the minimum version of PHP 7.3
 * * You need to have the "composer" installed
 * * With "composer", run the following command
 * * * **```composer update --ignore-platform-reqs```**
@@ -15,6 +15,7 @@
 * * * **```docker-compose down --remove-orphans```**
 * * * **```docker-compose up -d --build```**
 * * * **```docker-compose ps```**
+* * * **```docker-compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
 * * * **```composer update```**
 * 
@@ -52,7 +53,7 @@
 
 * PT-BR: **Informações sobre as configurações que devem existir para que o projeto funcione corretamente**
 * 
-* * Requer a versão mínima do PHP 7.2.5
+* * Requer a versão mínima do PHP 7.3
 * * Você precisa ter o "composer" instalado
 * * Com "composer", execute o seguinte comando
 * * * **```composer update --ignore-platform-reqs```**
@@ -64,7 +65,10 @@
 * * Executando a instalação pelo Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
 * * * **```docker-compose down --remove-orphans```**
 * * * **```docker-compose up -d --build```**
+* * * **```docker-compose ps```**
+* * * **```docker-compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
+* * * **```composer update```**
 * 
 * * Exemplo de configuração do Docker container web
 * * * **```ln -s /opt/lampp/bin/php /usr/bin/```**
