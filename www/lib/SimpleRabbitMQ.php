@@ -104,6 +104,7 @@ class SimpleRabbitMQ {
     public function pub(string $message, string $type, int $ttl = 0, int $delay = 0)
     {
         $message = self::$context->createMessage($message);
+        $message->setDeliveryMode(AmqpMessage::DELIVERY_MODE_PERSISTENT);
         $producer = self::$context->createProducer();
         if ($delay > 0) {
             $producer = $producer
