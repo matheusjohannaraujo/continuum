@@ -2,7 +2,7 @@
 /usr/sbin/cron -L 8 &
 
 # allocate swap space
-fallocate -l 256M /swapfile
+fallocate -l 512M /swapfile
 chmod 0600 /swapfile
 mkswap /swapfile
 echo 10 > /proc/sys/vm/swappiness

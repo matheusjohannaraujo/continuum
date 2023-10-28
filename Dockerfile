@@ -7,10 +7,6 @@ FROM php:8.2.8-apache
 # Set working directory
 WORKDIR /var/www/html/
 
-# Set args
-ARG user=continuum
-ARG uid=1000
-
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y \
@@ -25,6 +21,7 @@ RUN apt-get update && \
     zip \
     unzip \
     htop \
+    nano \
     supervisor \
     cron && \
     ln -fs /usr/share/zoneinfo/America/Recife /etc/localtime && \
@@ -50,6 +47,10 @@ RUN chmod -R 0777 /var/www/html/ && \
     rm composer-setup.php && \
     composer config -g repo.packagist composer https://packagist.org
 
+# Set args
+ARG user=phpapache
+ARG uid=1000
+
 # Create system user to run Composer and Artisan Commands
 RUN useradd -G www-data,root -u $uid -d /home/$user $user && \
     mkdir -p /home/$user/.composer && \
@@ -61,17 +62,14 @@ COPY ./config/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 COPY ./config/task.cron /var/www/html/task.cron
 
-ADD ./config/supervisord.conf /etc/supervisor/conf.d/
+COPY ./config/supervisord.conf /etc/supervisor/conf.d/
 
 COPY ./config/startup.sh /var/www/html/startup.sh
 
-RUN touch .env && \
-    chmod 0777 .env && \
-    cat .env.example > .env && \
-    echo "APP_URL=http://localhost/" >> .env && \
+RUN chmod -R 0777 /var/www/html/ && \
+    chmod +x /var/www/html/startup.sh && \
     composer update -n && \
-    chmod -R 0777 /var/www/html/ && \
-    chmod +x /var/www/html/startup.sh
+    cat .env.example > .env; chmod 0777 .env; echo "APP_URL=http://localhost/" >> .env
 
 #USER $user
 

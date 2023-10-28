@@ -3,12 +3,11 @@ services:
   web:
     build: .
     restart: always
-    links:
-      - mysql
     ports:
       - 80:80
     volumes:
       - ./www/app:/var/www/html/app
+      - ./www/lib:/var/www/html/lib
       - ./www/public:/var/www/html/public
       - ./www/storage:/var/www/html/storage
       - ./www/composer.json:/var/www/html/composer.json
@@ -27,6 +26,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
+    hostname: phpmyadmin
     restart: always
     links:
       - mysql
@@ -42,6 +42,7 @@ services:
 
   adminer:
     image: adminer:4.8.1
+    hostname: adminer
     restart: always
     links:
       - mysql
@@ -78,7 +79,10 @@ services:
 # https://github.com/joeferner/redis-commander
   redis-commander:
     image: rediscommander/redis-commander:latest
+    hostname: redis-commander
     restart: always
+    links:
+      - redis
     ports:
       - 8081:8081
     environment:
@@ -99,7 +103,7 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
-#      - 25676:25676
+      - 25676:25676
     volumes:
 #      - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
       - ./data/rabbitmq/rabbitmq_data:/var/lib/rabbitmq
