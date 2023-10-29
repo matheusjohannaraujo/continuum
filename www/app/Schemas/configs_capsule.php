@@ -27,4 +27,15 @@ CREATE TRIGGER `trigger_delete` AFTER DELETE ON `uploads` FOR EACH ROW UPDATE us
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
+use App\Models\Contact;
+use Ramsey\Uuid\Uuid;
+
 require_once "contacts_capsule.php";
+
+for ($i = 1; $i <= 35; $i++) {
+    $contact = new Contact();
+    $contact->uuid = Uuid::uuid4();
+    $contact->name = "name" . $i;
+    $contact->email = "name" . $i . "@mail.com";
+    $contact->save();
+}

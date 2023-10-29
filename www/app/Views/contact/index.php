@@ -21,7 +21,6 @@ $this->section("body");
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">UUID</th>
                             <th scope="col">Name</th>
                             <th scope="col">E-mail</th>
                             <th scope="col">Created At</th>
@@ -36,8 +35,7 @@ $this->section("body");
                     foreach ($contacts as $key => $contact) {
                         ?>
                             <tr>
-                                <th scope="row"><?= $contact->id; ?></th>
-                                <td><?= $contact->uuid; ?></td>
+                                <td scope="row"><?= $contact->uuid; ?></td>
                                 <td><?= $contact->name; ?></td>
                                 <td><?= $contact->email; ?></td>
                                 <td><?= $contact->created_at; ?></td>
@@ -53,6 +51,8 @@ $this->section("body");
                 </table>
             </div>
         </div>
+
+        <?= pagination_links($pagination); ?>
     <?php } else { ?>
         <div class="mt-3 alert alert-info fw-bold" role="alert">Contacts not found.</div>
     <?php } ?>

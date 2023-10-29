@@ -6,9 +6,9 @@ Capsule::schema()->dropIfExists('contacts');
 
 Capsule::schema()->create('contacts', function ($table) {
 
-    $table->increments('id');
+    //$table->increments('id');
 
-    $table->string('uuid')->unique();
+    $table->uuid('uuid')->primary();
 
     $table->string('name');
 

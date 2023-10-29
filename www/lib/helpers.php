@@ -1312,3 +1312,80 @@ function command_exec(string $nameFile, array $params = [])
         echo PHP_EOL, "Command file not found: ", $file, PHP_EOL;
     }
 }
+
+function pagination(int $total, int $limit, int $page, int $range, string $url)
+{
+    function page_limit(int $page, int $limit)
+    {
+        $arr = [
+            "page" => $page,
+            "limit" => $limit
+        ];
+        $arr = array_merge($_GET, $arr);
+        return http_build_query($arr);
+    }
+    $total_pages = (int) ceil($total / $limit);
+    if ($page > $total_pages) {
+        $page = $total_pages;
+    }
+    $first_page = 1;
+    $last_page = $total_pages;
+    $current_page = $page;
+    $prev_page = ($page <= 1 ? $first_page : $page -1);
+    $next_page = ($page > 0 ? ($total_pages > $page + 1 ? $page + 1 : $total_pages) : 1);
+    $url_first_page = $url . "?" . page_limit($first_page, $limit);
+    $url_last_page = $url . "?" . page_limit($last_page, $limit);
+    $url_current_page = $url . "?" . page_limit($current_page, $limit);
+    $url_prev_page = $url . "?" . page_limit($prev_page, $limit);
+    $url_next_page = $url . "?" . page_limit($next_page, $limit);
+    $url_all_single_page = $url . "?" . page_limit($first_page, $total);
+    $url_pages = [];
+    $range_before = max($first_page, $current_page - $range);
+    $range_after = min($total_pages, $current_page + $range);
+    for ($i = $range_before; $i <= $range_after; $i++) {
+        $url_pages[] = [
+            "url" => $url . "?" . page_limit($i, $limit),
+            "page" => $i
+        ];
+    }
+    return [
+        "total" => $total,
+        "limit" => $limit,
+        "range" => $range,
+        "first_page" => $first_page,
+        "last_page" => $last_page,
+        "current_page" => $page,
+        "prev_page" => $prev_page,
+        "next_page" => $next_page,
+        "url" => $url,
+        "url_first_page" => $url_first_page,
+        "url_last_page" => $url_last_page,
+        "url_current_page" => $url_current_page,
+        "url_prev_page" => $url_prev_page,
+        "url_next_page" => $url_next_page,
+        "url_pages" => $url_pages,
+        "url_all_single_page" => $url_all_single_page
+    ];
+}
+
+function pagination_links(
+    array $pagination,
+    bool $show_btn_prev = true,
+    bool $show_btn_next = true,
+    bool $show_btn_inicio = false,
+    bool $show_btn_fim = false,
+    bool $show_btn_all = true,
+    bool $debug = false,
+    string $view_pagination_links = "pagination_links"
+)
+{
+    return view($view_pagination_links, [
+        "pagination" => $pagination,
+        "show_btn_prev" => $show_btn_prev,
+        "show_btn_next" => $show_btn_next,
+        "show_btn_inicio" => $show_btn_inicio,
+        "show_btn_fim" => $show_btn_fim,
+        "show_btn_all" => $show_btn_all,
+        "debug" => $debug
+    ]);
+}

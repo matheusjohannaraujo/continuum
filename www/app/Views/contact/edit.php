@@ -18,14 +18,6 @@ $this->section("body");
             <?= tag_method("PUT"); ?>
             <?= tag_csrf(); ?>
             <div class="form-group mb-3">
-                <label class="form-label">Id:</label>
-                <input class="form-control" type="number" name="id" placeholder="Id" readonly required value="<?= old("id", $contact->id); ?>">
-            </div>
-            <div class="form-group mb-3">
-                <label class="form-label">UUID:</label>
-                <input class="form-control" type="text" name="uuid" placeholder="UUID" readonly required value="<?= old("uuid", $contact->uuid); ?>">
-            </div>
-            <div class="form-group mb-3">
                 <label class="form-label" for="input-name">Name:</label>
                 <?= tag_message("name", ["class" => "alert alert-warning fw-bold", "role" => "alert"], "div"); ?>
                 <input class="form-control" id="input-name" type="text" name="name" placeholder="Name" required value="<?= old("name", $contact->name); ?>">

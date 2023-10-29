@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Contact;
 use OpenApi\Annotations as OA;
 use App\Services\ContactService;
 
@@ -67,7 +68,13 @@ class ContactController
     // List all contact
     public function index(array $CONFIG = ["method" => "GET"])
     {
-        return view("contact/index", ["contacts" => $this->contactService->all()]);
+        $page = (int) request()->get('page', 1);
+        $limit = (int) request()->get('limit', 10);
+        $range = (int) request()->get('range', 2);
+        $contacts = Contact::limit($limit)->offset(($page - 1) * $limit)->get();//->reverse();
+        $url = route("contact.index");
+        $pagination = pagination(Contact::count(), $limit, $page, $range, $url);
+        return view("contact/index", ["contacts" => $contacts, "pagination" => $pagination]);
     }
 
     // Redirect page - Create a single contact

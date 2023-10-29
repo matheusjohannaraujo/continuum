@@ -11,6 +11,14 @@ services:
       - ./www/public:/var/www/html/public
       - ./www/storage:/var/www/html/storage
       - ./www/composer.json:/var/www/html/composer.json
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 400M
+        reservations:
+          cpus: '0.25'
+          memory: 40M
 
   mysql:
     image: mysql:8.0.32
