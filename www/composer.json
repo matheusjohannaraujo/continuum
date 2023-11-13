@@ -13,7 +13,8 @@
         "predis/predis": "^2.1",
         "enqueue/amqp-lib": "^0.10",
         "league/csv": "^9.0",
-        "clemdesign/php-mask": "^1.0"
+        "clemdesign/php-mask": "^1.0",
+        "stevenmaguire/oauth2-keycloak": "^5.1"
     },
     "autoload": {
         "psr-4": {

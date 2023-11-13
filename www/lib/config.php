@@ -23,11 +23,11 @@ header("Access-Control-Allow-Headers: Content-Type");
 try {
     $env = new \Lib\ENV;
     $env->read();
-    $redis_host = $env->get("REDIS_HOST");
-    $redis_port = $env->get("REDIS_PORT");    
-    $redis_username = $env->get("REDIS_USERNAME");
-    $redis_password = $env->get("REDIS_PASSWORD");
-    $redis_scheme = $env->get("REDIS_SCHEME");
+    $redis_host             = $env->get("REDIS_HOST");
+    $redis_port             = $env->get("REDIS_PORT");    
+    $redis_username         = $env->get("REDIS_USERNAME");
+    $redis_password         = $env->get("REDIS_PASSWORD");
+    $redis_scheme           = $env->get("REDIS_SCHEME");
     $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT");
     \Lib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
 } catch (\Throwable $th) {
@@ -37,11 +37,24 @@ try {
 try {
     $env = new \Lib\ENV;
     $env->read();
-    $rabbitmq_host = $env->get("RABBITMQ_HOST");
-    $rabbitmq_port = $env->get("RABBITMQ_PORT");
-    $rabbitmq_username = $env->get("RABBITMQ_USERNAME");
-    $rabbitmq_password = $env->get("RABBITMQ_PASSWORD");
+    $rabbitmq_host          = $env->get("RABBITMQ_HOST");
+    $rabbitmq_port          = $env->get("RABBITMQ_PORT");
+    $rabbitmq_username      = $env->get("RABBITMQ_USERNAME");
+    $rabbitmq_password      = $env->get("RABBITMQ_PASSWORD");
     \Lib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
+} catch (\Throwable $th) {
+    log_create($th);
+}
+
+try {
+    $env = new \Lib\ENV;
+    $env->read();
+    $authServerUrl          = $env->get("KEYCLOAK_AUTH_SERVER_URL");
+    $realm                  = $env->get("KEYCLOAK_REALM");
+    $clientId               = $env->get("KEYCLOAK_CLIENT_ID");
+    $clientSecret           = $env->get("KEYCLOAK_CLIENT_SECRET");
+    $redirectUri            = $env->get("KEYCLOAK_REDIRECT_URI");
+    \Lib\SimpleKeycloak::config($authServerUrl, $realm, $clientId, $clientSecret, $redirectUri);
 } catch (\Throwable $th) {
     log_create($th);
 }

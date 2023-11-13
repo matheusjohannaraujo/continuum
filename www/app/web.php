@@ -192,6 +192,23 @@ Route::get("/async", function () {
 
 });
 
+Route::get("/keycloak-login", function () {
+    if (!\Lib\SimpleKeycloak::verifyAuthState()) {
+        return \Lib\SimpleKeycloak::authRedirect();
+    }
+    return redirect()->route("keycloak-private");
+});
+
+Route::get("/keycloak-logout", function () {
+    return \Lib\SimpleKeycloak::logoutRedirect();
+});
+
+Route::get("/keycloak-private", function () {
+    $token = \Lib\SimpleKeycloak::getToken();
+    $user = \Lib\SimpleKeycloak::getUser();
+    dd($token, $user);
+});
+
 /*
     EN-US: Starts route interpretation process
     -
