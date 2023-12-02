@@ -6,11 +6,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./www/app:/var/www/html/app
-      - ./www/lib:/var/www/html/lib
-      - ./www/public:/var/www/html/public
-      - ./www/storage:/var/www/html/storage
-      - ./www/composer.json:/var/www/html/composer.json
+      - ./www/:/var/www/html/
     deploy:
       resources:
         limits:
@@ -19,6 +15,7 @@ services:
         reservations:
           cpus: '0.25'
           memory: 40M
+    memswap_limit: 600M
 
   mysql:
     image: mysql:8.0.32

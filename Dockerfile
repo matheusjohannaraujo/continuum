@@ -1,4 +1,5 @@
-FROM php:8.2.8-apache
+FROM php:8.3.0-apache
+#FROM php:8.2.8-apache
 #FROM php:8.1.21-apache
 #FROM php:8.0.29-apache
 #FROM php:7.4.33-apache
@@ -51,26 +52,27 @@ RUN chmod -R 0777 /var/www/html/ && \
 ARG user=phpapache
 ARG uid=1000
 
-# Create system user to run Composer and Artisan Commands
+# Create system user to run Composer
 RUN useradd -G www-data,root -u $uid -d /home/$user $user && \
     mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+    chown -R $user:$user /home/$user && \
+    mkdir -p /var/www/phpapache/ && \
+    chmod -R 0777 /var/www/phpapache/
 
-COPY ./www .
+COPY ./config/task.cron /var/www/phpapache/task.cron
+
+COPY ./config/startup.sh /var/www/phpapache/startup.sh
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/custom.ini
 
-COPY ./config/task.cron /var/www/html/task.cron
-
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/
 
-COPY ./config/startup.sh /var/www/html/startup.sh
-
-RUN chmod -R 0777 /var/www/html/ && \
-    chmod +x /var/www/html/startup.sh && \
-    composer update -n && \
-    cat .env.example > .env; chmod 0777 .env; echo "APP_URL=http://localhost/" >> .env
+RUN chmod +x /var/www/phpapache/startup.sh && \
+    chmod -R 0777 /var/www/html/ && \
+    chown -R $user:$user /var/www/html/ && \
+    chmod -R 0777 /var/www/phpapache/ && \
+    chown -R $user:$user /var/www/phpapache/
 
 #USER $user
 
-CMD ["/var/www/html/startup.sh"]
+CMD ["/var/www/phpapache/startup.sh"]
