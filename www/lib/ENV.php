@@ -31,6 +31,10 @@ class ENV
 
     public function read(string $path_env = null)
     {
+        $envContext = getenv();
+        if (!is_array($envContext)) {
+            $envContext = [];
+        }
         if ($path_env === null) {
             $path_env = $this->path_env;
             if (!DataManager::exist($path_env)) {
@@ -39,9 +43,10 @@ class ENV
                     dumpd("The `.env` and `.env.example` files were not found.");
                 }
                 DataManager::copy($path_env_example, ".env") or dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
-                if (DataManager::exist($path_env) == "FILE") {
+                if (DataManager::exist($path_env) === "FILE") {
                     $env = new \Lib\ENV;
                     $array = $env->read();
+                    $array = array_diff($array, $envContext);
                     if ($env->get("AES_256_SECRET") == "password12345") {
                         $array["AES_256_SECRET"] = hash_generate(uniqid());
                     }
@@ -57,7 +62,7 @@ class ENV
         } else {
             $this->path_env = $path_env;
         }
-        $env = [];        
+        $env = [];
         $this->raw = "";
         $gen = DataManager::fileRead($path_env, 3);
         foreach ($gen as $key => $value) {
@@ -75,6 +80,7 @@ class ENV
             unset($key);
             unset($value);
         }
+        $env = array_merge($env, $envContext);
         return $this->env = &$env;
     }
 

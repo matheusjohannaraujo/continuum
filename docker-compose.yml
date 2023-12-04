@@ -16,6 +16,8 @@ services:
           cpus: '0.25'
           memory: 40M
     memswap_limit: 600M
+    env_file:
+      - .env
 
   mysql:
     image: mysql:8.0.32
