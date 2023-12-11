@@ -1,6 +1,6 @@
 # [Continuum documentation in Brazilian Portuguese](./DOC.md)
 
-## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://clustermja.fly.dev/continuum">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
+## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://mjacluster.fly.dev/continuum/">Demonstration Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Youtube Playlist</a>
 
 > ### Summary / History:
 
