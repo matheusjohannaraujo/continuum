@@ -1,6 +1,6 @@
 # [Continuum documentação em Inglês](./DOC-EU.md)
 
-## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://clustermja.fly.dev/continuum">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
+## <a href="https://github.com/matheusjohannaraujo/continuum/">Continuum</a> / <a href="https://mjacluster.fly.dev/continuum/">Demostração Online</a> / <a href="https://www.youtube.com/playlist?list=PLODC80noz2kLRlieO38YwqaJXuzevAO83">Playlist Youtube</a>
 
 > ### Resumo / História:
 
