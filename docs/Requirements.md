@@ -5,7 +5,7 @@
 * * Requires the minimum version of PHP 7.3
 * * You need to have the "composer" installed
 * * With "composer", run the following command
-* * * **```composer update --ignore-platform-reqs```**
+* * * **```composer install --ignore-platform-reqs```**
 * 
 * * Install Docker
 * * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
@@ -17,7 +17,7 @@
 * * * **```docker-compose ps```**
 * * * **```docker-compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
-* * * **```composer update```**
+* * * **```composer install```**
 * 
 * * Example of configuration web container Docker
 * * * **```ln -s /opt/lampp/bin/php /usr/bin/```**
@@ -27,7 +27,7 @@
 * * * **```php composer-setup.php```**
 * * * **```mv composer.phar /usr/local/bin/composer```**
 * * * **```rm composer-setup.php```**
-* * * **```composer update```**
+* * * **```composer install```**
 * 
 * * Installers for Linux Debian - Apache, PHP, MySQL and Composer
 * * * **```sudo apt update```**
@@ -42,7 +42,7 @@
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">It is necessary to have enabled the reading of htaccess files</a>
 * 
 * * Installers for Windows - Apache, PHP, MySQL and Composer
-* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Download: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
+* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/xampp-windows-x64-7.4.33-0-VC15-installer.exe/download">Download: xampp-windows-x64-7.4.33-0-VC15-installer.exe</a>
 * * * <a href="https://getcomposer.org/Composer-Setup.exe">Download: Composer-Setup.exe</a>
 
 ### [Back to the previous page](./DOC-EU.md)
@@ -56,7 +56,7 @@
 * * Requer a versão mínima do PHP 7.3
 * * Você precisa ter o "composer" instalado
 * * Com "composer", execute o seguinte comando
-* * * **```composer update --ignore-platform-reqs```**
+* * * **```composer install --ignore-platform-reqs```**
 * 
 * * Instalar Docker
 * * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
@@ -68,7 +68,7 @@
 * * * **```docker-compose ps```**
 * * * **```docker-compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
-* * * **```composer update```**
+* * * **```composer install```**
 * 
 * * Exemplo de configuração do Docker container web
 * * * **```ln -s /opt/lampp/bin/php /usr/bin/```**
@@ -78,7 +78,7 @@
 * * * **```php composer-setup.php```**
 * * * **```mv composer.phar /usr/local/bin/composer```**
 * * * **```rm composer-setup.php```**
-* * * **```composer update```**
+* * * **```composer install```**
 * 
 * * Instaladores para Linux Debian - Apache, PHP, MySQL e Composer
 * * * **```sudo apt update```**
@@ -93,7 +93,7 @@
 * * * <a href="https://askubuntu.com/questions/421233/enabling-htaccess-file-to-rewrite-path-not-working">É necessário ter habilitado a leitura dos arquivos htaccess</a>
 * 
 * * Instaladores para Windows - Apache, PHP, MySQL e Composer
-* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe/download">Baixar: xampp-windows-x64-7.4.3-0-VC15-installer.exe</a>
+* * * <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.33/xampp-windows-x64-7.4.33-0-VC15-installer.exe/download">Baixar: xampp-windows-x64-7.4.33-0-VC15-installer.exe</a>
 * * * <a href="https://getcomposer.org/Composer-Setup.exe">Baixar: Composer-Setup.exe</a>
 
 ### [Voltar para página anterior](./DOC.md)
