@@ -18,6 +18,10 @@ services:
     memswap_limit: 600M
     env_file:
       - .env
+    depends_on:
+      - mysql
+      - redis
+      - rabbitmq
 
   mysql:
     image: mysql:8.0.32
@@ -26,7 +30,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data-mysql/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=database_example
@@ -71,7 +75,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./data/redis/redis-persistence:/bitnami/redis/data
+      - ./data-redis/redis-persistence:/bitnami/redis/data
     environment:
 #      - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PORT_NUMBER=6379
@@ -112,8 +116,8 @@ services:
       - 15672:15672
       - 25676:25676
     volumes:
-#      - ./data/rabbitmq/rabbitmq_log:/var/log/rabbitmq
-      - ./data/rabbitmq/rabbitmq_data:/var/lib/rabbitmq
+      - ./data-rabbitmq/rabbitmq_log:/var/log/rabbitmq
+      - ./data-rabbitmq/rabbitmq_data:/var/lib/rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
