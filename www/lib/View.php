@@ -157,7 +157,6 @@ class View
                 return $blade->run(str_replace("/", "\\", $location), $_ARGS);
             } catch (\Throwable $th) {
                 log_create($th);
-                dumpl("BladeOne Error", $th);
             }
         }
         $result = $this->cache("V:" . $location, $_CACHE_SECONDS);
@@ -192,7 +191,6 @@ class View
             log_create($e);
             ob_get_clean();
             ob_start();
-            dumpl(["message" => $e->getMessage(), "line" => $e->getLine(), "file" => $e->getFile()]);
         }
         $result = ob_get_clean();
         if ($this->recordCache) {

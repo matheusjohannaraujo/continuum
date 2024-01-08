@@ -112,7 +112,6 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
 
     } catch (\Throwable $th) {
         log_create($th);
-        dumpl($th);
     }
 
 }

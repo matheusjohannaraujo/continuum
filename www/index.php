@@ -49,7 +49,6 @@ if (file_exists($autoload)) {
 		require_once __DIR__ . "/app/web.php";
 	} catch (\Throwable $th) {
 		log_create($th);
-		throw $th;
 	}
 } else {
 	require_once __DIR__ . "/lib/DataManager.php";

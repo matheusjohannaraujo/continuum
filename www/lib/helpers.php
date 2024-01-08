@@ -1305,7 +1305,6 @@ function command_exec(string $nameFile, array $params = [])
                 workWait(function() { usleep(1); });                
             } catch (\Throwable $th) {
                 log_create($th);
-                dumpl($th);
             }
         })();
     } else {

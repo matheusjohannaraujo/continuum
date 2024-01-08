@@ -333,7 +333,6 @@ class Route
                                     return (new $Controller)->$Method(...array_values(self::$in->paramArg()));
                                 } catch (\Throwable $e) {
                                     log_create($e);
-                                    dumpd($e->getMessage());
                                 }
                             })($Controller, $Method);
                         } else {
@@ -357,7 +356,6 @@ class Route
             }
         } catch (\Throwable $e) {
             log_create($e);
-            dumpd($e);
         }
         return false;
     }
