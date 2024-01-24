@@ -842,7 +842,7 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
             fun_apply_database($nameFile);
             break;
         case "command":
-            fun_run_command($nameFile, $require);
+	    fun_run_command($nameFile, $require, true, true);
             break;
     }
 }
