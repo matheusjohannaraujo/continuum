@@ -731,7 +731,7 @@ function fun_no_cache()
     echo cli_text_color("\r\n Clean!\r\n");
 }
 
-function fun_run_command(string $nameFile, $params = false)
+function fun_run_command(string $nameFile, $params = false, bool $meter = false, bool $kill = false)
 {
     if ($params === false) {
         $params = [];
@@ -741,18 +741,22 @@ function fun_run_command(string $nameFile, $params = false)
     $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
     $file = DataManager::path(__BASE_DIR__ . "/app/" . $folderCommandName . "/" . $nameFile . ".php");
     if (DataManager::exist($file) == 'FILE') {
-        (function() use ($file, $params) {
+        (function() use ($file, $params, $meter, $kill) {
             try {
                 require_once realpath(__DIR__ . "/../vendor/autoload.php");
                 require_once realpath(__DIR__ . "/config.php");
                 require_once $file;
                 $count = workWait(function() { usleep(1); });
-                echo PHP_EOL, "Meter: ";
-                dumpl(\Lib\Meter::stop());
-                if ($count > 0) {
-                    echo PHP_EOL, "workRun has been run " . $count . " times", PHP_EOL;
+                if ($meter) {
+                    echo PHP_EOL, "Meter: ";
+                    dumpl(\Lib\Meter::stop());
+                    if ($count > 0) {
+                        echo PHP_EOL, "workRun has been run " . $count . " times", PHP_EOL;
+                    }
                 }
-                die;
+                if ($kill) {
+                    die;
+                }
             } catch (\Throwable $th) {
                 log_create($th);
             }
