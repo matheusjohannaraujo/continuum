@@ -2,6 +2,8 @@
 
 namespace Lib;
 
+use Lib\JWT;
+
 class SimpleKeycloak {
 
     private static $authServerUrl = null;
@@ -11,6 +13,7 @@ class SimpleKeycloak {
     private static $redirectUri = null;
     public static $connection = null;
     public static $token = null;
+    public static $jwt = null;
     
     public static function config(string $authServerUrl, string $realm, string $clientId, string $clientSecret, string $redirectUri)
     {
@@ -100,11 +103,22 @@ class SimpleKeycloak {
                     'code' => $code
                 ]);
                 $_SESSION['keycloak_token'] = self::$token;
+                
             } catch (\Exception $e) {
                 exit('Failed to get access token: ' . $e->getMessage());
             }
         }
         return self::$token;
+    }
+
+    public static function getJWT()
+    {
+        self::$jwt = null;
+        $token = self::getToken();
+        if ($token !== null) {
+            self::$jwt = new JWT($token->getToken());
+        }
+        return self::$jwt;
     }
 
     public static function getUser()
