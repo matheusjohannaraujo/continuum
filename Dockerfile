@@ -34,7 +34,7 @@ RUN apt-get update && \
 
 # Configure and Install PHP extensions
 RUN a2enmod rewrite && \
-    docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd sockets bz2 intl mysqli pdo pdo_pgsql iconv session opcache && \
+    docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_pgsql mysqli intl gd session mbstring opcache sockets exif pcntl bcmath bz2 iconv && \
     pecl install -o -f redis-5.3.7 && \
 #    pecl install -o -f xdebug-3.2.1 && \
     rm -rf /tmp/pear && \
