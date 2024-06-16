@@ -11,6 +11,7 @@ WORKDIR /var/www/html/
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y \
+    iputils-ping \
     git \
     wget \
     curl \
@@ -34,6 +35,7 @@ RUN apt-get update && \
 
 # Configure and Install PHP extensions
 RUN a2enmod rewrite && \
+    a2enmod headers && \
     docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_pgsql mysqli intl gd session mbstring opcache sockets exif pcntl bcmath bz2 iconv && \
     pecl install -o -f redis-5.3.7 && \
 #    pecl install -o -f xdebug-3.2.1 && \
@@ -66,6 +68,11 @@ COPY ./config/startup.sh /var/www/phpapache/startup.sh
 COPY ./config/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 COPY ./config/supervisord.conf /etc/supervisor/conf.d/
+
+# https://github.com/docker-library/php/issues/1082
+# https://stackoverflow.com/questions/76998840/change-apache-root-folder-on-docker
+# https://semaphoreci.com/community/tutorials/dockerizing-a-php-application
+COPY ./config/apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 RUN chmod +x /var/www/phpapache/startup.sh && \
     chmod -R 0777 /var/www/html/ && \
