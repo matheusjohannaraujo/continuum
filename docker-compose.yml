@@ -5,7 +5,7 @@ services:
     image: continuum_web:latest
     restart: always
     ports:
-      - 80:80
+      - 80:80 # WEB
     volumes:
       - ./www/:/var/www/html/
     deploy:
@@ -16,7 +16,7 @@ services:
         reservations:
           cpus: '0.25'
           memory: 40M
-#    memswap_limit: 600M
+    #    memswap_limit: 600M
     env_file:
       - .env
     depends_on:
@@ -25,13 +25,13 @@ services:
       - rabbitmq
 
   mysql:
-    image: mysql:8.0.32
+    image: mysql:8.4.1
     hostname: mysql
     restart: always
     ports:
       - "3306:3306"
     volumes:
-      - ./data-mysql/mysql:/var/lib/mysql
+      - mysql-volume1:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=database_example
@@ -43,7 +43,7 @@ services:
     links:
       - mysql
     ports:
-      - 81:80
+      - 81:80 # WEB
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
@@ -59,7 +59,7 @@ services:
     links:
       - mysql
     ports:
-      - 82:8080
+      - 82:8080 # WEB
     environment:
       - ADMINER_DEFAULT_SERVER=mysql
     volumes:
@@ -67,28 +67,28 @@ services:
     depends_on:
       - mysql
 
-# https://hub.docker.com/r/bitnami/redis/
+  # https://hub.docker.com/r/bitnami/redis/
   redis:
-    image: bitnami/redis:7.0.8
+    image: bitnami/redis:7.2
     hostname: redis
     restart: always
-#    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+    #    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
     ports:
       - 6379:6379
     volumes:
-      - ./data-redis/redis-persistence:/bitnami/redis/data
+      - redis-volume1:/bitnami/redis/data
     environment:
-#      - ALLOW_EMPTY_PASSWORD=yes
+      #      - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_PORT_NUMBER=6379
       - REDIS_PASSWORD=password
-#      - REDIS_USERNAME=root
-#      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
-#      - REDIS_IO_THREADS=4
-#      - REDIS_IO_THREADS_DO_READS=true
-#      - REDIS_AOF_ENABLED=no
+  #      - REDIS_USERNAME=root
+  #      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+  #      - REDIS_IO_THREADS=4
+  #      - REDIS_IO_THREADS_DO_READS=true
+  #      - REDIS_AOF_ENABLED=no
 
-# https://hub.docker.com/r/rediscommander/redis-commander
-# https://github.com/joeferner/redis-commander
+  # https://hub.docker.com/r/rediscommander/redis-commander
+  # https://github.com/joeferner/redis-commander
   redis-commander:
     image: rediscommander/redis-commander:latest
     hostname: redis-commander
@@ -96,32 +96,42 @@ services:
     links:
       - redis
     ports:
-      - 8081:8081
+      - 8081:8081 # WEB
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=password
-#      - REDIS_USERNAME=user
-#      - HTTP_USER=user
-#      - HTTP_PASSWORD=password
+    #      - REDIS_USERNAME=user
+    #      - HTTP_USER=user
+    #      - HTTP_PASSWORD=password
     depends_on:
       - redis
 
-# https://medium.com/xp-inc/rabbitmq-com-docker-conhecendo-o-admin-cc81f3f6ac3b
+  # https://medium.com/xp-inc/rabbitmq-com-docker-conhecendo-o-admin-cc81f3f6ac3b
   rabbitmq:
-    image: rabbitmq:3.12-management
+    image: rabbitmq:3.13-management
     hostname: rabbitmq
     restart: always
     ports:
       - 5672:5672
-      - 15672:15672
+      - 15672:15672 # WEB
       - 25676:25676
     volumes:
-      - ./data-rabbitmq/rabbitmq_log:/var/log/rabbitmq
-      - ./data-rabbitmq/rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq-volume1:/var/log/rabbitmq
+      - rabbitmq-volume2:/var/lib/rabbitmq
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
+
+volumes:
+  mysql-volume1:
+    driver: local
+  redis-volume1:
+    driver: local
+  rabbitmq-volume1:
+    driver: local
+  rabbitmq-volume2:
+    driver: local
 
 #networks:
 #  default:

@@ -11,11 +11,12 @@
 * * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
 * * * **```sh get-docker.sh```**
 * 
-* * Running the install through Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
-* * * **```docker-compose down --remove-orphans```**
-* * * **```docker-compose up -d --build```**
-* * * **```docker-compose ps```**
-* * * **```docker-compose exec web bash```**
+* * Running the install through Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker compose.yml` files)
+* * * **```docker compose down --remove-orphans```**
+* * * **```docker compose up -d --build```**
+* * * **```docker compose ps```**
+* * * **```docker volume ls```**
+* * * **```docker compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
 * * * **```composer install```**
 * 
@@ -62,11 +63,12 @@
 * * * **```curl -fsSL https://get.docker.com -o get-docker.sh```**
 * * * **```sh get-docker.sh```**
 * 
-* * Executando a instalação pelo Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker-compose.yml` files)
-* * * **```docker-compose down --remove-orphans```**
-* * * **```docker-compose up -d --build```**
-* * * **```docker-compose ps```**
-* * * **```docker-compose exec web bash```**
+* * Executando a instalação pelo Docker - Apache, PHP, MySQL and Composer (run the commands in the folder that has the `Dockerfile` and `docker compose.yml` files)
+* * * **```docker compose down --remove-orphans```**
+* * * **```docker compose up -d --build```**
+* * * **```docker compose ps```**
+* * * **```docker volume ls```**
+* * * **```docker compose exec web bash```**
 * * * **```docker exec -it continuum-web-1 bash```**
 * * * **```composer install```**
 * 

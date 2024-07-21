@@ -1,5 +1,5 @@
-#FROM php:8.3.8-apache
-#FROM php:8.2.8-apache
+#FROM php:8.3.9-apache
+#FROM php:8.2.21-apache
 #FROM php:8.1.29-apache
 #FROM php:8.0.30-apache
 FROM php:7.4.33-apache
@@ -38,7 +38,7 @@ RUN a2enmod rewrite && \
     a2enmod headers && \
     docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_pgsql mysqli intl gd session mbstring opcache sockets exif pcntl bcmath bz2 iconv && \
     pecl install -o -f redis-5.3.7 && \
-#    pecl install -o -f xdebug-3.2.1 && \
+    #    pecl install -o -f xdebug-3.2.1 && \
     rm -rf /tmp/pear && \
     docker-php-ext-enable redis
 
