@@ -21,7 +21,7 @@ class ENV
         if ($key !== null) {
             return $this->env[$key] ?? $default_value;
         }
-        return $this->env ?? $default_value;        
+        return $this->env ?? $default_value;
     }
 
     public function raw()
@@ -46,7 +46,12 @@ class ENV
                 if (DataManager::exist($path_env) === "FILE") {
                     $env = new \Lib\ENV;
                     $array = $env->read();
-                    $array = array_diff($array, $envContext);
+                    //dumpl($array, $envContext);
+                    foreach ($array as $key => $value) {
+                        if (isset($envContext[$key])) {
+                            unset($array[$key]);
+                        }
+                    }
                     if ($env->get("AES_256_SECRET") == "password12345") {
                         $array["AES_256_SECRET"] = hash_generate(uniqid());
                     }
@@ -56,6 +61,7 @@ class ENV
                     if (empty($env->get("APP_URL"))) {
                         $array["APP_URL"] = !empty(site_url()) ? site_url() : "http://localhost/";
                     }
+
                     $env->write($array);
                 }
             }
@@ -116,7 +122,7 @@ class ENV
             // "DB_DATABASE"
         ];
         $env_keys = array_keys($this->env);
-        foreach ($env_keys_required as $key) {        
+        foreach ($env_keys_required as $key) {
             if (!in_array($key, $env_keys)) {
                 dumpd("The definition of `$key` was not found in the `.env` file");
             }
@@ -128,5 +134,4 @@ class ENV
         $this->env = array_merge($this->env, $_ENV);
         return $_ENV = &$this->env;
     }
-
 }
