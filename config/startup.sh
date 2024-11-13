@@ -25,15 +25,15 @@ fi
 #  echo 1 > /proc/sys/vm/overcommit_memory
 #fi
 
-echo "Config cron"
-if [ -f /var/www/phpapache/task.cron ]; then
-   tasks=$(cat /var/www/phpapache/task.cron);
-   if [ ! -z "$tasks" ]; then
-      echo "$tasks" | /usr/bin/crontab -
-   else
-      echo "" | /usr/bin/crontab -
-   fi
-fi
+# echo "Config cron"
+# if [ -f /var/www/phpapache/task.cron ]; then
+#    tasks=$(cat /var/www/phpapache/task.cron);
+#    if [ ! -z "$tasks" ]; then
+#       echo "$tasks" | /usr/bin/crontab -
+#    else
+#       echo "" | /usr/bin/crontab -
+#    fi
+# fi
 
 echo "Start supervisord"
 /usr/bin/supervisord -n
