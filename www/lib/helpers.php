@@ -9,14 +9,15 @@ use Lib\Session;
 use Lib\Redirect;
 use Lib\DataManager;
 
-function log_exception($e, string $dateTime) {    
+function log_exception($e, string $dateTime)
+{
     $logMessage = "";
     if ($e instanceof \Throwable || $e instanceof \Exception) {
         // Obtem a mensagem da exceção e outras informações relevantes
         $message = $e->getMessage();
         $file = $e->getFile();
         $line = $e->getLine();
-        $trace = $e->getTraceAsString();        
+        $trace = $e->getTraceAsString();
         // Monta a mensagem de log
         $logMessage = "[$dateTime] Error: $message in $file line $line\n";
         $logMessage .= "Trace: $trace\n";
@@ -100,7 +101,7 @@ function max_requests_per_minute(int $num_requests, string $name_request)
 {
     $name = "max_requests_per_minute:" . $name_request;
     $cache = new \Lib\Cache;
-    $time = 60;// 1 minute
+    $time = 60; // 1 minute
     if ($cache->exist($name, $time)) {
         $cache->get_paths($name);
         $count = trim($cache->get());
@@ -152,7 +153,7 @@ function request($key = null)
  * 
  * @return object Response
  */
-function response() :\Lib\Response
+function response(): \Lib\Response
 {
     return Route::$out;
 }
@@ -189,7 +190,7 @@ function input($key = null)
  * 
  * @return object Response
  */
-function output() :\Lib\Response
+function output(): \Lib\Response
 {
     return Route::$out;
 }
@@ -348,7 +349,7 @@ function input_json($key = null, $value_default = null)
  * @return string
  */
 function input_auth()
-{    
+{
     return Route::$in->paramAuth();
 }
 
@@ -510,7 +511,7 @@ function message(string $key = null, $value = null)
         return $session->get_flash();
     } else if ($key !== null && $value === null) {
         return $session->get_flash($key);
-    } else if  ($key !== null && $value !== null) {
+    } else if ($key !== null && $value !== null) {
         return $session->set_flash($key, $value);
     }
     return null;
@@ -698,16 +699,22 @@ function tag_favicon(string $file, string $type = "x-icon")
  * 
  * @param string $file
  * @param array $attr [optional]
+ * @param bool $base64 [optional]
  * @return string
  */
-function tag_img(string $file, array $attr = [])
+function tag_img(string $file, array $attr = [], bool $base64 = false)
 {
     $attrs = "";
     foreach ($attr as $key => $value) {
         $attrs .= "$key=\"$value\" ";
     }
+    if ($base64) {
+        $mime = get_mime_type(pathinfo($file)["extension"] ?? "png");
+        return "<img " . $attrs . "src=\"data:" . $mime . ";base64," . base64_encode(file_get_contents(URI::img($file))) . "\">\r\n";
+    }
     return "<img " . $attrs . "src=\"" . URI::img($file) . "\">\r\n";
 }
+
 
 // Retorna uma tag `p` que contém uma mensagem que foi salva em `$_SESSION["__flash__"]`
 
@@ -877,7 +884,7 @@ function parse_array_object_to_array($array)
  */
 function decamelize(string $text)
 {
-    $text = preg_replace("/(?<=\\w)(?=[A-Z])/","_$1", $text);
+    $text = preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $text);
     return strtolower($text);
 }
 
@@ -971,7 +978,7 @@ function string_to_type($val)
  * @param mixed $val
  * @return mixed
  */
-function type_to_string($val) :string
+function type_to_string($val): string
 {
     if (is_bool($val)) {
         return $val ? "true" : "false";
@@ -1036,7 +1043,7 @@ function is_type(string $type, $val)
     if ($type == "callback" && is_callable($val)) {
         $result = true;
     }
-    return $result;    
+    return $result;
 }
 
 /**
@@ -1152,10 +1159,11 @@ function get_mime_type(string $ext)
  * @param mixed $default_value [optional]
  * @return mixed
  */
-function I18N(string $lang, string $key, $default_value = null) {
+function I18N(string $lang, string $key, $default_value = null)
+{
     if (!isset(__I18N__[$key]) || !isset(__I18N__[$key][$lang])) {
         return $default_value;
-    } 
+    }
     return __I18N__[$key][$lang];
 }
 
@@ -1192,7 +1200,8 @@ I18N_lang_init();
  * @param mixed $default_value [optional]
  * @return mixed
  */
-function I18N_session(string $key, $default_value = null) {
+function I18N_session(string $key, $default_value = null)
+{
     I18N_lang_init();
     return I18N(session("lang"), $key, $default_value);
 }
@@ -1236,12 +1245,12 @@ function curl_http_post(string $action, array $data, bool $content_type_is_json 
  * 
  * @param string $ClassMethod (Namespace\Class@Method, Namespace\Class->Method, Namespace\Class::Method)
  * @return array
-*/
-function verifyClassMethod(string $ClassMethod) :array
+ */
+function verifyClassMethod(string $ClassMethod): array
 {
     $caracs = ["@", "::", "->"];
     $carac = null;
-    for ($i = 0; $i < count($caracs); $i++) { 
+    for ($i = 0; $i < count($caracs); $i++) {
         if (strpos($ClassMethod, $caracs[$i]) !== false) {
             $carac = $caracs[$i];
         }
@@ -1273,7 +1282,7 @@ function verifyClassMethod(string $ClassMethod) :array
  * @param array $argsMethod [optional, default = null]
  * @param array $argsConstructor [optional, default = null]
  * @return array
-*/
+ */
 function callClassMethod(array $returnVerifyClassMethod, array $argsMethod = [], array $argsConstructor = [])
 {
     if (
@@ -1299,10 +1308,12 @@ function command_exec(string $nameFile, array $params = [])
     $baseDir = realpath(__DIR__ . "/../");
     $file = DataManager::path($baseDir . "/app/" . $folderCommandName . "/" . $nameFile . ".php");
     if (DataManager::exist($file) == 'FILE') {
-        (function() use ($file, $params) {
+        (function () use ($file, $params) {
             try {
                 require_once $file;
-                workWait(function() { usleep(1); });                
+                workWait(function () {
+                    usleep(1);
+                });
             } catch (\Throwable $th) {
                 log_create($th);
             }
@@ -1330,7 +1341,7 @@ function pagination(int $total, int $limit, int $page, int $range, string $url)
     $first_page = 1;
     $last_page = $total_pages;
     $current_page = $page;
-    $prev_page = ($page <= 1 ? $first_page : $page -1);
+    $prev_page = ($page <= 1 ? $first_page : $page - 1);
     $next_page = ($page > 0 ? ($total_pages > $page + 1 ? $page + 1 : $total_pages) : 1);
     $url_first_page = $url . "?" . page_limit($first_page, $limit);
     $url_last_page = $url . "?" . page_limit($last_page, $limit);
@@ -1376,8 +1387,7 @@ function pagination_links(
     bool $show_btn_all = true,
     bool $debug = false,
     string $view_pagination_links = "pagination_links"
-)
-{
+) {
     return view($view_pagination_links, [
         "pagination" => $pagination,
         "show_btn_prev" => $show_btn_prev,

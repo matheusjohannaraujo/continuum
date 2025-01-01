@@ -1,8 +1,8 @@
 #FROM php:8.3.9-apache
-#FROM php:8.2.21-apache
+FROM php:8.2.21-apache
 #FROM php:8.1.29-apache
 #FROM php:8.0.30-apache
-FROM php:7.4.33-apache
+#FROM php:7.4.33-apache
 #FROM php:7.3.33-apache
 
 # Set working directory

@@ -13,9 +13,9 @@ services:
         limits:
           cpus: '1.0'
           memory: 400M
-        reservations:
-          cpus: '0.25'
-          memory: 40M
+    #    reservations:
+    #      cpus: '0.25'
+    #      memory: 40M
     #    memswap_limit: 600M
     env_file:
       - .env
