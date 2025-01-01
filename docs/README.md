@@ -1,25 +1,28 @@
-
 # [Continuum Framework](https://github.com/matheusjohannaraujo/continuum)
 
-> [`Model`](./SchemasAndModels.md)
+O **Continuum Framework** é uma estrutura projetada para auxiliar no desenvolvimento de aplicações. Confira abaixo a documentação organizada por componentes principais e em diferentes idiomas.
 
-> [`View`](./DefiningTemplatesAndViews.md)
+## Componentes
 
-> [`Controller`](./DefiningControllers.md)
+- [**Model**](./SchemasAndModels.md): Definição e manipulação de modelos e esquemas.
+- [**View**](./DefiningTemplatesAndViews.md): Configuração de templates e visualizações.
+- [**Controller**](./DefiningControllers.md): Controle da lógica de aplicação.
+- [**Service**](./DefiningServices.md): Implementação de serviços e lógica de negócios.
+- [**Schema**](./SchemasAndModels.md): Estruturação de dados no framework.
 
-> [`Service`](./DefiningServices.md)
+## Documentação
 
-> [`Schema`](./SchemasAndModels.md)
+- [📄 Documentation in English](./DOC-EU.md)
+- [📄 Documentação em Português do Brasil](./DOC.md)
 
-## [Documentation in English](./DOC-EU.md)
+---
 
-## [Documentação em Português do Brasil](./DOC.md)
+## Informações do Desenvolvedor
 
 ```php
 const DEVELOPER_INFO = [
     "autor" => "Matheus Johann Araujo",
     "country" => "Brasil",
     "state" => "Pernambuco",
-    "date" => "2023-12-04"
+    "date" => "2025-01-01"
 ];
-```
