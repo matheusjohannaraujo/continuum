@@ -34,7 +34,7 @@ require_once "contacts_capsule.php";
 
 for ($i = 1; $i <= 35; $i++) {
     $contact = new Contact();
-    $contact->uuid = Uuid::uuid4();
+    $contact->uuid = Uuid::uuid7();
     $contact->name = "name" . $i;
     $contact->email = "name" . $i . "@mail.com";
     $contact->save();

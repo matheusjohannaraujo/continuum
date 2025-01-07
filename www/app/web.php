@@ -101,7 +101,7 @@ Route::get("/math/add/{nums:array}", function (array $nums) {
         EN-US: Including the "math" helper    
         -
         PT-BR: Incluindo o ajudante de "matemática"        
-    */    
+    */
     helper("math");
     /*
         EN-US: Returns the result of the sum of the reported numbers
@@ -158,7 +158,6 @@ Route::group("/api/v1", function () {
             //->download(2)
             ->go();
     });
-
 });
 
 /*
@@ -178,18 +177,19 @@ Route::get("/async", function () {
     $max_await = 5;
 
     for ($i = 1; $i <= 8; $i++) {
-        async(function() use ($max_await) {
+        async(function () use ($max_await) {
             echo $await = rand(2, $max_await);
             sleep($await);
-        })->then(function($val) use ($i) {
+        })->then(function ($val) use ($i) {
             dumpl("The async " . $i . "function took " . $val . " seconds to run");
         });
     }
 
-    dumpl("work wait counter: " . workWait(function() { usleep(1); }));
+    dumpl("work wait counter: " . workWait(function () {
+        usleep(1);
+    }));
 
     \Lib\Meter::stop(true);
-
 });
 
 Route::get("/keycloak-login", function () {
