@@ -4,42 +4,17 @@ namespace Lib;
 
 use Lib\DataManager;
 
-/**
- * Classe responsável por gerenciar variáveis de ambiente através de arquivo .env.
- */
 class ENV
 {
-    /**
-     * @var string Armazena o conteúdo cru (raw) do arquivo .env
-     */
     private $raw = "";
-
-    /**
-     * @var array Armazena as variáveis de ambiente carregadas
-     */
     private $env = [];
-
-    /**
-     * @var string Caminho padrão para o arquivo .env
-     */
     private $pathEnv = null;
 
-    /**
-     * Construtor: Define o caminho padrão do arquivo .env
-     */
     public function __construct()
     {
         $this->pathEnv = __DIR__ . '/../.env';
     }
 
-    /**
-     * Retorna o valor de uma variável de ambiente específica.
-     * Se nenhum parâmetro for passado, retorna o array completo de variáveis.
-     *
-     * @param  string|null $key           Chave da variável de ambiente
-     * @param  mixed|null  $default_value Valor padrão caso a chave não exista
-     * @return mixed
-     */
     public function get(string $key = null, $default_value = null)
     {
         if ($key === null) {
@@ -48,32 +23,23 @@ class ENV
         return $this->env[$key] ?? $default_value;
     }
 
-    /**
-     * Retorna o conteúdo cru do arquivo .env
-     *
-     * @return string
-     */
     public function raw(): string
     {
         return $this->raw;
     }
 
     /**
-     * Lê o arquivo .env e carrega as variáveis em $this->env.
-     * Caso não exista, tenta criar o arquivo a partir de um .env.example.
-     *
-     * @param  string|null $customPath Caminho personalizado para o arquivo .env
-     * @return array                   Retorna o array de variáveis de ambiente carregadas
+     * Lê o arquivo .env, realiza a substituição de variáveis referenciadas
+     * e retorna o array carregado.
      */
     public function read(string $customPath = null): array
     {
-        $envContext = getenv() ?: [];  // Garantindo que seja array
+        $envContext = getenv() ?: [];
         $path = $customPath ?? $this->pathEnv;
 
-        // Se o arquivo .env não existir, tenta criar a partir de .env.example
+        // Cria o .env se não existir
         $this->handleEnvFileCreation($path, $envContext);
 
-        // Inicia leitura do arquivo .env
         $this->raw = "";
         $envFileContent = DataManager::fileRead($path, 3);
         $parsedEnv = [];
@@ -82,36 +48,47 @@ class ENV
             $this->raw .= $line;
             $line = trim($line);
 
-            // Identifica linhas que possuem "=" e não estejam comentadas
-            if ($line !== "" && strpos($line, '#') !== 0 && strpos($line, '=') !== false) {
-                $parts = explode('=', $line, 2); // separa apenas na primeira ocorrência
-                $key = trim($parts[0]);
-                $value = isset($parts[1]) ? trim($parts[1]) : "";
-
-                if ($key !== "") {
-                    // Converte string no tipo mais adequado (int, bool, etc.)
-                    $parsedEnv[$key] = string_to_type($value);
-                }
+            // Ignora linhas vazias ou comentadas
+            if ($line === '' || strpos($line, '#') === 0) {
+                continue;
             }
+
+            // Separa em 2 partes no "=", ignorando linhas sem "="
+            $parts = explode('=', $line, 2);
+            if (count($parts) < 2) {
+                continue;
+            }
+
+            $key = trim($parts[0]);
+            $value = trim($parts[1]);
+
+            // Remove aspas duplas ou simples do início/fim, se houver
+            if (preg_match('/^"(.*)"$/', $value, $matches)) {
+                $value = $matches[1];
+            } elseif (preg_match("/^'(.*)'$/", $value, $matches)) {
+                $value = $matches[1];
+            }
+
+            // Converte string para tipo (bool, int etc.)
+            $parsedEnv[$key] = string_to_type($value);
         }
 
-        // Mescla variáveis de ambiente do sistema (envContext) com as do arquivo
+        // Mescla variáveis do sistema
         $this->env = array_merge($parsedEnv, $envContext);
+
+        // Expande referências do tipo ${VARIAVEL}
+        $this->env = $this->expandEnvVariables($this->env);
 
         return $this->env;
     }
 
     /**
-     * Escreve no arquivo .env as chaves e valores do array informado.
-     *
-     * @param  array       $data       Array associativo contendo chaves e valores a serem escritos
-     * @param  string|null $customPath Caminho personalizado para o arquivo .env
-     * @return bool                    Retorna verdadeiro caso escrita e releitura ocorram com sucesso
+     * Escreve as variáveis no arquivo .env
      */
     public function write(array $data = [], string $customPath = null): bool
     {
         $path = $customPath ?? $this->pathEnv;
-        $this->pathEnv = $path;  // Atualiza o path se for customizado
+        $this->pathEnv = $path;
 
         $lines = [];
         foreach ($data as $key => $value) {
@@ -120,7 +97,6 @@ class ENV
 
         $envString = implode("\r\n", $lines) . "\r\n";
 
-        // Grava o arquivo e depois lê novamente para atualizar as variáveis em memória
         if (DataManager::fileWrite($path, $envString)) {
             $this->read($path);
             return true;
@@ -129,10 +105,7 @@ class ENV
     }
 
     /**
-     * Verifica se chaves mínimas obrigatórias estão presentes no arquivo .env
-     * Caso alguma não exista, é disparado um dumpd() (para debug).
-     *
-     * @return void
+     * Verifica se algumas chaves obrigatórias existem no .env
      */
     public function required(): void
     {
@@ -140,7 +113,6 @@ class ENV
             "ENV",
             "CSRF_REGENERATE",
             "JWT_SECRET",
-            // Adicione demais chaves se necessário
         ];
 
         $envKeys = array_keys($this->env);
@@ -153,30 +125,22 @@ class ENV
     }
 
     /**
-     * Mescla as variáveis do objeto atual ($this->env) com o $_ENV global,
-     * sobrescrevendo as anteriores em $_ENV.
-     *
-     * @return array Retorna o novo estado de $_ENV após a mescla
+     * Mescla as variáveis carregadas com o $_ENV global
      */
     public function merge(): array
     {
         $_ENV = array_merge($_ENV, $this->env);
-        $this->env = &$_ENV; // Aponta o array local para o global
+        $this->env = &$_ENV;
         return $_ENV;
     }
 
     /**
-     * Verifica se o arquivo .env existe, caso contrário, cria a partir de .env.example
-     * e ajusta valores iniciais de algumas variáveis (por exemplo, secrets padrão).
-     *
-     * @param  string $path       Caminho do arquivo .env
-     * @param  array  $envContext Variáveis de ambiente do sistema
-     * @return void
+     * Cria o arquivo .env caso não exista, com base no .env.example,
+     * e ajusta alguns valores padrão, se necessário.
      */
     private function handleEnvFileCreation(string $path, array $envContext): void
     {
         if (DataManager::exist($path)) {
-            // Arquivo já existe, não faz nada
             return;
         }
 
@@ -185,24 +149,22 @@ class ENV
             dumpd("The `.env` and `.env.example` files were not found.");
         }
 
-        // Tenta copiar .env.example para .env
         if (!DataManager::copy($pathEnvExample, '.env')) {
             dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
         }
 
-        // Se o arquivo foi copiado com sucesso, ajusta chaves padrão se necessário
         if (DataManager::exist($path) === "FILE") {
             $tempEnv = new ENV();
             $arrayFromEnv = $tempEnv->read();
 
-            // Remove variáveis que já existem em $envContext
+            // Remove variáveis que já existam no contexto do sistema
             foreach ($arrayFromEnv as $key => $value) {
                 if (isset($envContext[$key])) {
                     unset($arrayFromEnv[$key]);
                 }
             }
 
-            // Ajusta secrets padrão se ainda estiverem nos valores de exemplo
+            // Ajusta chaves padrão se necessário
             if ($tempEnv->get("AES_256_SECRET") === "password12345") {
                 $arrayFromEnv["AES_256_SECRET"] = hash_generate(uniqid());
             }
@@ -213,8 +175,33 @@ class ENV
                 $arrayFromEnv["APP_URL"] = !empty(site_url()) ? site_url() : "http://localhost/";
             }
 
-            // Escreve de volta as variáveis ajustadas
             $tempEnv->write($arrayFromEnv);
         }
+    }
+
+    /**
+     * Faz a substituição de variáveis no formato ${VARIAVEL} pelo valor contido em $this->env
+     *
+     * @param  array $env Array de variáveis de ambiente já parseadas
+     * @return array      Array com as referências substituídas
+     */
+    private function expandEnvVariables(array $env): array
+    {
+        // Para cada chave, substitui referências dentro do valor, se for string
+        foreach ($env as $key => $value) {
+            if (is_string($value)) {
+                $env[$key] = preg_replace_callback(
+                    '/\${([^}]+)}/',
+                    function ($matches) use ($env) {
+                        $varName = $matches[1];
+                        // Se existir no env, substitui; caso contrário, mantém o original.
+                        return $env[$varName] ?? $matches[0];
+                    },
+                    $value
+                );
+            }
+        }
+
+        return $env;
     }
 }

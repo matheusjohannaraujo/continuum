@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "opis/closure": "^3.5",
         "laravel/serializable-closure": "^1.1",
         "eftec/bladeone": "^4.5",
@@ -18,10 +18,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Lib\\" : "lib/",
-            "lib\\" : "lib/",
-            "App\\" : "app/",
-            "app\\" : "app/"
+            "Lib\\": "lib/",
+            "lib\\": "lib/",
+            "App\\": "app/",
+            "app\\": "app/"
         },
         "files": [
             "app/common.php",

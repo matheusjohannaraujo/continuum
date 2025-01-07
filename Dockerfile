@@ -1,9 +1,6 @@
-#FROM php:8.3.9-apache
-FROM php:8.2.21-apache
-#FROM php:8.1.29-apache
-#FROM php:8.0.30-apache
-#FROM php:7.4.33-apache
-#FROM php:7.3.33-apache
+#FROM php:8.4.2-apache
+#FROM php:8.3.15-apache
+FROM php:8.2.27-apache
 
 # Set working directory
 WORKDIR /var/www/html/
@@ -33,14 +30,69 @@ RUN apt-get update && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
-# Configure and Install PHP extensions
-RUN a2enmod rewrite && \
-    a2enmod headers && \
-    docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_pgsql mysqli intl gd session mbstring opcache sockets exif pcntl bcmath bz2 iconv && \
-    pecl install -o -f redis-5.3.7 && \
-    #    pecl install -o -f xdebug-3.2.1 && \
-    rm -rf /tmp/pear && \
-    docker-php-ext-enable redis
+# Update packages and install required dependencies
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libxpm-dev \
+    libwebp-dev \
+    libavif-dev \
+    libbz2-dev \
+    libonig-dev \
+    libicu-dev \
+    libgmp-dev \
+    libldap2-dev \
+    libzip-dev \
+    unzip \
+    libpq-dev \
+    libssl-dev \
+    libxml2-dev \
+    libsqlite3-dev \
+    zlib1g-dev \
+    libcurl4-openssl-dev \
+    libedit-dev \
+    libpspell-dev \
+    libreadline-dev \
+    libtidy-dev \
+    libxslt1-dev \
+    libgmp-dev \
+    libldb-dev \
+    libaspell-dev \
+    libbison-dev \
+    libedit-dev \
+    libkrb5-dev \
+    libpcre3-dev \
+    libsnmp-dev \
+    libtidy-dev \
+    libxslt1-dev \
+    libzip-dev \
+    && docker-php-source extract \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-source delete
+
+# Activate Apache modules and install PHP extensions
+RUN a2enmod rewrite headers \
+    && docker-php-ext-install -j$(nproc) \
+    pdo \
+    pdo_mysql \
+    pdo_pgsql \
+    mysqli \
+    intl \
+    session \
+    mbstring \
+    opcache \
+    sockets \
+    exif \
+    pcntl \
+    bcmath \
+    bz2 \
+    iconv \
+    && pecl install -o -f redis-5.3.7 \
+    #&& pecl install -o -f xdebug-3.2.1 \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 
 # Install Composer
 RUN chmod -R 0777 /var/www/html/ && \
