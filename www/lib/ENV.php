@@ -4,134 +4,217 @@ namespace Lib;
 
 use Lib\DataManager;
 
+/**
+ * Classe responsável por gerenciar variáveis de ambiente através de arquivo .env.
+ */
 class ENV
 {
-
+    /**
+     * @var string Armazena o conteúdo cru (raw) do arquivo .env
+     */
     private $raw = "";
-    private $env = [];
-    private $path_env = null;
 
+    /**
+     * @var array Armazena as variáveis de ambiente carregadas
+     */
+    private $env = [];
+
+    /**
+     * @var string Caminho padrão para o arquivo .env
+     */
+    private $pathEnv = null;
+
+    /**
+     * Construtor: Define o caminho padrão do arquivo .env
+     */
     public function __construct()
     {
-        $this->path_env = __DIR__ . "/../.env";
+        $this->pathEnv = __DIR__ . '/../.env';
     }
 
+    /**
+     * Retorna o valor de uma variável de ambiente específica.
+     * Se nenhum parâmetro for passado, retorna o array completo de variáveis.
+     *
+     * @param  string|null $key           Chave da variável de ambiente
+     * @param  mixed|null  $default_value Valor padrão caso a chave não exista
+     * @return mixed
+     */
     public function get(string $key = null, $default_value = null)
     {
-        if ($key !== null) {
-            return $this->env[$key] ?? $default_value;
+        if ($key === null) {
+            return $this->env ?? $default_value;
         }
-        return $this->env ?? $default_value;
+        return $this->env[$key] ?? $default_value;
     }
 
-    public function raw()
+    /**
+     * Retorna o conteúdo cru do arquivo .env
+     *
+     * @return string
+     */
+    public function raw(): string
     {
         return $this->raw;
     }
 
-    public function read(string $path_env = null)
+    /**
+     * Lê o arquivo .env e carrega as variáveis em $this->env.
+     * Caso não exista, tenta criar o arquivo a partir de um .env.example.
+     *
+     * @param  string|null $customPath Caminho personalizado para o arquivo .env
+     * @return array                   Retorna o array de variáveis de ambiente carregadas
+     */
+    public function read(string $customPath = null): array
     {
-        $envContext = getenv();
-        if (!is_array($envContext)) {
-            $envContext = [];
-        }
-        if ($path_env === null) {
-            $path_env = $this->path_env;
-            if (!DataManager::exist($path_env)) {
-                $path_env_example = __DIR__ . "/../.env.example";
-                if (!DataManager::exist($path_env_example)) {
-                    dumpd("The `.env` and `.env.example` files were not found.");
-                }
-                DataManager::copy($path_env_example, ".env") or dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
-                if (DataManager::exist($path_env) === "FILE") {
-                    $env = new \Lib\ENV;
-                    $array = $env->read();
-                    //dumpl($array, $envContext);
-                    foreach ($array as $key => $value) {
-                        if (isset($envContext[$key])) {
-                            unset($array[$key]);
-                        }
-                    }
-                    if ($env->get("AES_256_SECRET") == "password12345") {
-                        $array["AES_256_SECRET"] = hash_generate(uniqid());
-                    }
-                    if ($env->get("JWT_SECRET") == "password12345") {
-                        $array["JWT_SECRET"] = hash_generate(uniqid());
-                    }
-                    if (empty($env->get("APP_URL"))) {
-                        $array["APP_URL"] = !empty(site_url()) ? site_url() : "http://localhost/";
-                    }
+        $envContext = getenv() ?: [];  // Garantindo que seja array
+        $path = $customPath ?? $this->pathEnv;
 
-                    $env->write($array);
-                }
-            }
-        } else {
-            $this->path_env = $path_env;
-        }
-        $env = [];
+        // Se o arquivo .env não existir, tenta criar a partir de .env.example
+        $this->handleEnvFileCreation($path, $envContext);
+
+        // Inicia leitura do arquivo .env
         $this->raw = "";
-        $gen = DataManager::fileRead($path_env, 3);
-        foreach ($gen as $key => $value) {
-            $this->raw .= $value;
-            $value = trim($value);
-            $indexEqual = strpos($value, "=");
-            if ($value != "" && $value[0] != "#" && $indexEqual !== false) {
-                $key = trim(substr($value, 0, $indexEqual));
-                $value = trim(substr($value, $indexEqual + 1));
-                if (strlen($key) > 0) {
-                    $env[$key] = string_to_type($value);
+        $envFileContent = DataManager::fileRead($path, 3);
+        $parsedEnv = [];
+
+        foreach ($envFileContent as $line) {
+            $this->raw .= $line;
+            $line = trim($line);
+
+            // Identifica linhas que possuem "=" e não estejam comentadas
+            if ($line !== "" && strpos($line, '#') !== 0 && strpos($line, '=') !== false) {
+                $parts = explode('=', $line, 2); // separa apenas na primeira ocorrência
+                $key = trim($parts[0]);
+                $value = isset($parts[1]) ? trim($parts[1]) : "";
+
+                if ($key !== "") {
+                    // Converte string no tipo mais adequado (int, bool, etc.)
+                    $parsedEnv[$key] = string_to_type($value);
                 }
-                // dumpd($key, $value, $env);
             }
-            unset($key);
-            unset($value);
         }
-        $env = array_merge($env, $envContext);
-        return $this->env = &$env;
+
+        // Mescla variáveis de ambiente do sistema (envContext) com as do arquivo
+        $this->env = array_merge($parsedEnv, $envContext);
+
+        return $this->env;
     }
 
-    public function write(array $array = [], string $path_env = null)
+    /**
+     * Escreve no arquivo .env as chaves e valores do array informado.
+     *
+     * @param  array       $data       Array associativo contendo chaves e valores a serem escritos
+     * @param  string|null $customPath Caminho personalizado para o arquivo .env
+     * @return bool                    Retorna verdadeiro caso escrita e releitura ocorram com sucesso
+     */
+    public function write(array $data = [], string $customPath = null): bool
     {
-        if ($path_env === null) {
-            $path_env = $this->path_env;
-        } else {
-            $this->path_env = $path_env;
+        $path = $customPath ?? $this->pathEnv;
+        $this->pathEnv = $path;  // Atualiza o path se for customizado
+
+        $lines = [];
+        foreach ($data as $key => $value) {
+            $lines[] = trim($key) . '=' . trim(type_to_string($value));
         }
-        $str = "";
-        foreach ($array as $key => $value) {
-            $str .= trim($key) . "=" . trim(type_to_string($value)) . "\r\n";
-            unset($array[$key]);
+
+        $envString = implode("\r\n", $lines) . "\r\n";
+
+        // Grava o arquivo e depois lê novamente para atualizar as variáveis em memória
+        if (DataManager::fileWrite($path, $envString)) {
+            $this->read($path);
+            return true;
         }
-        unset($array);
-        return DataManager::fileWrite($path_env, $str) && !empty($this->read());
+        return false;
     }
 
-    public function required()
+    /**
+     * Verifica se chaves mínimas obrigatórias estão presentes no arquivo .env
+     * Caso alguma não exista, é disparado um dumpd() (para debug).
+     *
+     * @return void
+     */
+    public function required(): void
     {
-        $env_keys_required = [
+        $envKeysRequired = [
             "ENV",
             "CSRF_REGENERATE",
             "JWT_SECRET",
-            // "DB_CONNECTION",
-            // "DB_HOST",
-            // "DB_PORT",
-            // "DB_CHARSET",
-            // "DB_CHARSET_COLLATE",
-            // "DB_USERNAME",
-            // "DB_PASSWORD",
-            // "DB_DATABASE"
+            // Adicione demais chaves se necessário
         ];
-        $env_keys = array_keys($this->env);
-        foreach ($env_keys_required as $key) {
-            if (!in_array($key, $env_keys)) {
+
+        $envKeys = array_keys($this->env);
+
+        foreach ($envKeysRequired as $key) {
+            if (!in_array($key, $envKeys, true)) {
                 dumpd("The definition of `$key` was not found in the `.env` file");
             }
         }
     }
 
-    public function merge()
+    /**
+     * Mescla as variáveis do objeto atual ($this->env) com o $_ENV global,
+     * sobrescrevendo as anteriores em $_ENV.
+     *
+     * @return array Retorna o novo estado de $_ENV após a mescla
+     */
+    public function merge(): array
     {
-        $this->env = array_merge($this->env, $_ENV);
-        return $_ENV = &$this->env;
+        $_ENV = array_merge($_ENV, $this->env);
+        $this->env = &$_ENV; // Aponta o array local para o global
+        return $_ENV;
+    }
+
+    /**
+     * Verifica se o arquivo .env existe, caso contrário, cria a partir de .env.example
+     * e ajusta valores iniciais de algumas variáveis (por exemplo, secrets padrão).
+     *
+     * @param  string $path       Caminho do arquivo .env
+     * @param  array  $envContext Variáveis de ambiente do sistema
+     * @return void
+     */
+    private function handleEnvFileCreation(string $path, array $envContext): void
+    {
+        if (DataManager::exist($path)) {
+            // Arquivo já existe, não faz nada
+            return;
+        }
+
+        $pathEnvExample = __DIR__ . '/../.env.example';
+        if (!DataManager::exist($pathEnvExample)) {
+            dumpd("The `.env` and `.env.example` files were not found.");
+        }
+
+        // Tenta copiar .env.example para .env
+        if (!DataManager::copy($pathEnvExample, '.env')) {
+            dumpd("It was not possible to copy the `.env.example` file to create the `.env`.");
+        }
+
+        // Se o arquivo foi copiado com sucesso, ajusta chaves padrão se necessário
+        if (DataManager::exist($path) === "FILE") {
+            $tempEnv = new ENV();
+            $arrayFromEnv = $tempEnv->read();
+
+            // Remove variáveis que já existem em $envContext
+            foreach ($arrayFromEnv as $key => $value) {
+                if (isset($envContext[$key])) {
+                    unset($arrayFromEnv[$key]);
+                }
+            }
+
+            // Ajusta secrets padrão se ainda estiverem nos valores de exemplo
+            if ($tempEnv->get("AES_256_SECRET") === "password12345") {
+                $arrayFromEnv["AES_256_SECRET"] = hash_generate(uniqid());
+            }
+            if ($tempEnv->get("JWT_SECRET") === "password12345") {
+                $arrayFromEnv["JWT_SECRET"] = hash_generate(uniqid());
+            }
+            if (empty($tempEnv->get("APP_URL"))) {
+                $arrayFromEnv["APP_URL"] = !empty(site_url()) ? site_url() : "http://localhost/";
+            }
+
+            // Escreve de volta as variáveis ajustadas
+            $tempEnv->write($arrayFromEnv);
+        }
     }
 }
