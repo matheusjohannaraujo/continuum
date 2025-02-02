@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   //<editor-fold desc="Changeable Configuration Block">
 
   // "http://localhost/continuum/swagger-php-open-api"
