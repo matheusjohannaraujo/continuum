@@ -30,6 +30,7 @@ CREATE TRIGGER `trigger_delete` AFTER DELETE ON `uploads` FOR EACH ROW UPDATE us
 use App\Models\Contact;
 use Ramsey\Uuid\Uuid;
 
+require_once "activitylogs_capsule.php";
 require_once "contacts_capsule.php";
 
 for ($i = 1; $i <= 35; $i++) {
