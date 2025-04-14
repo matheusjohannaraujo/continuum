@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3aa893a4cd92df4d04e612376ae1f6a9",
+    "content-hash": "c42f377855be12a01fb59525bcd87ddc",
     "packages": [
         {
             "name": "brick/math",
@@ -1642,6 +1642,46 @@
                 "source": "https://github.com/thephpleague/oauth2-client/tree/2.8.0"
             },
             "time": "2024-12-11T05:05:52+00:00"
+        },
+        {
+            "name": "mjohann/data-manager",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/data-manager.git",
+                "reference": "d31b8a672693d1878143718270d26ac14e5050f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/data-manager/zipball/d31b8a672693d1878143718270d26ac14e5050f1",
+                "reference": "d31b8a672693d1878143718270d26ac14e5050f1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "DataManager is a PHP library developed to simplify file and directory manipulation, offering an intuitive class for common filesystem operations.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/data-manager/issues",
+                "source": "https://github.com/matheusjohannaraujo/data-manager/tree/v1.0.0"
+            },
+            "time": "2025-04-14T13:04:57+00:00"
         },
         {
             "name": "nesbot/carbon",

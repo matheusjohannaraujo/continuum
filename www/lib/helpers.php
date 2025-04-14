@@ -7,7 +7,7 @@ use Lib\CSRF;
 use Lib\Route;
 use Lib\Session;
 use Lib\Redirect;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 function log_exception($e, string $dateTime)
 {

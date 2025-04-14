@@ -3,7 +3,7 @@
 namespace Lib;
 
 use Lib\Cache;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 /**
  *
@@ -140,7 +140,7 @@ class View
      * @param int $_CACHE_SECONDS [optional]
      * @return string [reference var]
      */
-    public function & template(string $_FILE, $_ARGS = [], int $_CACHE_SECONDS = -1)
+    public function &template(string $_FILE, $_ARGS = [], int $_CACHE_SECONDS = -1)
     {
         $location = $_FILE;
         $_FILE = $this->locationFile($_FILE);
@@ -280,7 +280,7 @@ class View
     public function yield(string $name, string $default = "")
     {
         return $this->renderSection($name, $default);
-    }    
+    }
 
     /**
      * 
@@ -338,5 +338,4 @@ class View
     {
         $this->layout($path);
     }
-
 }

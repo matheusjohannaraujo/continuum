@@ -12,9 +12,9 @@ ini_set("post_max_size", "6144M");
 ini_set("upload_max_filesize", "6144M");
 ini_set("max_file_uploads", "200");
 
-require_once __DIR__ . "/lib/DataManager.php";
+require_once __DIR__ . "/vendor/autoload.php";
 
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 $nameFunction = $argv[1] ?? "";
 $nameFile = $argv[2] ?? "";

@@ -9,7 +9,7 @@
 */
 
 use Lib\ENV;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
@@ -33,7 +33,7 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
                 'driver'   => $env->get("DB_CONNECTION"),
                 'database' => $database,
                 'prefix'   => $env->get("DB_PREFIX", "")
-            ]); 
+            ]);
         } else {
             $capsule->addConnection([
                 'driver'    => $env->get("DB_CONNECTION"),
@@ -46,28 +46,29 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
                 'collation' => $env->get("DB_CHARSET_COLLATE"),
                 'prefix'    => $env->get("DB_PREFIX", "")
             ]);
-        }        
-    
+        }
+
         // Set the event dispatcher used by Eloquent models... (optional)
         $capsule->setEventDispatcher(new Dispatcher(new Container));
-        
+
         // Make this Capsule instance available globally via static methods... (optional)
         $capsule->setAsGlobal();
-        
+
         // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
         $capsule->bootEloquent();
-    
+
         DB::setFacadeApplication(new Container());
         DB::swap($capsule->getDatabaseManager());
-        
+
         date_default_timezone_set($env->get("TIMEZONE"));
-    
+
         /*function DB() {
             global $capsule;
             return $capsule;
         }*/
-        
-        function path_schema_apply(string $path) {
+
+        function path_schema_apply(string $path)
+        {
             $env = new ENV;
             $env->read();
             if ($env === null) {
@@ -82,14 +83,14 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
                 echo "\r\nSchema Apply Error: app/" . $folderSchemaName . "/" . pathinfo($path)['basename'] . "\r\n";
             }
         }
-        
+
         function db_schemas_apply(string $nameFile)
         {
             $env = new ENV;
             $env->read();
             if ($env === null) {
                 die("\$env is null");
-            }      
+            }
             $folderSchemaName = $env->get("NAME_FOLDER_SCHEMAS");
             $nameFile = strtolower($nameFile);
             $base = __DIR__ . "/../app/$folderSchemaName/";
@@ -102,16 +103,14 @@ if ($env !== null && $env->get("DB_CONNECTION") && class_exists("Illuminate\Data
                     $index = strpos($schema["name"], "s_capsule.php");
                     if ($schema["type"] == "FILE" && $index !== false && $index > 0 && $schema["name"] != "configs_capsule.php") {
                         path_schema_apply($schema["path"]);
-                    }                
+                    }
                 }
             } else {
                 $path = $base . $nameFile . "s_capsule.php";
                 path_schema_apply($path);
             }
         }
-
     } catch (\Throwable $th) {
         log_create($th);
     }
-
 }

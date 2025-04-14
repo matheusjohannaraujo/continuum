@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 class ENV
 {

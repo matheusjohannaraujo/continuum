@@ -7,7 +7,7 @@ use Lib\CSRF;
 use Lib\Request;
 use Lib\Response;
 use Lib\Controller;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 use function Opis\Closure\{serialize as sopis, unserialize as uopis};
 
 class Route
@@ -54,13 +54,13 @@ class Route
 
     private static function uri()
     {
-        $uri = self::$in->paramServer("REQUEST_URI");        
+        $uri = self::$in->paramServer("REQUEST_URI");
         $uriSize = (int) strlen($uri);
         $base = URI::scriptName();
         if ($base == "//") {
             $base = "/";
         }
-        $baseSize = strlen($base);       
+        $baseSize = strlen($base);
         $baseUriIndex = strpos($uri, $base);
         if ($baseUriIndex !== false && $baseUriIndex >= 0 && $uriSize > 0 && $baseSize >= 0) {
             $uri = substr($uri, $baseSize);
@@ -72,7 +72,7 @@ class Route
 
     private static function uriParams($uri)
     {
-        $index = strpos($uri, "?");        
+        $index = strpos($uri, "?");
         if ($index !== false && $index >= 0) {
             $params = "";
             $params = substr($uri, $index + 1);
@@ -108,7 +108,7 @@ class Route
     }
 
     private static function path($path)
-    {        
+    {
         return self::stringRemoveFinalStripe(substr($path, 1, strlen($path)));
     }
 
@@ -126,7 +126,7 @@ class Route
             $name = $pathParts[$i];
             $var = false;
             $type = "string";
-            $req = true;            
+            $req = true;
             if (self::stringCountReg($name, "({.+?}/?)")) {
                 $name = str_replace(['{', '}'], '', $name);
                 $var = true;
@@ -137,7 +137,7 @@ class Route
                 $index = strpos($name, ":");
                 if ($index !== false) {
                     $type = substr($name, $index + 1);
-                    $name = substr($name, 0, $index);                    
+                    $name = substr($name, 0, $index);
                 }
             }
             if ($name != "") {
@@ -225,28 +225,28 @@ class Route
                     if ($pathPart["req"] && $uriPart != "") {
                         // dumpd($pathPart, $uriPart, is_type($pathPart["type"], $uriPart));
                         if ($pathPart["type"] == "array") {
-                            $arg[$pathPart["name"]] = array_map(function($val){
+                            $arg[$pathPart["name"]] = array_map(function ($val) {
                                 return string_to_type($val);
                             }, array_merge([$uriPart], array_values($uriParts)));
                             $isRoute = true;
                             $pathParts = [];
                             $uriParts = [];
                             break;
-                        } else if(is_type($pathPart["type"], $uriPart)) {
+                        } else if (is_type($pathPart["type"], $uriPart)) {
                             $arg[$pathPart["name"]] = string_to_type($uriPart);
                             $isRoute = true;
-                        }                        
+                        }
                     } else if (!$pathPart["req"]) {
                         $isRoute = true;
                         if ($uriPart != "") {
                             if ($pathPart["type"] == "array") {
-                                $arg[$pathPart["name"]] = array_map(function($val){
+                                $arg[$pathPart["name"]] = array_map(function ($val) {
                                     return string_to_type($val);
-                                }, array_merge([$uriPart], array_values($uriParts)));                            
+                                }, array_merge([$uriPart], array_values($uriParts)));
                                 $pathParts = [];
                                 $uriParts = [];
                                 break;
-                            } else if(is_type($pathPart["type"], $uriPart)) {
+                            } else if (is_type($pathPart["type"], $uriPart)) {
                                 $arg[$pathPart["name"]] = string_to_type($uriPart);
                             }
                         }
@@ -255,9 +255,9 @@ class Route
                     break;
                 }
             }
-            if ($isRoute && count($uriParts) > 0) {                
+            if ($isRoute && count($uriParts) > 0) {
                 $arg["additional"] = array_values($uriParts);
-            }            
+            }
         }
         $route["arg"] = &$arg;
         $route["isRoute"] = &$isRoute;
@@ -270,7 +270,7 @@ class Route
         $folderControllerName = input_env("NAME_FOLDER_CONTROLLERS");
         $index = strpos($class, $folderControllerName . "\\");
         if ($index !== false) {
-            $class = substr($class, $index + strlen($folderControllerName . "\\"));                                
+            $class = substr($class, $index + strlen($folderControllerName . "\\"));
         }
         $class = strtolower($class);
         $class = str_replace(["controller", "@", "\\"], ["", ".", "."], $class);
@@ -285,7 +285,7 @@ class Route
             $isRoute = $route["isRoute"];
             $arg = $route["arg"];
             $csrf = &$route["csrf"];
-            $jwt = &$route["jwt"];            
+            $jwt = &$route["jwt"];
             $cache_seconds = &$route["cache"];
             unset($route["uri"]);
             /*unset($route["arg"]);            
@@ -298,7 +298,7 @@ class Route
                     if (is_callable($middleware)) {
                         if (!$middleware($route, $closure)) {
                             self::$out->pageMiddleware();
-                        }                        
+                        }
                     } else if (is_string($middleware)) {
                         if (!callClassMethod(verifyClassMethod($middleware), $route, $closure)) {
                             self::$out->pageMiddleware();
@@ -342,7 +342,9 @@ class Route
                         $result = view($action, self::$in);
                     }
                 }
-                workWait(function() { usleep(1); });
+                workWait(function () {
+                    usleep(1);
+                });
                 if ($result instanceof Route) {
                     $result->out->go();
                 } else if ($result instanceof Response) {
@@ -370,7 +372,7 @@ class Route
                 return "controller";
             } else {
                 return "view";
-            }                    
+            }
         }
         return "undefined";
     }
@@ -420,7 +422,8 @@ class Route
         return __CLASS__;
     }
 
-    public static function parseName(string $name){
+    public static function parseName(string $name)
+    {
         $name = strtolower($name);
         if (!empty($name) && strlen($name) > 2) {
             $name = substr($name, 1);
@@ -449,7 +452,9 @@ class Route
     {
         $index = count(self::$route) - 1;
         if ($index >= 0) {
-            self::$route[$index]["middleware"] = [$middleware, ($closure ?? function($args) { return $args; })];
+            self::$route[$index]["middleware"] = [$middleware, ($closure ?? function ($args) {
+                return $args;
+            })];
         }
         return __CLASS__;
     }
@@ -544,7 +549,7 @@ class Route
     private static function routesDump(array $arrayMethod)
     {
         $result = [];
-        for ($i = 0; $i < count($arrayMethod); $i++) { 
+        for ($i = 0; $i < count($arrayMethod); $i++) {
             $method = strtoupper($arrayMethod[$i]);
             foreach (self::$route as $key => $route) {
                 if ($method === $route["method"] || empty($method)) {
@@ -553,7 +558,7 @@ class Route
                     }
                     $result[] = $route;
                 }
-            }    
+            }
         }
         return $result;
     }
@@ -569,7 +574,7 @@ class Route
                 if ($indexAppView !== false) {
                     $path["route_path"] = substr($path["path"], $indexAppView + strlen("/app/" . $folderViewName . "/") - 1);
                 } else {
-                    $path["route_path"] = "/" . $path["name"];                
+                    $path["route_path"] = "/" . $path["name"];
                 }
                 $name = $path["route_path"];
                 $path["route_path"] = str_replace(["avr-", ".php"], "", $name);
@@ -583,7 +588,7 @@ class Route
     private static function generateAutoViewRoutes(array &$avrs)
     {
         foreach ($avrs as $key => $avr) {
-            self::any($avr["route_path"] . "/{arguments:array?}", function(array $arguments = []) use ($avr) {
+            self::any($avr["route_path"] . "/{arguments:array?}", function (array $arguments = []) use ($avr) {
                 return view($avr["route_name"], ["arguments" => &$arguments]);
             });
         }
@@ -593,8 +598,8 @@ class Route
     {
         $controller = new Controller;
         $allControllers = $controller->getAllControllers($only_valid);
-        foreach ($allControllers as &$path) {            
-            $controller->generatePathRoutes($path);            
+        foreach ($allControllers as &$path) {
+            $controller->generatePathRoutes($path);
         }
         // dumpd($allControllers);
         return $allControllers;
@@ -617,7 +622,7 @@ class Route
         $controllers = self::getAllControllersAndMethods(input_env("GENERATE_SIGNED_CONTROLLER_ROUTES_ONLY", false));
         $route_backup = self::$route;
         self::$route = [];
-        for ($i = 0, $j = count($controllers); $i < $j; $i++) { 
+        for ($i = 0, $j = count($controllers); $i < $j; $i++) {
             self::createRoute($controllers[$i]);
         }
         // dumpd(self::$route);
@@ -633,17 +638,17 @@ class Route
                 die($openapi->toJson());
             });
         }
-        self::post("/thread_http", function() {
+        self::post("/thread_http", function () {
             $aes = new AES_256;
             $script = input_post("script", "");
             $script = base64_decode($script);
             $script = $aes->decrypt_cbc($script);
-            $script = rpc_thread_parallel($script);           
+            $script = rpc_thread_parallel($script);
             $script = $aes->encrypt_cbc($script);
             $script = base64_encode($script);
             return $script;
-        })::jwt(true);        
-        self::any("/page/error/{status_code:int}", function(int $status_code) {
+        })::jwt(true);
+        self::any("/page/error/{status_code:int}", function (int $status_code) {
             self::$out->page($status_code);
         });
         if (!self::runRoute()) {
@@ -670,7 +675,7 @@ class Route
             }
             if (($action = input_env("INIT_ACTION_APP")) !== null) {
                 self::any("/", $action);
-            }            
+            }
             // dumpd(self::$route);
             if (!self::runRoute()) {
                 // If no route is served, it returns an html page containing the 404 error.
@@ -678,5 +683,4 @@ class Route
             }
         }
     }
-
 }

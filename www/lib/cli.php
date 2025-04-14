@@ -5,7 +5,7 @@ define("CLI", true);
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use Lib\ENV;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 $BASE_DIR = realpath(__DIR__ . "/../");
 define("__BASE_DIR__", $BASE_DIR);
@@ -18,13 +18,15 @@ function fun_routes(string $method = "")
         echo "---------------------------------------------------------------------";
         echo cli_text_color(
             "\r\n METHOD: " . $route["method"] .
-            "\r\n PATH: " . $route["path"] .
-            "\r\n ACTION: " . $route["action"] .
-            "\r\n NAME: " . $route["name"] .
-            "\r\n CSRF: " . ($route["csrf"] ? "enabled" : "disabled") .
-            "\r\n JWT: " . ($route["jwt"] ? "enabled" : "disabled") .
-            "\r\n CACHE: " . ($route["cache"] > 0 ? $route["cache"] . "s" : ($route["cache"] == 0 ? "infinite" : "disabled")) . "\r\n",
-        "yellow", "black");
+                "\r\n PATH: " . $route["path"] .
+                "\r\n ACTION: " . $route["action"] .
+                "\r\n NAME: " . $route["name"] .
+                "\r\n CSRF: " . ($route["csrf"] ? "enabled" : "disabled") .
+                "\r\n JWT: " . ($route["jwt"] ? "enabled" : "disabled") .
+                "\r\n CACHE: " . ($route["cache"] > 0 ? $route["cache"] . "s" : ($route["cache"] == 0 ? "infinite" : "disabled")) . "\r\n",
+            "yellow",
+            "black"
+        );
     }
     echo "---------------------------------------------------------------------", PHP_EOL;
 }
@@ -68,10 +70,10 @@ function fun_test_routes()
 
 function fun_create_app_file(string $class, string $content, string $pathFile)
 {
-    if($class != "" && $content != "" && $pathFile != ""){
+    if ($class != "" && $content != "" && $pathFile != "") {
         $pathFile = __BASE_DIR__ . "/app/" . $pathFile;
         DataManager::fileWrite($pathFile, $content);
-        if(file_exists($pathFile) && is_file($pathFile)){
+        if (file_exists($pathFile) && is_file($pathFile)) {
             echo "File created in \"$pathFile\"\r\n";
             echo "Content:\r\n\r\n$content";
         }
@@ -91,7 +93,7 @@ function fun_create_controller(string $nameFile, bool $require = true)
         $namespace = "\\" . str_replace("/", "\\", $dirname);
         $pathroute = strtolower("/" . str_replace("\\", "/", $dirname));
     }
-    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderControllerName. "/" . $dirname . "/");
+    $dircontroller = DataManager::path(__BASE_DIR__ . "/app/" . $folderControllerName . "/" . $dirname . "/");
     if (!DataManager::exist($dircontroller)) {
         DataManager::folderCreate($dircontroller);
     }
@@ -295,7 +297,7 @@ function fun_create_model(string $nameFile, $require = false)
     } else {
         $columns = "";
         $typesAndColumns = "";
-        $require = explode(",", $require);    
+        $require = explode(",", $require);
         foreach ($require as $key => $value) {
             $value = explode(":", $value);
             if (count($value) == 2) {
@@ -741,12 +743,14 @@ function fun_run_command(string $nameFile, $params = false, bool $meter = false,
     $folderCommandName = input_env("NAME_FOLDER_COMMANDS");
     $file = DataManager::path(__BASE_DIR__ . "/app/" . $folderCommandName . "/" . $nameFile . ".php");
     if (DataManager::exist($file) == 'FILE') {
-        (function() use ($file, $params, $meter, $kill) {
+        (function () use ($file, $params, $meter, $kill) {
             try {
                 require_once realpath(__DIR__ . "/../vendor/autoload.php");
                 require_once realpath(__DIR__ . "/config.php");
                 require_once $file;
-                $count = workWait(function() { usleep(1); });
+                $count = workWait(function () {
+                    usleep(1);
+                });
                 if ($meter) {
                     echo PHP_EOL, "Meter: ";
                     dumpl(\Lib\Meter::stop());
@@ -766,12 +770,13 @@ function fun_run_command(string $nameFile, $params = false, bool $meter = false,
     }
 }
 
-if(!function_exists("readline")) {
-    function readline($prompt = null) {
-        if($prompt){
+if (!function_exists("readline")) {
+    function readline($prompt = null)
+    {
+        if ($prompt) {
             echo $prompt;
         }
-        $fp = fopen("php://stdin","r");
+        $fp = fopen("php://stdin", "r");
         $line = rtrim(fgets($fp, 1024));
         return $line;
     }
@@ -842,7 +847,7 @@ function fun_switch_app_options(string $cmd, string $nameFile, $require = false)
             fun_apply_database($nameFile);
             break;
         case "command":
-	    fun_run_command($nameFile, $require, true, true);
+            fun_run_command($nameFile, $require, true, true);
             break;
     }
 }
@@ -889,7 +894,7 @@ function fun_switch_other_options(string $cmd)
 function cli_text_color(string $text, string $color = "green", string $background = "black", bool $bold = true)
 {
     // https://semanickz.wordpress.com/2020/03/27/linux-cor-colorindo-shell-script-cores/
-    switch($background) {
+    switch ($background) {
         case "black":
             $background = 40;
             break;
@@ -916,8 +921,8 @@ function cli_text_color(string $text, string $color = "green", string $backgroun
             break;
         default:
             $background = 40;
-    }    
-    switch($color) {
+    }
+    switch ($color) {
         case "black":
             $color = 30;
             break;
@@ -934,8 +939,8 @@ function cli_text_color(string $text, string $color = "green", string $backgroun
             $color = 34;
             break;
         case "purple":
-            $color = 35;            
-            break;       
+            $color = 35;
+            break;
         case "cyan":
             $color = 36;
             break;

@@ -2,9 +2,10 @@
 
 namespace Lib;
 
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
-class Controller {
+class Controller
+{
 
     private $nameFolderControllers = "";
     private $folderControllers = "";
@@ -96,10 +97,10 @@ class Controller {
     }
 
     private function getClass(string $pathController)
-    {        
+    {
         $init = "app/" . $this->nameFolderControllers . "/";
         $indexApp = strpos($pathController, $init);
-        if ($indexApp !== false) {            
+        if ($indexApp !== false) {
             $pathController = substr($pathController, $indexApp - 1);
             $pathController = substr($pathController, 0, strlen($pathController) - 4);
             $pathController = str_replace("/", "\\", $pathController);
@@ -124,8 +125,8 @@ class Controller {
     }
 
     private function getAllMethodsAndParameters(string $class)
-    {        
-        $result = [];        
+    {
+        $result = [];
         if (class_exists($class) && property_exists($class, "generateRoutes")) {
             $methods = get_class_methods($class);
             foreach ($methods as $index => $method) {
@@ -135,9 +136,9 @@ class Controller {
                 foreach ($reflectionParams as $param) {
                     try {
                         $result[$method][] = [
-                            "name" => $param->getName(),                            
-                            "type" => ($param->getType() !== null) ? $param->getType()->getName() : "string",//"type" => (string) $param->getType(),
-                            "optional" => $param->isOptional(),                            
+                            "name" => $param->getName(),
+                            "type" => ($param->getType() !== null) ? $param->getType()->getName() : "string", //"type" => (string) $param->getType(),
+                            "optional" => $param->isOptional(),
                             "value" => $param->isOptional() ? ($param->isDefaultValueAvailable() ? $param->getDefaultValue() : "") : ""
                         ];
                     } catch (\Throwable $e) {
@@ -157,8 +158,7 @@ class Controller {
             if ($destruct !== false && $destruct >= 0) {
                 unset($result["__destruct"]);
             }
-        }        
+        }
         return $result;
     }
-
 }

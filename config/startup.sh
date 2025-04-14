@@ -36,4 +36,7 @@ if [ -f /var/www/phpapache/task.cron ]; then
 fi
 
 echo "Start supervisord"
-/usr/bin/supervisord -n
+/usr/bin/supervisord -n &
+
+echo "Start apache"
+/usr/local/bin/apache2-foreground

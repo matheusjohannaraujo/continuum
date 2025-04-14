@@ -2,8 +2,8 @@
 
 namespace Lib;
 
+use MJohann\Packlib\DataManager;
 use Lib\Cache;
-use Lib\DataManager;
 use Lib\AVStreamDataManager;
 
 class Response
@@ -19,7 +19,7 @@ class Response
     private $size = 0;
     private $kill = true;
     private $delay = 0;
-    private $bitrate = 500000;// 500kb
+    private $bitrate = 500000; // 500kb
     private $contentDescription = "File Transfer";
     private $contentTransferEncoding = "binary";
     private $connection = "Keep-Alive";
@@ -261,7 +261,7 @@ class Response
                 $this->header("Content-Disposition", 'inline; filename="' . $filename . '"');
                 break;
         }
-        $this->header("Content-Type", $this->mimetype);        
+        $this->header("Content-Type", $this->mimetype);
         $this->header("Content-Transfer-Encoding", $this->contentTransferEncoding);
         $this->header("Connection", $this->connection);
         $this->header("Expires", $this->expires);
@@ -422,5 +422,4 @@ class Response
             ->status(401)
             ->go();
     }
-
 }

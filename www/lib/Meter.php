@@ -2,7 +2,7 @@
 
 namespace Lib;
 
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 class Meter
 {
@@ -58,5 +58,4 @@ class Meter
         }
         return $result;
     }
-
 }

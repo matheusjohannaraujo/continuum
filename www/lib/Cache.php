@@ -3,7 +3,7 @@
 namespace Lib;
 
 use Lib\ENV;
-use Lib\DataManager;
+use MJohann\Packlib\DataManager;
 
 class Cache
 {
@@ -75,7 +75,7 @@ class Cache
     }
 
     public function delete()
-    {        
+    {
         if (DataManager::exist($this->path) == "FOLDER") {
             return DataManager::delete($this->path);
         }
@@ -89,7 +89,7 @@ class Cache
             $result = DataManager::fileWrite($this->pathContent, $content);
         }
         unset($content);
-        return $result;        
+        return $result;
     }
 
     public function append(string $content)
@@ -111,7 +111,7 @@ class Cache
     }
 
     public function get_paths(string $name)
-    {        
+    {
         $path = $this->get_path($name);
         $pathInfo = $path . "info.txt";
         $pathContent = $path . "content.txt";
@@ -146,18 +146,18 @@ class Cache
             if ($time === -1 && DataManager::exist($location["path"]) == "FOLDER") {
                 DataManager::delete($location["path"]);
                 return false;
-            }            
+            }
             $timeNow = new \DateTime('now', new \DateTimeZone('America/Sao_Paulo'));
             if ($timeLast === "infinite") {
                 $timeLast = new \DateTime(date("Y-m-d H:i:s", time() + 60));
             } else {
                 $timeLast = new \DateTime($timeLast);
-            }                    
+            }
             if ($timeNow->diff($timeLast)->invert === 0) {
                 return true;
             } else {
                 DataManager::delete($location["path"]);
-            }            
+            }
         }
         return false;
     }
@@ -167,5 +167,4 @@ class Cache
         $location = $this->get_paths($name);
         return $this->is_valid_paths($location, $time);
     }
-
 }
