@@ -45,7 +45,7 @@ function log_create($data, string $name = null)
 
 function simple_redis()
 {
-    $sr = new \Lib\SimpleRedis;
+    $sr = new \MJohann\Packlib\SimpleRedis();
     $sr->open();
     return $sr;
 }

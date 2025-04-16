@@ -24,12 +24,12 @@ try {
     $env = new \Lib\ENV;
     $env->read();
     $redis_host             = $env->get("REDIS_HOST");
-    $redis_port             = $env->get("REDIS_PORT");    
+    $redis_port             = $env->get("REDIS_PORT");
     $redis_username         = $env->get("REDIS_USERNAME");
     $redis_password         = $env->get("REDIS_PASSWORD");
     $redis_scheme           = $env->get("REDIS_SCHEME");
     $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT");
-    \Lib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
+    \MJohann\Packlib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
 } catch (\Throwable $th) {
     log_create($th);
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c42f377855be12a01fb59525bcd87ddc",
+    "content-hash": "4fdb9b77dc34f81cf9fbcf053a1d3c86",
     "packages": [
         {
             "name": "brick/math",
@@ -1682,6 +1682,47 @@
                 "source": "https://github.com/matheusjohannaraujo/data-manager/tree/v1.0.0"
             },
             "time": "2025-04-14T13:04:57+00:00"
+        },
+        {
+            "name": "mjohann/simple-redis",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/simple-redis.git",
+                "reference": "0bcab0633128bf06e4d1d5a4074e717931a68f8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-redis/zipball/0bcab0633128bf06e4d1d5a4074e717931a68f8a",
+                "reference": "0bcab0633128bf06e4d1d5a4074e717931a68f8a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "predis/predis": "^2.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "Simple Redis is a PHP class that provides a practical and reusable abstraction for working with Redis. It allows you to easily create connections and perform common operations such as set, get, del, list, pub, sub and many others, without worrying about the underlying configuration complexity.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/simple-redis/issues",
+                "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.0.1"
+            },
+            "time": "2025-04-15T13:08:28+00:00"
         },
         {
             "name": "nesbot/carbon",
