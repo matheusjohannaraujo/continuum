@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fdb9b77dc34f81cf9fbcf053a1d3c86",
+    "content-hash": "4a0509c8c72a329301689e1435af32d9",
     "packages": [
         {
             "name": "brick/math",
@@ -1682,6 +1682,47 @@
                 "source": "https://github.com/matheusjohannaraujo/data-manager/tree/v1.0.0"
             },
             "time": "2025-04-14T13:04:57+00:00"
+        },
+        {
+            "name": "mjohann/simple-rabbitmq",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/simple-rabbitmq.git",
+                "reference": "9d4dec5c828c3c1d50f2978b0f09fc34f606c12d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-rabbitmq/zipball/9d4dec5c828c3c1d50f2978b0f09fc34f606c12d",
+                "reference": "9d4dec5c828c3c1d50f2978b0f09fc34f606c12d",
+                "shasum": ""
+            },
+            "require": {
+                "enqueue/amqp-lib": "^0.10",
+                "php": "^7.4 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "Simple RabbitMQ is a PHP class that offers a clean and reusable abstraction for working with RabbitMQ. It simplifies the process of connecting to message queues and performing common operations like publishing messages, consuming queues, acknowledging deliveries, and managing exchanges and bindings — all without having to deal with the complexity of the underlying configuration.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/simple-rabbitmq/issues",
+                "source": "https://github.com/matheusjohannaraujo/simple-rabbitmq/tree/v1.0.0"
+            },
+            "time": "2025-04-16T03:35:41+00:00"
         },
         {
             "name": "mjohann/simple-redis",

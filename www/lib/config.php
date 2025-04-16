@@ -41,7 +41,7 @@ try {
     $rabbitmq_port          = $env->get("RABBITMQ_PORT");
     $rabbitmq_username      = $env->get("RABBITMQ_USERNAME");
     $rabbitmq_password      = $env->get("RABBITMQ_PASSWORD");
-    \Lib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
+    \MJohann\Packlib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
 } catch (\Throwable $th) {
     log_create($th);
 }

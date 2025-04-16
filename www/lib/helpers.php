@@ -52,7 +52,7 @@ function simple_redis()
 
 function simple_rabbitmq()
 {
-    $srmq = new \Lib\SimpleRabbitMQ;
+    $srmq = new \MJohann\Packlib\SimpleRabbitMQ();
     $srmq->open();
     return $srmq;
 }
