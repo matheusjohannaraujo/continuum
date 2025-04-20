@@ -87,6 +87,19 @@ try {
 try {
     $env = new \Lib\ENV;
     $env->read();
+    $aes256_secret = $env->get("AES_256_SECRET", "AES_256");
+    resolve(
+        'MJohann\Packlib\Facades\SimpleAES256',
+        [$aes256_secret],
+        'init'
+    );
+} catch (\Throwable $th) {
+    log_create($th);
+}
+
+try {
+    $env = new \Lib\ENV;
+    $env->read();
     $authServerUrl          = $env->get("KEYCLOAK_AUTH_SERVER_URL");
     $realm                  = $env->get("KEYCLOAK_REALM");
     $clientId               = $env->get("KEYCLOAK_CLIENT_ID");

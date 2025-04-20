@@ -8,6 +8,8 @@ use Lib\Request;
 use Lib\Response;
 use Lib\Controller;
 use MJohann\Packlib\DataManager;
+use MJohann\Packlib\Facades\SimpleAES256;
+
 use function Opis\Closure\{serialize as sopis, unserialize as uopis};
 
 class Route
@@ -639,7 +641,7 @@ class Route
             });
         }
         self::post("/thread_http", function () {
-            $aes = new AES_256;
+            $aes = SimpleAES256::init();
             $script = input_post("script", "");
             $script = base64_decode($script);
             $script = $aes->decrypt_cbc($script);

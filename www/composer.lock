@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0797921d83a992ae897fb23ffbf492dc",
+    "content-hash": "eb49bcd441d418c1568c099c65dd0f8e",
     "packages": [
         {
             "name": "brick/math",
@@ -1686,6 +1686,46 @@
                 "source": "https://github.com/matheusjohannaraujo/data-manager/tree/v1.0.0"
             },
             "time": "2025-04-14T13:04:57+00:00"
+        },
+        {
+            "name": "mjohann/simple-aes-256",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/simple-aes-256.git",
+                "reference": "153192f1350293f0908bb3b586ff7617bf7c0150"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-aes-256/zipball/153192f1350293f0908bb3b586ff7617bf7c0150",
+                "reference": "153192f1350293f0908bb3b586ff7617bf7c0150",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "Simple AES 256 is a PHP class designed to simplify encryption and decryption using AES-256 in CBC or GCM modes.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/simple-aes-256/issues",
+                "source": "https://github.com/matheusjohannaraujo/simple-aes-256/tree/v1.1.0"
+            },
+            "time": "2025-04-20T19:35:12+00:00"
         },
         {
             "name": "mjohann/simple-rabbitmq",

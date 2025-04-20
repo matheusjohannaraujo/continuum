@@ -24,7 +24,10 @@ PT-BR: Incluir após chamadas programadas (agendadas)
 
 // The `serialize_function` and `unserialize_function` functions can be used in PHP versions 7.x and 8.x
 
-function serialize_function(\Closure $callback) {
+use MJohann\Packlib\Facades\SimpleAES256;
+
+function serialize_function(\Closure $callback)
+{
     $ver = (float) phpversion();
     if ($ver >= 7.4) {
         \Laravel\SerializableClosure\SerializableClosure::setSecretKey('secret');
@@ -33,7 +36,8 @@ function serialize_function(\Closure $callback) {
     return \Opis\Closure\serialize($callback);
 }
 
-function unserialize_function(string $callback) {
+function unserialize_function(string $callback)
+{
     $ver = (float) phpversion();
     if ($ver >= 7.4) {
         \Laravel\SerializableClosure\SerializableClosure::setSecretKey('secret');
@@ -67,9 +71,11 @@ function thread_parallel(
         $script = [$script];
     }
     if (!is_array($script)) {
-        $script = [function() { echo "invalid script"; }];
+        $script = [function () {
+            echo "invalid script";
+        }];
     }
-    $aes = new \Lib\AES_256;
+    $aes = SimpleAES256::init();
     $jwt = new \Lib\JWT;
     $jwt->exp(time() + 60);
     $token = $jwt->token();
@@ -123,7 +129,7 @@ function thread_parallel(
         }
         $result_curl = function () use (&$mch, &$script, &$aes, &$info_request) {
             foreach ($script as $key => $ch) {
-                $response = json_decode($aes->decrypt_cbc(base64_decode(curl_multi_getcontent($ch))), true);// Acessa a resposta de cada requisição
+                $response = json_decode($aes->decrypt_cbc(base64_decode(curl_multi_getcontent($ch))), true); // Acessa a resposta de cada requisição
                 $script[$key] = [
                     "response" => $response,
                     "await" => true,
@@ -142,8 +148,8 @@ function thread_parallel(
             }
         };
         if ($return_promise) {
-            return new Promise(function($resolve, $reject) use (&$result_curl, &$mch, &$script, &$aes) {
-                $uidInterval = setInterval(function() use (&$uidInterval, &$resolve, &$result_curl, &$mch, &$script, &$aes) {
+            return new Promise(function ($resolve, $reject) use (&$result_curl, &$mch, &$script, &$aes) {
+                $uidInterval = setInterval(function () use (&$uidInterval, &$resolve, &$result_curl, &$mch, &$script, &$aes) {
                     $active = null;
                     curl_multi_exec($mch, $active);
                     if ($active > 0) {
@@ -161,7 +167,7 @@ function thread_parallel(
             // Executa as requisições definidas no multi-curl handle, e retorna imediatamente o status das requisições
             curl_multi_exec($mch, $active);
             usleep(50);
-        } while($active > 0);
+        } while ($active > 0);
         $result_curl();
     }
     return $script;
@@ -222,11 +228,11 @@ function rpc_thread_parallel(string $script)
 function async(callable $call, bool $return = true)
 {
     $parallel = thread_parallel($call, $return, $return);
-    return new Promise(function($resolve) use (&$parallel, $return) {
+    return new Promise(function ($resolve) use (&$parallel, $return) {
         if (!$return) {
             $resolve($parallel["response"]);
         } else {
-            $parallel->then(function($val) use ($resolve) {
+            $parallel->then(function ($val) use ($resolve) {
                 $resolve($val["response"]);
             });
         }
@@ -262,7 +268,7 @@ $GL_WORK_RUN_COUNT = 0;
 $GL_TICK = false;
 $GL_TICK_EXIST = false;
 
-function initValues() :void
+function initValues(): void
 {
     global $GL_WORK;
     global $GL_WORK_RUN_COUNT;
@@ -274,7 +280,7 @@ function initValues() :void
     $GL_TICK_EXIST = $GL_TICK_EXIST ?? false;
 }
 
-function workRun() :bool
+function workRun(): bool
 {
     initValues();
     global $GL_WORK;
@@ -283,7 +289,7 @@ function workRun() :bool
     static $lastTime;
     if (count($GL_WORK) > 0) {
         if ($secondsTime === null && $lastTime === null) {
-            $secondsTime = 0 / 1000;// 0ms
+            $secondsTime = 0 / 1000; // 0ms
             $lastTime = microtime(true);
         } else if (microtime(true) - $lastTime > $secondsTime) {
             $GL_WORK_RUN_COUNT++;
@@ -312,36 +318,42 @@ function workRun() :bool
     return count($GL_WORK) > 0;
 }
 
-function workWait(callable $call = null) :int
+function workWait(callable $call = null): int
 {
     initValues();
     global $GL_TICK_EXIST;
     global $GL_WORK_RUN_COUNT;
     if ($call === null) {
-        $call = function() { usleep(1); };
+        $call = function () {
+            usleep(1);
+        };
     } else if ($GL_TICK_EXIST) {
         return workWaitTick($call);
     }
-    while (workRun()) { $call(); }
+    while (workRun()) {
+        $call();
+    }
     return $GL_WORK_RUN_COUNT;
 }
 
-function workWaitTick(callable $call) :int
+function workWaitTick(callable $call): int
 {
     initValues();
     global $GL_WORK;
     global $GL_TICK;
     global $GL_WORK_RUN_COUNT;
-    while (count($GL_WORK) > 0) { $call(); }
+    while (count($GL_WORK) > 0) {
+        $call();
+    }
     if (is_callable($GL_TICK)) {
         unregister_tick_function($GL_TICK);
-    }    
+    }
     $GL_WORK = [];
     $GL_TICK = false;
     return $GL_WORK_RUN_COUNT;
 }
 
-function setInterval(callable $call, int $ms, bool $type = true) :string
+function setInterval(callable $call, int $ms, bool $type = true): string
 {
     initValues();
     global $GL_WORK;
@@ -365,16 +377,16 @@ function setInterval(callable $call, int $ms, bool $type = true) :string
             workRun();
         };
         register_tick_function($GL_TICK);
-    }    
+    }
     return $uid;
 }
 
-function setTimeout(callable $call, int $ms) :string
+function setTimeout(callable $call, int $ms): string
 {
     return setInterval($call, $ms, false);
 }
 
-function clearInterval($uid) :bool
+function clearInterval($uid): bool
 {
     initValues();
     global $GL_WORK;
@@ -385,15 +397,16 @@ function clearInterval($uid) :bool
     return false;
 }
 
-function clearTimeout($uid) :bool
+function clearTimeout($uid): bool
 {
     return clearInterval($uid);
 }
 
 #-------------------------------------------------------------------------------------------------------
 
-class Promise {
-    
+class Promise
+{
+
     private $fun = [];
     private $self = null;
     private $value = null;
@@ -402,23 +415,23 @@ class Promise {
 
     public function __construct(callable $main = null)
     {
-        $this->fun["resolved"] = function($value = null) {
+        $this->fun["resolved"] = function ($value = null) {
             if ($this->state !== "pending") {
                 return;
             }
             $this->state = "resolved";
             $this->value = $value;
         };
-        $this->fun["rejected"] = function($value = null) {
+        $this->fun["rejected"] = function ($value = null) {
             if ($this->state !== "pending") {
                 return;
             }
             $this->state = "rejected";
             $this->value = $value;
         };
-        $this->fun["then"] = function() {};
-        $this->fun["catch"] = function() {};
-        $this->fun["finally"] = function() {};
+        $this->fun["then"] = function () {};
+        $this->fun["catch"] = function () {};
+        $this->fun["finally"] = function () {};
         if ($main !== null) {
             $main($this->fun["resolved"], $this->fun["rejected"]);
         }
@@ -456,7 +469,7 @@ class Promise {
     {
         if ($this->monitor == "undefined") {
             $self = &$this->self;
-            $this->monitor = setInterval(function() use (&$self) {
+            $this->monitor = setInterval(function () use (&$self) {
                 if ($self->state !== "pending") {
                     clearInterval($self->monitor);
                     $self->monitor = "settled";
@@ -474,7 +487,7 @@ class Promise {
             if ($this->state == "fulfilled" || $this->state == "rejected") {
                 $this->fun["finally"]();
             }
-        }        
+        }
         return $this->self;
     }
 
@@ -488,7 +501,7 @@ class Promise {
         $this->fun["rejected"]($value);
     }
 
-    public function cancel() :bool
+    public function cancel(): bool
     {
         $id = $this->monitor;
         $this->monitor = "canceled";
@@ -503,19 +516,19 @@ class Promise {
         return $this->value;
     }
 
-    public function getState() :string
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function getMonitor() :string
+    public function getMonitor(): string
     {
         return $this->monitor;
     }
 
     public static function async(callable $main)
     {
-        return new Promise(function($resolve, $reject) use (&$main) {
+        return new Promise(function ($resolve, $reject) use (&$main) {
             async(function () use (&$main) {
                 $res = function ($val) {
                     echo json_encode(["res", $val]);
@@ -525,14 +538,13 @@ class Promise {
                 };
                 $main($res, $rej);
             })
-            ->then(function($value) use (&$resolve, &$reject) {
-                $value = json_decode($value);
-                if ($value[0] === "res") {
-                    return $resolve($value[1]);
-                }
-                $reject($value[1]);
-            });
+                ->then(function ($value) use (&$resolve, &$reject) {
+                    $value = json_decode($value);
+                    if ($value[0] === "res") {
+                        return $resolve($value[1]);
+                    }
+                    $reject($value[1]);
+                });
         });
     }
-
 }
