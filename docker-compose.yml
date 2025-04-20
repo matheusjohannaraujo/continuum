@@ -6,17 +6,19 @@ services:
     restart: always
     ports:
       - 80:80 # WEB
-    volumes:
-      - ./www/:/var/www/html/
+    #volumes:
+    #  - ./www/app/:/var/www/html/app/
+    #  - ./www/lib/:/var/www/html/lib/
+    #  - ./www/storage/:/var/www/html/storage/
     deploy:
       resources:
         limits:
           cpus: '1.0'
-          memory: 400M
+          memory: 768M
     #    reservations:
-    #      cpus: '0.25'
-    #      memory: 40M
-    #    memswap_limit: 600M
+    #      cpus: '0.5'
+    #      memory: 512M
+    #    memswap_limit: 1024M
     env_file:
       - .env
     depends_on:
@@ -69,7 +71,7 @@ services:
 
   # https://hub.docker.com/r/bitnami/redis/
   redis:
-    image: bitnami/redis:7.2
+    image: bitnami/redis:7.4
     hostname: redis
     restart: always
     #    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb

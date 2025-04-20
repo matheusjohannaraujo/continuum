@@ -126,11 +126,14 @@ COPY ./config/supervisord.conf /etc/supervisor/conf.d/
 # https://semaphoreci.com/community/tutorials/dockerizing-a-php-application
 COPY ./config/apache-config.conf /etc/apache2/sites-available/000-default.conf
 
+COPY ./www/ .
+
 RUN chmod +x /var/www/phpapache/startup.sh && \
     chmod -R 0777 /var/www/html/ && \
     chown -R $user:$user /var/www/html/ && \
     chmod -R 0777 /var/www/phpapache/ && \
-    chown -R $user:$user /var/www/phpapache/
+    chown -R $user:$user /var/www/phpapache/ && \
+    cd /var/www/html/; /usr/local/bin/composer install --ignore-platform-reqs --no-interaction
 
 #USER $user
 

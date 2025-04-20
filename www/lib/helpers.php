@@ -25,7 +25,7 @@ function log_exception($e, string $dateTime)
     return $logMessage;
 }
 
-function log_create($data, string $name = null)
+function log_create($data, ?string $name = null)
 {
     $dateTime = date('Y-m-d H:i:s');
     $logMessage = log_exception($data, $dateTime);
@@ -41,20 +41,6 @@ function log_create($data, string $name = null)
     }
     $file = folder_storage("logs/dump.log");
     return DataManager::fileAppend($file, $logMessage . "\r\n");
-}
-
-function simple_redis()
-{
-    $sr = new \MJohann\Packlib\SimpleRedis();
-    $sr->open();
-    return $sr;
-}
-
-function simple_rabbitmq()
-{
-    $srmq = new \MJohann\Packlib\SimpleRabbitMQ();
-    $srmq->open();
-    return $srmq;
 }
 
 /**

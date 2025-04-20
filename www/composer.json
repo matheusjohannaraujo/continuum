@@ -9,14 +9,12 @@
         "illuminate/support": "^8.0",
         "illuminate/pagination": "^8.0",
         "ramsey/uuid": "^4.2",
-        "predis/predis": "^2.1",
-        "enqueue/amqp-lib": "^0.10",
         "league/csv": "^9.0",
         "clemdesign/php-mask": "^1.0",
         "stevenmaguire/oauth2-keycloak": "^5.1",
         "zircote/swagger-php": "^5.0",
         "mjohann/data-manager": "^1.0",
-        "mjohann/simple-redis": "^1.0",
+        "mjohann/simple-redis": "^1.1",
         "mjohann/simple-rabbitmq": "^1.0"
     },
     "autoload": {

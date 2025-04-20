@@ -20,16 +20,48 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
+function resolve(string $className, array $args = [], ?string $method = null)
+{
+    $reflection = new \ReflectionClass($className);
+
+    if (is_null($method)) {
+        // Injeção via construtor
+        $constructor = $reflection->getConstructor();
+
+        if (!$constructor) {
+            return new $className();
+        }
+
+        // Injeção direta de argumentos no construtor
+        return $reflection->newInstanceArgs($args);
+    }
+
+    // Injeção via método
+    if (!$reflection->hasMethod($method)) {
+        throw new \Exception("Método '{$method}' não encontrado em '{$className}'.");
+    }
+
+    // Instancia a classe sem argumentos
+    $instance = $reflection->newInstance();
+    $methodReflection = $reflection->getMethod($method);
+    $methodReflection->invokeArgs($instance, $args);
+    return $instance;
+}
+
 try {
     $env = new \Lib\ENV;
     $env->read();
-    $redis_host             = $env->get("REDIS_HOST");
-    $redis_port             = $env->get("REDIS_PORT");
-    $redis_username         = $env->get("REDIS_USERNAME");
-    $redis_password         = $env->get("REDIS_PASSWORD");
-    $redis_scheme           = $env->get("REDIS_SCHEME");
-    $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT");
-    \MJohann\Packlib\SimpleRedis::config($redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout);
+    $redis_host             = $env->get("REDIS_HOST", "localhost");
+    $redis_port             = $env->get("REDIS_PORT", 6379);
+    $redis_username         = $env->get("REDIS_USERNAME", "");
+    $redis_password         = $env->get("REDIS_PASSWORD", "password");
+    $redis_scheme           = $env->get("REDIS_SCHEME", "tcp");
+    $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT", 0);
+    resolve(
+        '\MJohann\Packlib\SimpleRedisFacade',
+        [[$redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout]],
+        'init'
+    );
 } catch (\Throwable $th) {
     log_create($th);
 }
