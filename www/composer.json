@@ -15,7 +15,7 @@
         "zircote/swagger-php": "^5.0",
         "mjohann/data-manager": "^1.0",
         "mjohann/simple-redis": "^1.1",
-        "mjohann/simple-rabbitmq": "^1.0"
+        "mjohann/simple-rabbitmq": "^1.1"
     },
     "autoload": {
         "psr-4": {

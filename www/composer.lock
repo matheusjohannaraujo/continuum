@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fae28c30ff7520e60ddd166d5b14dccf",
+    "content-hash": "0797921d83a992ae897fb23ffbf492dc",
     "packages": [
         {
             "name": "brick/math",
@@ -1689,21 +1689,21 @@
         },
         {
             "name": "mjohann/simple-rabbitmq",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matheusjohannaraujo/simple-rabbitmq.git",
-                "reference": "9d4dec5c828c3c1d50f2978b0f09fc34f606c12d"
+                "reference": "4a7f67990e6ade02644ce7c170a2dd7947a19223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-rabbitmq/zipball/9d4dec5c828c3c1d50f2978b0f09fc34f606c12d",
-                "reference": "9d4dec5c828c3c1d50f2978b0f09fc34f606c12d",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-rabbitmq/zipball/4a7f67990e6ade02644ce7c170a2dd7947a19223",
+                "reference": "4a7f67990e6ade02644ce7c170a2dd7947a19223",
                 "shasum": ""
             },
             "require": {
                 "enqueue/amqp-lib": "^0.10",
-                "php": "^7.4 || ^8.0"
+                "php": "^8.0"
             },
             "type": "library",
             "autoload": {
@@ -1724,22 +1724,22 @@
             "description": "Simple RabbitMQ is a PHP class that offers a clean and reusable abstraction for working with RabbitMQ. It simplifies the process of connecting to message queues and performing common operations like publishing messages, consuming queues, acknowledging deliveries, and managing exchanges and bindings — all without having to deal with the complexity of the underlying configuration.",
             "support": {
                 "issues": "https://github.com/matheusjohannaraujo/simple-rabbitmq/issues",
-                "source": "https://github.com/matheusjohannaraujo/simple-rabbitmq/tree/v1.0.0"
+                "source": "https://github.com/matheusjohannaraujo/simple-rabbitmq/tree/v1.1.0"
             },
-            "time": "2025-04-16T03:35:41+00:00"
+            "time": "2025-04-20T15:41:17+00:00"
         },
         {
             "name": "mjohann/simple-redis",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matheusjohannaraujo/simple-redis.git",
-                "reference": "b747156f1f518c6a844c1e40e9a31f8d8c93b723"
+                "reference": "4b53c15c63ff29b7289ddf3ed77f90514c77f1ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-redis/zipball/b747156f1f518c6a844c1e40e9a31f8d8c93b723",
-                "reference": "b747156f1f518c6a844c1e40e9a31f8d8c93b723",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-redis/zipball/4b53c15c63ff29b7289ddf3ed77f90514c77f1ff",
+                "reference": "4b53c15c63ff29b7289ddf3ed77f90514c77f1ff",
                 "shasum": ""
             },
             "require": {
@@ -1765,9 +1765,9 @@
             "description": "Simple Redis is a PHP class that provides a practical and reusable abstraction for working with Redis. It allows you to easily create connections and perform common operations such as set, get, del, list, pub, sub and many others, without worrying about the underlying configuration complexity.",
             "support": {
                 "issues": "https://github.com/matheusjohannaraujo/simple-redis/issues",
-                "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.1.0"
+                "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.1.1"
             },
-            "time": "2025-04-19T23:19:32+00:00"
+            "time": "2025-04-20T14:34:26+00:00"
         },
         {
             "name": "nesbot/carbon",

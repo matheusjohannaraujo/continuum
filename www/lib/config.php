@@ -58,7 +58,7 @@ try {
     $redis_scheme           = $env->get("REDIS_SCHEME", "tcp");
     $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT", 0);
     resolve(
-        '\MJohann\Packlib\SimpleRedisFacade',
+        'MJohann\Packlib\Facades\SimpleRedis',
         [[$redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout]],
         'init'
     );
@@ -69,11 +69,17 @@ try {
 try {
     $env = new \Lib\ENV;
     $env->read();
-    $rabbitmq_host          = $env->get("RABBITMQ_HOST");
-    $rabbitmq_port          = $env->get("RABBITMQ_PORT");
-    $rabbitmq_username      = $env->get("RABBITMQ_USERNAME");
-    $rabbitmq_password      = $env->get("RABBITMQ_PASSWORD");
-    \MJohann\Packlib\SimpleRabbitMQ::config($rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password);
+    $rabbitmq_host          = $env->get("RABBITMQ_HOST", "localhost");
+    $rabbitmq_port          = $env->get("RABBITMQ_PORT", 5672);
+    $rabbitmq_username      = $env->get("RABBITMQ_USERNAME", "user");
+    $rabbitmq_password      = $env->get("RABBITMQ_PASSWORD", "password");
+    $rabbitmq_persisted     = $env->get("RABBITMQ_PERSISTED", true);
+    $rabbitmq_vhost         = $env->get("RABBITMQ_VHOST", "/");
+    resolve(
+        'MJohann\Packlib\Facades\SimpleRabbitMQ',
+        [[$rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password, $rabbitmq_persisted, $rabbitmq_vhost]],
+        'init'
+    );
 } catch (\Throwable $th) {
     log_create($th);
 }

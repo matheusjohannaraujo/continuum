@@ -6,10 +6,10 @@ services:
     restart: always
     ports:
       - 80:80 # WEB
-    #volumes:
-    #  - ./www/app/:/var/www/html/app/
-    #  - ./www/lib/:/var/www/html/lib/
-    #  - ./www/storage/:/var/www/html/storage/
+    volumes:
+      - ./www/app/:/var/www/html/app/
+      - ./www/lib/:/var/www/html/lib/
+      - ./www/storage/:/var/www/html/storage/
     deploy:
       resources:
         limits:
@@ -19,8 +19,8 @@ services:
     #      cpus: '0.5'
     #      memory: 512M
     #    memswap_limit: 1024M
-    env_file:
-      - .env
+    #env_file:
+    #  - .env
     depends_on:
       - mysql
       - redis
