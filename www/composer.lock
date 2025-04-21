@@ -1733,12 +1733,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matheusjohannaraujo/simple-rabbitmq.git",
-                "reference": "4a7f67990e6ade02644ce7c170a2dd7947a19223"
+                "reference": "4888a668fb283e8ddf617ed52c86e3fa9019b143"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-rabbitmq/zipball/4a7f67990e6ade02644ce7c170a2dd7947a19223",
-                "reference": "4a7f67990e6ade02644ce7c170a2dd7947a19223",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-rabbitmq/zipball/4888a668fb283e8ddf617ed52c86e3fa9019b143",
+                "reference": "4888a668fb283e8ddf617ed52c86e3fa9019b143",
                 "shasum": ""
             },
             "require": {
@@ -1766,20 +1766,20 @@
                 "issues": "https://github.com/matheusjohannaraujo/simple-rabbitmq/issues",
                 "source": "https://github.com/matheusjohannaraujo/simple-rabbitmq/tree/v1.1.0"
             },
-            "time": "2025-04-20T15:41:17+00:00"
+            "time": "2025-04-21T09:49:08+00:00"
         },
         {
             "name": "mjohann/simple-redis",
-            "version": "v1.1.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matheusjohannaraujo/simple-redis.git",
-                "reference": "4b53c15c63ff29b7289ddf3ed77f90514c77f1ff"
+                "reference": "a0dfdf8d59e5419d41182f0078d3d259c6f6b620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-redis/zipball/4b53c15c63ff29b7289ddf3ed77f90514c77f1ff",
-                "reference": "4b53c15c63ff29b7289ddf3ed77f90514c77f1ff",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-redis/zipball/a0dfdf8d59e5419d41182f0078d3d259c6f6b620",
+                "reference": "a0dfdf8d59e5419d41182f0078d3d259c6f6b620",
                 "shasum": ""
             },
             "require": {
@@ -1805,9 +1805,9 @@
             "description": "Simple Redis is a PHP class that provides a practical and reusable abstraction for working with Redis. It allows you to easily create connections and perform common operations such as set, get, del, list, pub, sub and many others, without worrying about the underlying configuration complexity.",
             "support": {
                 "issues": "https://github.com/matheusjohannaraujo/simple-redis/issues",
-                "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.1.1"
+                "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.1.0"
             },
-            "time": "2025-04-20T14:34:26+00:00"
+            "time": "2025-04-21T09:35:59+00:00"
         },
         {
             "name": "nesbot/carbon",

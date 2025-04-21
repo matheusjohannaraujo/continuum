@@ -59,7 +59,7 @@ try {
     $redis_read_write_timeout = $env->get("REDIS_READ_WRITE_TIMEOUT", 0);
     resolve(
         'MJohann\Packlib\Facades\SimpleRedis',
-        [[$redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout]],
+        [$redis_host, $redis_port, $redis_password, $redis_username, $redis_scheme, $redis_read_write_timeout],
         'init'
     );
 } catch (\Throwable $th) {
@@ -77,7 +77,7 @@ try {
     $rabbitmq_vhost         = $env->get("RABBITMQ_VHOST", "/");
     resolve(
         'MJohann\Packlib\Facades\SimpleRabbitMQ',
-        [[$rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password, $rabbitmq_persisted, $rabbitmq_vhost]],
+        [$rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password, $rabbitmq_persisted, $rabbitmq_vhost],
         'init'
     );
 } catch (\Throwable $th) {
