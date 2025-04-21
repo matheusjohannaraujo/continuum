@@ -641,7 +641,7 @@ class Route
             });
         }
         self::post("/thread_http", function () {
-            $aes = SimpleAES256::init();
+            $aes = SimpleAES256::getInstance();
             $script = input_post("script", "");
             $script = base64_decode($script);
             $script = $aes->decrypt_cbc($script);

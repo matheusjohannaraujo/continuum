@@ -75,7 +75,7 @@ function thread_parallel(
             echo "invalid script";
         }];
     }
-    $aes = SimpleAES256::init();
+    $aes = SimpleAES256::getInstance();
     $jwt = new \Lib\JWT;
     $jwt->exp(time() + 60);
     $token = $jwt->token();

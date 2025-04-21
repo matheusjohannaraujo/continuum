@@ -51,6 +51,19 @@ function resolve(string $className, array $args = [], ?string $method = null)
 try {
     $env = new \Lib\ENV;
     $env->read();
+    $aes256_secret = $env->get("AES_256_SECRET", "AES_256");
+    resolve(
+        'MJohann\Packlib\Facades\SimpleAES256',
+        [$aes256_secret],
+        'init'
+    );
+} catch (\Throwable $th) {
+    log_create($th);
+}
+
+try {
+    $env = new \Lib\ENV;
+    $env->read();
     $redis_host             = $env->get("REDIS_HOST", "localhost");
     $redis_port             = $env->get("REDIS_PORT", 6379);
     $redis_username         = $env->get("REDIS_USERNAME", "");
@@ -78,19 +91,6 @@ try {
     resolve(
         'MJohann\Packlib\Facades\SimpleRabbitMQ',
         [$rabbitmq_host, $rabbitmq_port, $rabbitmq_username, $rabbitmq_password, $rabbitmq_persisted, $rabbitmq_vhost],
-        'init'
-    );
-} catch (\Throwable $th) {
-    log_create($th);
-}
-
-try {
-    $env = new \Lib\ENV;
-    $env->read();
-    $aes256_secret = $env->get("AES_256_SECRET", "AES_256");
-    resolve(
-        'MJohann\Packlib\Facades\SimpleAES256',
-        [$aes256_secret],
         'init'
     );
 } catch (\Throwable $th) {

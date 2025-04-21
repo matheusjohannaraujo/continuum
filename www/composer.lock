@@ -1693,12 +1693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matheusjohannaraujo/simple-aes-256.git",
-                "reference": "153192f1350293f0908bb3b586ff7617bf7c0150"
+                "reference": "0f72943d4cd4aa8ad418a83bb122e0d9059742a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-aes-256/zipball/153192f1350293f0908bb3b586ff7617bf7c0150",
-                "reference": "153192f1350293f0908bb3b586ff7617bf7c0150",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/simple-aes-256/zipball/0f72943d4cd4aa8ad418a83bb122e0d9059742a5",
+                "reference": "0f72943d4cd4aa8ad418a83bb122e0d9059742a5",
                 "shasum": ""
             },
             "require": {
@@ -1725,7 +1725,7 @@
                 "issues": "https://github.com/matheusjohannaraujo/simple-aes-256/issues",
                 "source": "https://github.com/matheusjohannaraujo/simple-aes-256/tree/v1.1.0"
             },
-            "time": "2025-04-20T19:35:12+00:00"
+            "time": "2025-04-21T14:30:34+00:00"
         },
         {
             "name": "mjohann/simple-rabbitmq",
