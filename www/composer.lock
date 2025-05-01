@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb49bcd441d418c1568c099c65dd0f8e",
+    "content-hash": "d92c88efd45d3c490946bbea4bd21925",
     "packages": [
         {
             "name": "brick/math",
@@ -1432,32 +1432,32 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v1.3.7",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "4f48ade902b94323ca3be7646db16209ec76be3d"
+                "reference": "b352cf0534aa1ae6b4d825d1e762e35d43f8a841"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/4f48ade902b94323ca3be7646db16209ec76be3d",
-                "reference": "4f48ade902b94323ca3be7646db16209ec76be3d",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/b352cf0534aa1ae6b4d825d1e762e35d43f8a841",
+                "reference": "b352cf0534aa1ae6b4d825d1e762e35d43f8a841",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3|^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
-                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
-                "nesbot/carbon": "^2.61|^3.0",
-                "pestphp/pest": "^1.21.3",
-                "phpstan/phpstan": "^1.8.2",
-                "symfony/var-dumper": "^5.4.11|^6.2.0|^7.0.0"
+                "illuminate/support": "^10.0|^11.0|^12.0",
+                "nesbot/carbon": "^2.67|^3.0",
+                "pestphp/pest": "^2.36|^3.0",
+                "phpstan/phpstan": "^2.0",
+                "symfony/var-dumper": "^6.2.0|^7.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1489,7 +1489,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2024-11-14T18:34:49+00:00"
+            "time": "2025-03-19T13:51:03+00:00"
         },
         {
             "name": "league/csv",
@@ -1646,6 +1646,48 @@
                 "source": "https://github.com/thephpleague/oauth2-client/tree/2.8.1"
             },
             "time": "2025-02-26T04:37:30+00:00"
+        },
+        {
+            "name": "mjohann/call-morph",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/call-morph.git",
+                "reference": "8e2218c9211c1321633df39ce9e71b539a2eefa4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/call-morph/zipball/8e2218c9211c1321633df39ce9e71b539a2eefa4",
+                "reference": "8e2218c9211c1321633df39ce9e71b539a2eefa4",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/serializable-closure": "^2.0",
+                "opis/closure": "^3.6",
+                "php": "^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "CallMorph is a PHP class that simplifies and secures the serialization of anonymous functions by automatically selecting the appropriate library based on the PHP version, with support for a secret key when using Laravel's Serializable Closures.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/call-morph/issues",
+                "source": "https://github.com/matheusjohannaraujo/call-morph/tree/v1.1.0"
+            },
+            "time": "2025-04-22T23:00:21+00:00"
         },
         {
             "name": "mjohann/data-manager",
@@ -1808,6 +1850,51 @@
                 "source": "https://github.com/matheusjohannaraujo/simple-redis/tree/v1.1.0"
             },
             "time": "2025-04-21T09:35:59+00:00"
+        },
+        {
+            "name": "mjohann/zynq",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/matheusjohannaraujo/zynq.git",
+                "reference": "5b9ec91a7bda54ced3da2ad743255e3fa9f9dd7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/matheusjohannaraujo/zynq/zipball/5b9ec91a7bda54ced3da2ad743255e3fa9f9dd7c",
+                "reference": "5b9ec91a7bda54ced3da2ad743255e3fa9f9dd7c",
+                "shasum": ""
+            },
+            "require": {
+                "mjohann/call-morph": "^1.1",
+                "mjohann/simple-aes-256": "^1.1",
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "MJohann\\Packlib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M. Johann",
+                    "email": "matheusjohannaraujo+mjohannpacklib@gmail.com"
+                }
+            ],
+            "description": "Zynq is a PHP library that brings JavaScript-like asynchronous features to PHP, including support for timers, promises, async/await behavior, and multi-threaded execution via RPC.",
+            "support": {
+                "issues": "https://github.com/matheusjohannaraujo/zynq/issues",
+                "source": "https://github.com/matheusjohannaraujo/zynq/tree/v1.0.0"
+            },
+            "time": "2025-05-01T21:43:10+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2349,16 +2436,16 @@
         },
         {
             "name": "predis/predis",
-            "version": "v2.3.0",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "bac46bfdb78cd6e9c7926c697012aae740cb9ec9"
+                "reference": "f49e13ee3a2a825631562aa0223ac922ec5d058b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/bac46bfdb78cd6e9c7926c697012aae740cb9ec9",
-                "reference": "bac46bfdb78cd6e9c7926c697012aae740cb9ec9",
+                "url": "https://api.github.com/repos/predis/predis/zipball/f49e13ee3a2a825631562aa0223ac922ec5d058b",
+                "reference": "f49e13ee3a2a825631562aa0223ac922ec5d058b",
                 "shasum": ""
             },
             "require": {
@@ -2367,6 +2454,7 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.3",
                 "phpstan/phpstan": "^1.9",
+                "phpunit/phpcov": "^6.0 || ^8.0",
                 "phpunit/phpunit": "^8.0 || ^9.4"
             },
             "suggest": {
@@ -2389,7 +2477,7 @@
                     "role": "Maintainer"
                 }
             ],
-            "description": "A flexible and feature-complete Redis client for PHP.",
+            "description": "A flexible and feature-complete Redis/Valkey client for PHP.",
             "homepage": "http://github.com/predis/predis",
             "keywords": [
                 "nosql",
@@ -2398,7 +2486,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v2.3.0"
+                "source": "https://github.com/predis/predis/tree/v2.4.0"
             },
             "funding": [
                 {
@@ -2406,7 +2494,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-21T20:00:02+00:00"
+            "time": "2025-04-30T15:16:02+00:00"
         },
         {
             "name": "psr/clock",
@@ -4326,16 +4414,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.1.0",
+            "version": "5.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "a9b953c25f5bd11ea0542636936de04504496bd9"
+                "reference": "7a6544c60441ddb5959b91266b3a290dc28537ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/a9b953c25f5bd11ea0542636936de04504496bd9",
-                "reference": "a9b953c25f5bd11ea0542636936de04504496bd9",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/7a6544c60441ddb5959b91266b3a290dc28537ba",
+                "reference": "7a6544c60441ddb5959b91266b3a290dc28537ba",
                 "shasum": ""
             },
             "require": {
@@ -4406,9 +4494,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.1.0"
+                "source": "https://github.com/zircote/swagger-php/tree/5.1.1"
             },
-            "time": "2025-04-18T00:35:12+00:00"
+            "time": "2025-04-27T10:02:08+00:00"
         }
     ],
     "packages-dev": [],

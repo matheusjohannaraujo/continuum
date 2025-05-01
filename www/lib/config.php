@@ -2,6 +2,8 @@
 
 // Changing "php.ini" during execution
 
+use MJohann\Packlib\WebThread;
+
 ini_set("default_charset", "utf-8");
 ini_set("set_time_limit", "36000");
 ini_set("max_execution_time", "36000");
@@ -115,5 +117,15 @@ try {
 !defined('CLI') ? session() : null;
 
 !defined('CLI') ? \Lib\Route::init() : null;
+
+try {
+    $env = new \Lib\ENV;
+    $env->read();
+    $thread_http = defined('CLI') ? input_env("APP_URL") . "thread_http" : action("thread_http");
+    $secret_rpc = $env->get("AES_256_SECRET", "AES_256");
+    WebThread::init($thread_http, $secret_rpc);
+} catch (\Throwable $th) {
+    log_create($th);
+}
 
 require_once __DIR__ . "/db_conn_capsule.php";

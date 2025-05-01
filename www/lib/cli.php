@@ -7,6 +7,8 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use Lib\ENV;
 use MJohann\Packlib\DataManager;
 
+use function MJohann\Packlib\Functions\workWait;
+
 $BASE_DIR = realpath(__DIR__ . "/../");
 define("__BASE_DIR__", $BASE_DIR);
 

@@ -63,6 +63,8 @@
 
 use Lib\Route;
 
+use function MJohann\Packlib\Functions\workWait;
+
 Route::get("/template", function () {
     /*
         EN-US: Defines that this route must serve a maximum of five requests per minute

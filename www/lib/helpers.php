@@ -9,6 +9,8 @@ use Lib\Session;
 use Lib\Redirect;
 use MJohann\Packlib\DataManager;
 
+use function MJohann\Packlib\Functions\workWait;
+
 function log_exception($e, string $dateTime)
 {
     $logMessage = "";

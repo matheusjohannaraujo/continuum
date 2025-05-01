@@ -8,9 +8,9 @@ use Lib\Request;
 use Lib\Response;
 use Lib\Controller;
 use MJohann\Packlib\DataManager;
-use MJohann\Packlib\Facades\SimpleAES256;
+use MJohann\Packlib\WebThread;
 
-use function Opis\Closure\{serialize as sopis, unserialize as uopis};
+use function MJohann\Packlib\Functions\workWait;
 
 class Route
 {
@@ -641,15 +641,8 @@ class Route
             });
         }
         self::post("/thread_http", function () {
-            $aes = SimpleAES256::getInstance();
-            $script = input_post("script", "");
-            $script = base64_decode($script);
-            $script = $aes->decrypt_cbc($script);
-            $script = rpc_thread_parallel($script);
-            $script = $aes->encrypt_cbc($script);
-            $script = base64_encode($script);
-            return $script;
-        })::jwt(true);
+            return WebThread::rpcProcess(input_post("script", ""));
+        });
         self::any("/page/error/{status_code:int}", function (int $status_code) {
             self::$out->page($status_code);
         });
