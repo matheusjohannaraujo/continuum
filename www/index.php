@@ -5,18 +5,10 @@ declare(strict_types=1);
 $vendor = __DIR__ . "/vendor/";
 $autoload = $vendor . "autoload.php";
 
-function config_init()
-{
-	ini_set("set_time_limit", "3600");
-	ini_set("max_execution_time", "3600");
-	ini_set("default_socket_timeout", "3600");
-	ini_set("memory_limit", "6144M");
-	// Errors
-	ini_set("error_reporting", "0");
-    	//ini_set("display_errors", "0");
-}
-
-config_init();
+// CORS Enable
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 /*
 if ((($_GET["adm"] ?? null) == "phpinfo")) {
@@ -36,11 +28,11 @@ if ((($_GET["adm"] ?? null) == "config") && file_exists($autoload)) {
 	db_schemas_apply("config");
 	die;
 }
-*/
 
 if (!file_exists($autoload)) {
-	shell_exec("composer update --ignore-platform-reqs");
+	shell_exec("composer install --ignore-platform-reqs");
 }
+*/
 
 if (file_exists($autoload)) {
 	try {
@@ -52,7 +44,7 @@ if (file_exists($autoload)) {
 	}
 } else {
 	require_once __DIR__ . "/lib/DataManager.php";
-	echo "<br><center># The `" . \Lib\DataManager::path($autoload) . "` not found. If you are reading this message, open a command prompt inside the project folder and run the command below:<hr><h1><b>composer update</b></h1></center><br>";
+	echo "<br><center># The `" . \Lib\DataManager::path($autoload) . "` not found. If you are reading this message, open a command prompt inside the project folder and run the command below:<hr><h1><b>composer install</b></h1></center><br>";
 	phpinfo();
 	die();
 }
