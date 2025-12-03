@@ -15,7 +15,7 @@ class ENV
         $this->pathEnv = __DIR__ . '/../.env';
     }
 
-    public function get(string $key = null, $default_value = null)
+    public function get(?string $key = null, $default_value = null)
     {
         if ($key === null) {
             return $this->env ?? $default_value;
@@ -32,7 +32,7 @@ class ENV
      * Lê o arquivo .env, realiza a substituição de variáveis referenciadas
      * e retorna o array carregado.
      */
-    public function read(string $customPath = null): array
+    public function read(?string $customPath = null): array
     {
         $envContext = getenv() ?: [];
         $path = $customPath ?? $this->pathEnv;
@@ -85,7 +85,7 @@ class ENV
     /**
      * Escreve as variáveis no arquivo .env
      */
-    public function write(array $data = [], string $customPath = null): bool
+    public function write(array $data = [], ?string $customPath = null): bool
     {
         $path = $customPath ?? $this->pathEnv;
         $this->pathEnv = $path;
