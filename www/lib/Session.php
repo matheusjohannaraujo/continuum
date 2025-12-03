@@ -17,7 +17,7 @@ class Session
         return self::$ClassSession;
     }
 
-    public function set_name_and_id(string $name = null, string $id = null)
+    public function set_name_and_id(?string $name = null, ?string $id = null)
     {
         $name_backup = session_name();
         $id_backup = session_id();
@@ -27,7 +27,7 @@ class Session
         if ($id !== null) {
             $id_backup = $id;
         }
-        if ($this->status(false) === PHP_SESSION_ACTIVE) {            
+        if ($this->status(false) === PHP_SESSION_ACTIVE) {
             $keys_values = $_SESSION ?? [];
             $this->destroy();
             session_name($name_backup);
@@ -37,13 +37,13 @@ class Session
         } else {
             session_name($name_backup);
             session_id($id_backup);
-        }        
+        }
         return $this;
     }
 
     public function name()
     {
-        return session_name();        
+        return session_name();
     }
 
     public function id()
@@ -96,10 +96,10 @@ class Session
         if ($this->status(false) === PHP_SESSION_ACTIVE) {
             session_abort();
         }
-        return $this;        
+        return $this;
     }
 
-    public function cache_expire(int $min = null)
+    public function cache_expire(?int $min = null)
     {
         if ($min !== null) {
             if ($this->status(false) === PHP_SESSION_ACTIVE) {
@@ -138,10 +138,10 @@ class Session
             }
             return $this;
         }
-        return session_cache_limiter();        
-    }    
+        return session_cache_limiter();
+    }
 
-    public function has(string $key) :bool
+    public function has(string $key): bool
     {
         if ($this->status(false) === PHP_SESSION_ACTIVE) {
             return isset($_SESSION[$key]);
@@ -149,14 +149,14 @@ class Session
         return false;
     }
 
-    public function get(string $key = null, $defaultValue = null)
+    public function get(?string $key = null, $defaultValue = null)
     {
         if ($this->status(false) === PHP_SESSION_ACTIVE) {
             if ($key !== null) {
                 return $_SESSION[$key] ?? $defaultValue;
             } else {
                 return $_SESSION ?? [];
-            }            
+            }
         }
         return $defaultValue;
     }
@@ -234,7 +234,7 @@ class Session
     /*
         Retorna uma ou todas as mensagens armazenadas em `$_SESSION["__flash__"]`
     */
-    public function get_flash(string $key = null, $defaultValue = null)
+    public function get_flash(?string $key = null, $defaultValue = null)
     {
         $__flash__ = $this->get("__flash__", []);
         if ($key !== null) {
@@ -242,7 +242,7 @@ class Session
             if (isset($__flash__[$key])) {
                 $__flash__[$key] = null;
                 unset($__flash__[$key]);
-            }            
+            }
         } else {
             $content = $__flash__;
             $this->delete("__flash__");
@@ -257,7 +257,7 @@ class Session
         $session = session();
         foreach ($input as $key => &$value) {
             $session->set_flash("\$" . $key, $value);
-        }        
+        }
     }
 
     public function get_input(string $key, $defaultValue = null)
@@ -336,7 +336,7 @@ class Session
     {
         if (!$this->auth_valid()) {
             return $this->auth_destroy();
-        } 
+        }
         $__auth__ = $this->get("__auth__");
         if ($__auth__ !== null && ($__auth__["path"]["refresh"] ?? false)) {
             $__auth__["path"]["refresh"] = false;
@@ -370,13 +370,13 @@ class Session
         o tempo em que a sessão deve está ativa informe o valor "-1", que faz com que seja recriado o tempo 
         total da sessão (time() + $seconds)    
     */
-    public function auth_timer(int $seconds = null)
+    public function auth_timer(?int $seconds = null)
     {
         $__auth__ = $this->get("__auth__");
         if ($__auth__ !== null) {
             if ($seconds !== null) {
                 if ($seconds > 0) {
-                    $__auth__["timer"]["follow"] = true;                
+                    $__auth__["timer"]["follow"] = true;
                     $__auth__["timer"]["expire"] = time() + $seconds;
                     $__auth__["timer"]["seconds"] = $seconds;
                 } else if ($seconds == 0) {
@@ -394,7 +394,7 @@ class Session
             }
             $__auth__["timer"]["remaining"] = $remaining;
             $this->set("__auth__", $__auth__);
-        }        
+        }
         return $__auth__["timer"] ?? null;
     }
 
@@ -419,11 +419,10 @@ class Session
     */
     public function auth_timer_reset()
     {
-        $this->auth_verify();     
+        $this->auth_verify();
         $timer = $this->auth_timer();
         if ($timer !== null && $timer["remaining"] > 0) {
             $this->auth_timer($timer['seconds']);
         }
     }
-
 }
