@@ -318,7 +318,7 @@ function workRun(): bool
     return count($GL_WORK) > 0;
 }
 
-function workWait(callable $call = null): int
+function workWait(?callable $call = null): int
 {
     initValues();
     global $GL_TICK_EXIST;
@@ -413,7 +413,7 @@ class Promise
     private $state = "pending";
     private $monitor = "undefined";
 
-    public function __construct(callable $main = null)
+    public function __construct(?callable $main = null)
     {
         $this->fun["resolved"] = function ($value = null) {
             if ($this->state !== "pending") {
@@ -438,7 +438,7 @@ class Promise
         $this->self = &$this;
     }
 
-    public function then(callable $then, callable $catch = null, callable $finally = null)
+    public function then(callable $then, ?callable $catch = null, ?callable $finally = null)
     {
         $this->fun["then"] = &$then;
         if ($catch !== null) {
