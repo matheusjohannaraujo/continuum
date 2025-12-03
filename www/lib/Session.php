@@ -120,7 +120,7 @@ class Session
         return session_cache_expire();
     }
 
-    public function cache_limiter(string $limiter = null)
+    public function cache_limiter(?string $limiter = null)
     {
         if ($limiter !== null) {
             if ($this->status(false) === PHP_SESSION_ACTIVE) {
