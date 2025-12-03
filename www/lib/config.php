@@ -95,7 +95,7 @@ try {
 try {
     $env = new \Lib\ENV;
     $env->read();
-    $authServerUrl          = $env->get("KEYCLOAK_AUTH_SERVER_URL");
+    $authServerUrl          = $env->get("KEYCLOAK_BASE_URL");
     $realm                  = $env->get("KEYCLOAK_REALM");
     $clientId               = $env->get("KEYCLOAK_CLIENT_ID");
     $clientSecret           = $env->get("KEYCLOAK_CLIENT_SECRET");
