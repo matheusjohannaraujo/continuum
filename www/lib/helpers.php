@@ -490,7 +490,7 @@ function old(string $key, $value_default = null)
  * @param mixed $value_default [optional]
  * @return mixed
  */
-function message(string $key = null, $value = null)
+function message(?string $key = null, $value = null)
 {
     $session = session();
     if ($key === null && $value === null) {
