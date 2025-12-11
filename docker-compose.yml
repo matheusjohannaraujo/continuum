@@ -27,7 +27,7 @@ services:
       - rabbitmq
 
   mysql:
-    image: mysql:8.4.1
+    image: mysql:8.4
     hostname: mysql
     restart: always
     ports:
@@ -39,7 +39,7 @@ services:
       - MYSQL_DATABASE=database_example
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2.1
+    image: phpmyadmin/phpmyadmin:5
     hostname: phpmyadmin
     restart: always
     links:
@@ -55,7 +55,7 @@ services:
       - mysql
 
   adminer:
-    image: adminer:4.8.1
+    image: adminer:5
     hostname: adminer
     restart: always
     links:
@@ -69,30 +69,19 @@ services:
     depends_on:
       - mysql
 
-  # https://hub.docker.com/r/bitnami/redis/
   redis:
-    image: bitnami/redis:7.4
+    image: redis:8
     hostname: redis
     restart: always
-    #    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+    command: redis-server --requirepass password
     ports:
       - 6379:6379
     volumes:
-      - redis-volume1:/bitnami/redis/data
-    environment:
-      #      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_PORT_NUMBER=6379
-      - REDIS_PASSWORD=password
-  #      - REDIS_USERNAME=root
-  #      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
-  #      - REDIS_IO_THREADS=4
-  #      - REDIS_IO_THREADS_DO_READS=true
-  #      - REDIS_AOF_ENABLED=no
+      - redis-volume1:/data
 
-  # https://hub.docker.com/r/rediscommander/redis-commander
   # https://github.com/joeferner/redis-commander
   redis-commander:
-    image: rediscommander/redis-commander:latest
+    image: rediscommander/redis-commander:latest@sha256:19cd0c49f418779fa2822a0496c5e6516d0c792effc39ed20089e6268477e40a
     hostname: redis-commander
     restart: always
     links:
