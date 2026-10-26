@@ -51,7 +51,7 @@ class JWT
             "typ" => "JWT",
         ]);
         $time = time();
-        $uid = md5(uniqid() . hash_generate(uniqid()));
+        $uid = bin2hex(random_bytes(32));
         $this->payload([
             "iss" => "localhost",
             "sub" => "JWT Credential",
