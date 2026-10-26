@@ -79,7 +79,9 @@ class Request
         if ($this->auth) {
             $this->jwt = new JWT($this->auth);
         }
-        $this->jwt->valid();
+        if ($this->jwt !== null) {
+            $this->jwt->valid();
+        }
         return $this;
     }
 
