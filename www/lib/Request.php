@@ -78,9 +78,6 @@ class Request
         }
         if ($this->auth) {
             $this->jwt = new JWT($this->auth);
-        } else {
-            $this->auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJsb2NhbGhvc3QiLCJzdWIiOiJKV1QgQ3JlZGVudGlhbCIsImF1ZCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvbWFrZW12Y3NzIiwiZXhwIjoxNjE2NTk3ODQyLCJuYmYiOjE2MTY1OTc4MjcsImlhdCI6MTYxNjU5NzgyNywianRpIjoiMzgxN2Y2NTNhMTVlNjI5ZTM4ZWY0ZDI0ODA0NjcwYjQiLCJuYW1lIjoiTWFrZU1WQ1NTIiwiaW5mbyI6eyJhdXRvciI6Ik1hdGhldXMgSm9oYW5uIEFyYVx1MDBmYWpvIiwiY291bnRyeSI6IkJyYXNpbCIsInN0YXRlIjoiUGVybmFtYnVjbyIsImRhdGUiOiIyMDIxLTAzLTI0In19.h5wkoZy0VdxErsNHgEf4vx0bWhy4MqgcV6wPCKbD3ms";
-            $this->jwt = new JWT($this->auth);
         }
         $this->jwt->valid();
         return $this;

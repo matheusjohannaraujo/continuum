@@ -35,7 +35,7 @@ function fun_test_route(string $name, string $test_md5, string $uri)
 {
     $page = @file_get_contents($uri);
     $md5 = md5($page);
-    echo " ", ($test_md5 == $md5) ? "OK" : "FAIL", " | $md5 | $name | $uri\r\n";
+    echo " ", ($test_md5 === $md5) ? "OK" : "FAIL", " | $md5 | $name | $uri\r\n";
 }
 
 function fun_test_routes()

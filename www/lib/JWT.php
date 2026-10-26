@@ -214,7 +214,7 @@ class JWT
         $header = base64_url_encode(json_encode($this->header()));
         $payload = base64_url_encode(json_encode($this->payload()));
         $signature = base64_url_encode(hash_hmac($this->hash, "$header.$payload", $this->secret, true));
-        if ($this->token == "$header.$payload.$signature") {
+        if ($this->token === "$header.$payload.$signature") {
             $nbf = $this->payload("nbf");
             $exp = $this->payload("exp");
             if (empty($nbf) && empty($exp)) {// NBF, EXP = empty
